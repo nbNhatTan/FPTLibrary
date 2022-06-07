@@ -6,6 +6,7 @@
 * Nguyễn Bùi Nhât Tân - SE150170
 * Nguyễn Quốc Tiến - SE150168
 * Nguyễn Anh Khoa -SE150176
+* Đoàn Sý Bách -SE150295
 
 ### Resources:
 [GGDrive](https://drive.google.com/drive/folders/1kTbxQYZJ1MUk5n5XRc3ZjXkyjoc1WoKA?fbclid=IwAR2IyHEHBfPUFhgRmkmhD5PKifNsuOiPKBkfy9WELLdBep78eAXQjBpyBXc)
