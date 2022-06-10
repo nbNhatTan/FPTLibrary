@@ -10,42 +10,41 @@ package sample.DTO;
  */
 public class ViolationTicketDTO {
 
-    private String violationTicketID;
-    private String bookingTicketID;
-    private String decription;
+    private int violationTicketID;
+    private int bookingTicketID;
+    private String description;
     private String ticketStatus;
     private String staffID;
 
-    public ViolationTicketDTO(String violationTicketID, String bookingTicketID, String decription, String ticketStatus, String staffID) {
-        this.violationTicketID = violationTicketID;
+    public ViolationTicketDTO(int bookingTicketID, String description, String ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
-        this.decription = decription;
+        this.description = description;
         this.ticketStatus = ticketStatus;
         this.staffID = staffID;
     }
 
-    public String getViolationTicketID() {
+    public int getViolationTicketID() {
         return violationTicketID;
     }
 
-    public void setViolationTicketID(String violationTicketID) {
+    public void setViolationTicketID(int violationTicketID) {
         this.violationTicketID = violationTicketID;
     }
 
-    public String getBookingTicketID() {
+    public int getBookingTicketID() {
         return bookingTicketID;
     }
 
-    public void setBookingTicketID(String bookingTicketID) {
+    public void setBookingTicketID(int bookingTicketID) {
         this.bookingTicketID = bookingTicketID;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getTicketStatus() {

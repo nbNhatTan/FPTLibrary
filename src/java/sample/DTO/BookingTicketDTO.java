@@ -12,7 +12,7 @@ import java.sql.Date;
  */
 public class BookingTicketDTO {
 
-    private String bookingTicketID;
+    private int bookingTicketID;
     private String userID;
     private String bookItemID;
     private Date borrowDate;
@@ -20,8 +20,7 @@ public class BookingTicketDTO {
     private Date returnDate;
     private String borrowStatus;
 
-    public BookingTicketDTO(String bookingTicketID, String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
-        this.bookingTicketID = bookingTicketID;
+    public BookingTicketDTO(String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
         this.userID = userID;
         this.bookItemID = bookItemID;
         this.borrowDate = borrowDate;
@@ -30,11 +29,11 @@ public class BookingTicketDTO {
         this.borrowStatus = borrowStatus;
     }
 
-    public String getBookingTicketID() {
+    public int getBookingTicketID() {
         return bookingTicketID;
     }
 
-    public void setBookingTicketID(String bookingTicketID) {
+    public void setBookingTicketID(int bookingTicketID) {
         this.bookingTicketID = bookingTicketID;
     }
 

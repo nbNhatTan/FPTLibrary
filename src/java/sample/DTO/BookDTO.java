@@ -10,37 +10,36 @@ package sample.DTO;
  */
 public class BookDTO {
 
-    private String bookID;
+    private int bookID;
     private String bookName;
-    private int Quantity;
+    private int quantity;
     private String bookshelf;
     private int languageID;
-    private String decription;
+    private String description;
     private String DDC;
     private int authorID;
     private int publisherID;
-    private String publisherYear;
+    private String publishYear;
     private String image;
 
-    public BookDTO(String bookID, String bookName, int Quantity, String bookshelf, int languageID, String decription, String DDC, int authorID, int publisherID, String publisherYear, String image) {
-        this.bookID = bookID;
+    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, int languageID, int authorID, int publisherID, String publishYear, String image) {
         this.bookName = bookName;
-        this.Quantity = Quantity;
+        this.quantity = Quantity;
         this.bookshelf = bookshelf;
-        this.languageID = languageID;
-        this.decription = decription;
+        this.description = description;
         this.DDC = DDC;
+        this.languageID = languageID;
         this.authorID = authorID;
         this.publisherID = publisherID;
-        this.publisherYear = publisherYear;
+        this.publishYear = publishYear;
         this.image = image;
     }
 
-    public String getBookID() {
+    public int getBookID() {
         return bookID;
     }
 
-    public void setBookID(String bookID) {
+    public void setBookID(int bookID) {
         this.bookID = bookID;
     }
 
@@ -53,11 +52,11 @@ public class BookDTO {
     }
 
     public int getQuantity() {
-        return Quantity;
+        return quantity;
     }
 
     public void setQuantity(int Quantity) {
-        this.Quantity = Quantity;
+        this.quantity = Quantity;
     }
 
     public String getBookshelf() {
@@ -76,12 +75,12 @@ public class BookDTO {
         this.languageID = languageID;
     }
 
-    public String getDecription() {
-        return decription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDecription(String decription) {
-        this.decription = decription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDDC() {
@@ -108,12 +107,12 @@ public class BookDTO {
         this.publisherID = publisherID;
     }
 
-    public String getPublisherYear() {
-        return publisherYear;
+    public String getPublishYear() {
+        return publishYear;
     }
 
-    public void setPublisherYear(String publisherYear) {
-        this.publisherYear = publisherYear;
+    public void setPublishYear(String publishYear) {
+        this.publishYear = publishYear;
     }
 
     public String getImage() {
