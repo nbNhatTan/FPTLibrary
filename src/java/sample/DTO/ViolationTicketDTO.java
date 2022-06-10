@@ -16,6 +16,9 @@ public class ViolationTicketDTO {
     private String ticketStatus;
     private String staffID;
 
+    public ViolationTicketDTO() {
+    }
+
     public ViolationTicketDTO(int bookingTicketID, String description, String ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
         this.description = description;
