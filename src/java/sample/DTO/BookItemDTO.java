@@ -4,8 +4,6 @@
  */
 package sample.DTO;
 
-import java.sql.Date;
-
 /**
  *
  * @author NhatTan
@@ -13,11 +11,11 @@ import java.sql.Date;
 public class BookItemDTO {
 
     private String bookItemID;
-    private String bookID;
+    private int bookID;
     private String bookStatus;
-    private String packageID;
+    private int packageID;
 
-    public BookItemDTO(String bookItemID, String bookID, String bookStatus, String packageID) {
+    public BookItemDTO(String bookItemID, int bookID, String bookStatus, int packageID) {
         this.bookItemID = bookItemID;
         this.bookID = bookID;
         this.bookStatus = bookStatus;
@@ -32,11 +30,11 @@ public class BookItemDTO {
         this.bookItemID = bookItemID;
     }
 
-    public String getBookID() {
+    public int getBookID() {
         return bookID;
     }
 
-    public void setBookID(String bookID) {
+    public void setBookID(int bookID) {
         this.bookID = bookID;
     }
 
@@ -48,11 +46,11 @@ public class BookItemDTO {
         this.bookStatus = bookStatus;
     }
 
-    public String getPackageID() {
+    public int getPackageID() {
         return packageID;
     }
 
-    public void setPackageID(String packageID) {
+    public void setPackageID(int packageID) {
         this.packageID = packageID;
     }
 

@@ -12,23 +12,22 @@ import java.sql.Date;
  */
 public class PackageDTO {
 
-    private String packageID;
+    private int packageID;
     private String packageName;
     private int price;
     private Date importDate;
 
-    public PackageDTO(String packageID, String packageName, int price, Date importDate) {
-        this.packageID = packageID;
+    public PackageDTO(String packageName, int price, Date importDate) {
         this.packageName = packageName;
         this.price = price;
         this.importDate = importDate;
     }
 
-    public String getPackageID() {
+    public int getPackageID() {
         return packageID;
     }
 
-    public void setPackageID(String packageID) {
+    public void setPackageID(int packageID) {
         this.packageID = packageID;
     }
 

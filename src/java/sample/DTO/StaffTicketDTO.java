@@ -8,12 +8,11 @@ package sample.DTO;
  *
  * @author NhatTan
  */
-public class StaffTicket {
-
+public class StaffTicketDTO {
     private String staffID;
     private String ticketID;
 
-    public StaffTicket(String staffID, String ticketID) {
+    public StaffTicketDTO(String staffID, String ticketID) {
         this.staffID = staffID;
         this.ticketID = ticketID;
     }
