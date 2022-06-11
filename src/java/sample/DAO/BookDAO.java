@@ -22,7 +22,7 @@ import sample.Utils.DBUtils;
  */
 public class BookDAO {
 
-    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, description, DDC, authorID, publisherID, publishYear, image) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image]) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
     private static final String SEARCH = "SELECT bookName, quantity, bookshelf, description, DDC, languageID, authorID, publisherID, publishYear, image FROM tblBook WHERE ? like %?%";
