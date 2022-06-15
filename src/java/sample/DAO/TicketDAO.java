@@ -206,9 +206,10 @@ public class TicketDAO {
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int bookingTicketID = rs.getInt("bookingTicketID");
-                    String desciption = rs.getString("desciption");
+                    String description = rs.getString("description");
                     String ticketStatus = rs.getString("ticketStatus");
-                    list.add(new ViolationTicketDTO(bookingTicketID, desciption, ticketStatus, staffID));
+                    Date createDate = rs.getDate("createDate");
+                    list.add(new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID));
                 }
             }
         } catch (Exception e) {
@@ -240,10 +241,11 @@ public class TicketDAO {
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int violationTicketID = rs.getInt("violationTicketID");
-                    String desciption = rs.getString("desciption");
+                    String description = rs.getString("description");
                     String ticketStatus = rs.getString("ticketStatus");
                     String staffID = rs.getString("staffID");
-                    violation = new ViolationTicketDTO(bookingTicketID, desciption, ticketStatus, staffID);
+                    Date createDate = rs.getDate("createDate");
+                    violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
                     violation.setViolationTicketID(violationTicketID);
                 }
             }
