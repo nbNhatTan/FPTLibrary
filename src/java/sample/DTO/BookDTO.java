@@ -14,15 +14,15 @@ public class BookDTO {
     private String bookName;
     private int quantity;
     private String bookshelf;
-    private int languageID;
+    private String languageID;
     private String description;
     private String DDC;
-    private int authorID;
-    private int publisherID;
+    private String authorID;
+    private String publisherID;
     private String publishYear;
     private String image;
 
-    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, int languageID, int authorID, int publisherID, String publishYear, String image) {
+    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, String languageID, String authorID, String publisherID, String publishYear, String image) {
         this.bookName = bookName;
         this.quantity = Quantity;
         this.bookshelf = bookshelf;
@@ -67,11 +67,11 @@ public class BookDTO {
         this.bookshelf = bookshelf;
     }
 
-    public int getLanguageID() {
+    public String getLanguageID() {
         return languageID;
     }
 
-    public void setLanguageID(int languageID) {
+    public void setLanguageID(String languageID) {
         this.languageID = languageID;
     }
 
@@ -91,19 +91,19 @@ public class BookDTO {
         this.DDC = DDC;
     }
 
-    public int getAuthorID() {
+    public String getAuthorID() {
         return authorID;
     }
 
-    public void setAuthorID(int authorID) {
+    public void setAuthorID(String authorID) {
         this.authorID = authorID;
     }
 
-    public int getPublisherID() {
+    public String getPublisherID() {
         return publisherID;
     }
 
-    public void setPublisherID(int publisherID) {
+    public void setPublisherID(String publisherID) {
         this.publisherID = publisherID;
     }
 
