@@ -21,11 +21,12 @@ import sample.Utils.DBUtils;
  * @author NhatTan
  */
 public class BookDAO {
-
+    // Bách: tui sửa cái query của SEARCH rồi đấy từ "WHERE ? like ?" -> "WHERE bookName like ?" nhé
+    // Bách: lí do vì sửa vậy cái hàm getListBook mới search được theo ý, ông có cách sửa lại thì giúp tôi nhé? Tôi thử mấy cách rôi không được
     private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image]) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
-    private static final String SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE ? like ?";
+    private static final String SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE bookName like ?";
     private static final String GETLIST_PACKAGE = "SELECT packageName, price, importDate FROM tblPackage";
     private static final String GETLIST_BOOKITEM = "SELECT bookItemID, bookID, bookStatus, packageID FROM tblBookItem";
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
@@ -148,7 +149,7 @@ public class BookDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(SEARCH);
                 ptm.setString(1, "%" + search + "%");
-                ptm.setString(2, "%" + "%");
+
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int bookID = rs.getInt("bookID");
@@ -164,6 +165,7 @@ public class BookDAO {
                     BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
+
                 }
             }
         } catch (Exception e) {
@@ -179,7 +181,7 @@ public class BookDAO {
                 conn.close();
             }
         }
-        System.out.print(SEARCH);
+
         return list;
     }
 
