@@ -19,11 +19,11 @@ import sample.Utils.DBUtils;
  */
 public class AccountDAO {
 
-    private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE userID=? AND password=?";
+    private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID=? AND password=?";
     private static final String SEARCH = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE fullName like ?";
     private static final String DELETE = "UPDATE tblAccounts SET status='false' WHERE accountID=?";
     private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
-    private static final String CHECK_DUPLICATE = "SELECT fullName FROM tblAccounts WHERE accountID=?";
+    private static final String CHECK_DUPLICATE = "SELECT accountID FROM tblAccounts WHERE accountID=?";
     private static final String CREATE = "INSERT INTO tblAccounts(accountID, fullName, password, roleID, email, address, phone, status) VALUES (?,?,?,?,?,?,?,?)";
 
     public AccountDTO checkLogin(String accountID, String password) throws SQLException {
