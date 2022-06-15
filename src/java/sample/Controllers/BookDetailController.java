@@ -30,9 +30,9 @@ public class BookDetailController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String bookID = request.getParameter("book");
+            String bookName = request.getParameter("bookName");
             BookDAO dao = new BookDAO();
-            BookDTO book = dao.getDetailBook(bookID);
+            BookDTO book = dao.getDetailBook(bookName);
             if (book != null) {
                 request.setAttribute("DETAIL_BOOK", book);
                 url = SUCCESS;

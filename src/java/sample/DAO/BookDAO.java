@@ -138,7 +138,7 @@ public class BookDAO {
         return id;
     }
 
-    public List<BookDTO> getListBook(String search) throws SQLException {
+    public List<BookDTO> getListBook( String search) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -148,6 +148,7 @@ public class BookDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(SEARCH);
                 ptm.setString(1, "%" + search + "%");
+                ptm.setString(2, "%" + "%");
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int bookID = rs.getInt("bookID");
@@ -178,6 +179,7 @@ public class BookDAO {
                 conn.close();
             }
         }
+        System.out.print(SEARCH);
         return list;
     }
 
@@ -354,5 +356,47 @@ public class BookDAO {
             }
         }
         return id;
+    }
+    public BookDTO getDetailBook(String bookName) throws SQLException {
+        BookDTO book = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(SEARCH);
+                ptm.setString(1, bookName);
+                ptm.setString(2, "%" + bookName + "%");
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    
+                    int quantity = rs.getInt("quantity");
+                    String bookshelf = rs.getString("bookshelf");
+                    String description = rs.getString("description");
+                    String DDC = rs.getString("DDC");
+                    String languageID = rs.getString("languageID");
+                    String authorID = rs.getString("authorID");
+                    String publisherID = rs.getString("publisherID");
+                    String publishYear = rs.getString("publishYear");
+                    String image = rs.getString("image");
+                    book = new BookDTO(bookName, quantity, bookshelf, description, DDC, languageID, authorID, publisherID, publishYear, image);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return book;
+
     }
 }
