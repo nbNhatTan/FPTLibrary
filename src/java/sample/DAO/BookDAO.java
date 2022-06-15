@@ -47,9 +47,9 @@ public class BookDAO {
                 ptm.setString(3, book.getBookshelf());
                 ptm.setString(4, book.getDescription());
                 ptm.setString(5, book.getDDC());
-                ptm.setInt(6, findInformationID(book.getLanguageID(), "Language"));
-                ptm.setInt(7, findInformationID(book.getAuthorID(), "Author"));
-                ptm.setInt(8, findInformationID(book.getPublisherID(), "Publisher"));
+                ptm.setInt(6, findInformationID(book.getLanguage(), "Language"));
+                ptm.setInt(7, findInformationID(book.getAuthor(), "Author"));
+                ptm.setInt(8, findInformationID(book.getPublisher(), "Publisher"));
                 ptm.setString(9, book.getPublishYear());
                 ptm.setString(10, book.getImage());
                 ptm.executeQuery();
@@ -156,11 +156,11 @@ public class BookDAO {
                     String image = rs.getString("image");
                     String description = rs.getString("description");
                     String DDC = rs.getString("DDC");
-                    String languageID = rs.getString("languageID");
-                    String authorID = rs.getString("authorID");
-                    String publisherID = rs.getString("publisherID");
+                    String language = rs.getString("languageName");
+                    String author = rs.getString("authorName");
+                    String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, languageID, authorID, publisherID, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -290,11 +290,11 @@ public class BookDAO {
                     String image = rs.getString("image");
                     String description = rs.getString("description");
                     String DDC = rs.getString("DDC");
-                    String languageID = rs.getString("languageID");
-                    String authorID = rs.getString("authorID");
-                    String publisherID = rs.getString("publisherID");
+                    String language = rs.getString("languageName");
+                    String author = rs.getString("authorName");
+                    String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    book = new BookDTO(bookName, 0, bookshelf, description, DDC, languageID, authorID, publisherID, publishYear, image);
+                    book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     return book;
                 }
