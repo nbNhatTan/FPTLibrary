@@ -5,59 +5,39 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
-import sample.DTO.AccountDTO;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "";
-    private static final String PAGE = "HomePageFPTU.jsp";
+    private static final String SUCCESS = "login.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accID = request.getParameter("accountID");
-            String password = request.getParameter("password");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
-            if (loginAccount != null) {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    int roleID = loginAccount.getRoleID();
-                    if (roleID == 0) {
-                        url = ADMIN_PAGE;
-                    } else if (roleID == 1 || roleID == 2) {
-                        url = PAGE;
-                    } else {
-                        request.setAttribute("ERROR", "Your role is not support !!!");
-                    }
-                } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
-                }
-            } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!!!");
+            HttpSession session = request.getSession();
+            if (session != null) {
+                session.removeAttribute("LOGIN_USER");
+                session.invalidate();
+                url = SUCCESS;
             }
-
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at LogoutController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

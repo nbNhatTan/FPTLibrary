@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="col-md-1 col">
-                    <button class="btn btn-warning btn-sm">Login</button>
+                    <button class="btn btn-warning btn-sm" href="login.jsp">Login</button>
                 </div>
             </div>
         </nav>
@@ -80,14 +80,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" href="#">Team</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Connect</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Advance Search</a>
                         </li>
                     </ul>
                 </div>
