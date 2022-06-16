@@ -9,6 +9,6 @@
     </head>
     <body>
         <h1>Error!! Your account does not have access!</h1>
-        <a href="HomePageFPTU.jsp">Home</a>
+        <a href="homePageFPTU.jsp">Home</a>
     </body>
 </html>

@@ -23,6 +23,10 @@ public class MainController extends HttpServlet {
     private static final String SEARCHBOOK = "SearchBook";
     private static final String BOOKDETAIL_CONTROLLER = "BookDetailController";
     private static final String BOOKDETAIL = "BookDetail";
+    private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
+    private static final String ADVANCESEARCH = "AdvanceSearch";
+    
+    
     private static final String BORROW_CONTROLLER = "BorrowController";
     private static final String BORROW = "Borrow";
     private static final String VIEWBORROW = "Viewborrow";
@@ -52,6 +56,8 @@ public class MainController extends HttpServlet {
                 url = SEARCHBOOK_CONTROLLER;
             } else if (BOOKDETAIL.equals(action)) {
                 url = BOOKDETAIL_CONTROLLER;
+            } else if (ADVANCESEARCH.equals(action)) {
+                url = ADVANCESEARCH_CONTROLLER;
             } else if (BORROW.equals(action)) {
                 url = BORROW_CONTROLLER;
             } else if (VIEWBORROW.equals(action)) {

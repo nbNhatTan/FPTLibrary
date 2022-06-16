@@ -39,7 +39,7 @@
             <div class="container-fluid padding">
                 <div class="col-md-5">
                     <div class="p-2">
-                        <a class="navbar-branch" href="HomePageFPTU.jsp">
+                        <a class="navbar-branch" href="homePageFPTU.jsp">
                             <img
                                 class="img"
                                 src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/LogoFPT.png?v=1653532923912"
@@ -88,7 +88,7 @@
                             <a class="nav-link" href="#">Connect</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Advance Search</a>
+                            <a class="nav-link" href="advanceSearch.jsp">Advance Search</a>
                         </li>
                     </ul>
                 </div>

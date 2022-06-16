@@ -5,57 +5,43 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.BookDTO;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
+public class AdvanceSearchController extends HttpServlet {
 
-    private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "";
-    private static final String PAGE = "homePageFPTU.jsp";
+    private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "advanceSearch.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accID = request.getParameter("accountID");
-            String password = request.getParameter("password");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
-            if (loginAccount != null) {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    int roleID = loginAccount.getRoleID();
-                    if (roleID == 0) {
-                        url = ADMIN_PAGE;
-                    } else if (roleID == 1 || roleID == 2) {
-                        url = PAGE;
-                    } else {
-                        request.setAttribute("ERROR", "Your role is not support !!!");
-                    }
-                } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
-                }
-            } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!!!");
+            String bBookName = request.getParameter("bookName");
+            String bAuthor = request.getParameter("author");
+            String bPublisher = request.getParameter("publisher");
+            String bLanguage = request.getParameter("language");
+            BookDAO dao = new BookDAO();
+            List<BookDTO> listBook = dao.getListBook(bBookName,bAuthor,bPublisher,bLanguage);
+            if (!listBook.isEmpty()) {
+                request.setAttribute("ADVANCE_LIST_BOOK", listBook);
+                url = SUCCESS;
             }
-
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at AdvanceSearchController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

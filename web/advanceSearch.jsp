@@ -4,11 +4,12 @@
     Author     : bachds
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
@@ -20,10 +21,10 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        
+
         <link rel="stylesheet" href="CSS/style.css" />
         <link rel="stylesheet" href="CSS/advanceSearch.css" />
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -34,7 +35,7 @@
         <div class="container-fluid padding">
             <div class="col-md-5">
                 <div class="p-2">
-                    <a class="navbar-branch" href="#">
+                    <a class="navbar-branch" href="homePageFPTU.jsp">
                         <img class="img"
                              src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/LogoFPT.png?v=1653532923912"
                              width="325"
@@ -87,7 +88,7 @@
             <div class="col-md-10 contents">
                 <div class="content">
 
-                    <form action="MainController" method="P0ST">
+                    <form action="MainController" method="POST">
 
                         <table class="my-table container-fluid">
                             <tr>
@@ -105,15 +106,15 @@
                             </tr>
                             <tr>
                                 <td><label for="">Language</label></td>
-                                <td><input type="text" name="laguage" placeholder="can be blank..."></td>
+                                <td><input type="text" name="language" placeholder="can be blank..."></td>
                             </tr>
 
 
                         </table>
                         <div class="">
-                            <div class="col-md-2 padding">
+                            <div class="padding">
 
-                                <input class="btn btn-warning btn-sm" type="submit" name="action" value="search" />
+                                <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
 
                                 <button class="btn btn-warning btn-sm" type="reset">reset</button>
                             </div>
@@ -121,7 +122,12 @@
                         </div>
                     </form>
                 </div>
-
+                <%
+                    List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
+                    if (list != null) {
+                        if (!list.isEmpty()) {
+                            int count = 0;
+                %>
                 <div class="table-container content">
                     <h1 class="heading"> Danh sách kết quả</h1>
                     <table class="tableStyle book">
@@ -135,17 +141,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                        <%
-                            BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
-                            if (book == null) {
-                                book = new BookDTO();
-                            }
-                        %>
+
+                            <%
+                                for (BookDTO book : list) {
+                                    count++;
+                            %>
                             <tr class="tb">
-
-
-                                <td class="tb" data-lable="Số thứ tự"> 1</td>
-                                <td class="tb" data-lable="Bìa sách"><img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/SEBook.png?v=1653570818013" /></td>
+                                <td class="tb" data-lable="Số thứ tự"><%= count%></td>
+                                <td class="tb" data-lable="Bìa sách"><img src="<%= book.getImage()%>" /></td>
                                 <td class="tb" data-lable="Nội dung">
                                     <div class="noBorder">
                                         <table width="100%">
@@ -172,35 +175,29 @@
                                         </table>
                                     </div>
                                 </td>
-                               
+
 
                             </tr>
+                            <%
+                                }
+                            %>
 
-                            <tr class="tb">
-
-                                <td class="tb" data-lable="Số thứ tự"> 2</td>
-                                <td class="tb" data-lable="Bìa sách"><img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/SEBook.png?v=1653570818013" /></td>
-                                <td class="tb" data-lable="Nội dung">
-                                    <div>
-
-                                    </div>
-                                </td>
-                              
-
-                            </tr>
 
                         </tbody>
 
                     </table>
 
                 </div>
-
+                <%
+                        }
+                    }
+                %>
 
 
             </div>
             <div class="col-md-1"></div>
         </div>
-       
+
     </div>
     <footer class="text-light">
         <div class="container">
@@ -244,6 +241,6 @@
     </footer>
 
 
-   
+
 </body>
 </html>
