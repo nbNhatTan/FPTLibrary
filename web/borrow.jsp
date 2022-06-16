@@ -149,16 +149,16 @@
                             <td data-lable="Mã sách"><%= p.getBookItemID()%></td>
                             <td data-lable="Ngày mượn"><%= p.getBorrowDate()%></td>
                             <td data-lable="Hạn trả"><%= p.getExpiredDate()%></td>
-                                <td data-lable="Ngày trả"><% if (p.getReturnDate() == null) {
-                                                                String returnDate = "";
-                                                                out.print(returnDate);
-                                                            } else{                                                           
-                                %>
-                                <%=p.getReturnDate()%>
-                                <% 
-                                                            } 
-                                %>
-                                </td>
+                            <td data-lable="Ngày trả"><% if (p.getReturnDate() == null) {
+                                                            String returnDate = "";
+                                                            out.print(returnDate);
+                                                        } else{                                                           
+                            %>
+                            <%=p.getReturnDate()%>
+                            <% 
+                                                        } 
+                            %>
+                            </td>
                             <td data-lable="Tình trạng"><span class="status">[<%= p.getBorrowStatus()%>]</span> </td>
 
                         </tr>
