@@ -3,17 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/searchList.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/CSS/style.css</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/bookDetail.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/CSS/styleViolation.css</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoginController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/login.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DTO/BookDTO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/CSS/advanceSearch.css</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/HomePageFPTU.jsp</file>
+            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/error.jsp</file>
             <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
+            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
+            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/AdvanceSearchController.java</file>
             <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/advanceSearch.jsp</file>
         </group>
     </open-files>
