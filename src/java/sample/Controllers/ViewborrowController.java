@@ -26,23 +26,28 @@ public class ViewborrowController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = "borrow.jsp";
         try {
             TicketDAO dao = new TicketDAO();
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             String status = request.getParameter("borrowStatus");
-            List<BorrowDTO> list;
-            if (status == null) {
-                list = dao.GetListTicket_UserID(loginAccount.getAccountID());
+            if (loginAccount != null) {
+                List<BorrowDTO> list;
+                if (status == null) {
+                    list = dao.GetListTicket_UserID(loginAccount.getAccountID());
+                } else {
+                    list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
+                }
+                request.setAttribute("ListBorrow", list);
+                url = "borrow.jsp";
             } else {
-                list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
+                url = "login.html";
             }
-            request.setAttribute("ListBorrow", list);
-
         } catch (Exception e) {
             log("Error at ViewborrowController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("borrow.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
