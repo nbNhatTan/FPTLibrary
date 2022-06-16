@@ -105,13 +105,13 @@
                                 <tr>
                                     <td>Authors: </td>
                                     <td>
-                                        <%= book.getAuthorID()%>
+                                        <%= book.getAuthor()%>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Publisher: </td>
                                     <td>
-                                        <%= book.getPublisherID()%>
+                                        <%= book.getPublisher()%>
                                     </td>
                                 </tr>
                                 <tr>
@@ -120,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td>Language:</td>
-                                    <td><%= book.getLanguageID()%></td>
+                                    <td><%= book.getLanguage()%></td>
                                 </tr>
                                 <tr>
                                     <td>Kệ sách:</td>
