@@ -34,7 +34,7 @@ public class TicketDAO {
     //private static final String GETLISTTICKET_STAFFID = "SELECT bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket e JOIN tblStaffTicket a ON e.bookingTicketID = a.ticketID WHERE a.staffID = ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String CONFIRMBOOKINGTICKET = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
-    private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID= (SELECT bookItemID FROM tblBookingTicket WHERE bookingTicketID = ?)";
+    private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID = ?";
     private static final String UPDATEVIOLATIONSTATUS = "UPDATE tblViolationTicket SET ticketStatus=? WHERE violationTicketID=?";
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
@@ -279,11 +279,15 @@ public class TicketDAO {
                 ptm.setDate(3, ticket.getBorrowDate());
                 ptm.setDate(4, ticket.getExpiredDate());
                 ptm.setString(5, ticket.getBorrowStatus());
-                ptm.executeQuery();
-                rs = ptm.getGeneratedKeys();
-                while (rs.next()) {
-                    id = rs.getInt(1);
-                }
+                ptm.execute();
+//                rs = ptm.getGeneratedKeys();
+//                while (rs.next()) {
+//                    id = rs.getInt(1);
+//                }
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm.setString(1, "Pending");
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.execute();
             }
         } catch (Exception e) {
             e.toString();
@@ -311,7 +315,7 @@ public class TicketDAO {
                 ptm.setString(2, ticket.getDescription());
                 ptm.setString(3, ticket.getTicketStatus());
                 ptm.setString(4, ticket.getStaffID());
-                ptm.executeQuery();
+                ptm.execute();
                 rs = ptm.getGeneratedKeys();
                 while (rs.next()) {
                     id = rs.getInt(1);
