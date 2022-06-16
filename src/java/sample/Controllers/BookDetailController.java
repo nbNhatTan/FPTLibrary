@@ -22,18 +22,23 @@ public class BookDetailController extends HttpServlet {
 
     private static final String ERROR = "searchList.jsp";
     private static final String SUCCESS = "Detail.jsp";
+    private static final String SUCCESS2 = "BookingConfirm.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String bookID = request.getParameter("book");
+            String bookID = request.getParameter("bookID");
+            String action = request.getParameter("action");
             BookDAO dao = new BookDAO();
             BookDTO book = dao.getProductByID(Integer.parseInt(bookID));
             if (book != null) {
                 request.setAttribute("DETAIL_BOOK", book);
                 url = SUCCESS;
+            }
+            if (action.equals("BkConfirm")) {
+                url = SUCCESS2;
             }
         } catch (Exception e) {
             log("Error at BookDetailController: " + e.toString());
