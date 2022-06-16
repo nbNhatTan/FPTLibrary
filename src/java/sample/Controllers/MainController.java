@@ -19,8 +19,8 @@ public class MainController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String LOGIN_CONTROLLER = "LoginController";
     private static final String LOGIN = "Login";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-    private static final String SEARCH = "Search";
+    private static final String SEARCHBOOK_CONTROLLER = "SearchBookController";
+    private static final String SEARCHBOOK = "SearchBook";
     private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";
     private static final String BORROW_CONTROLLER = "BorrowController";
@@ -50,8 +50,8 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             if (LOGIN.equals(action)) {
                 url = LOGIN_CONTROLLER;
-            } else if (SEARCH.equals(action)) {
-                url = SEARCH_CONTROLLER;
+            } else if (SEARCHBOOK.equals(action)) {
+                url = SEARCHBOOK_CONTROLLER;
             } else if (DETAIL.equals(action)) {
                 url = DETAIL_CONTROLLER;
             } else if (BORROW.equals(action)) {
