@@ -4,6 +4,8 @@
     Author     : NhatTan
 --%>
 
+<%@page import="java.sql.Date"%>
+<%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.BorrowDTO"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -46,13 +48,34 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" name="search" placeholder="Search" />
-                    <button class="btn btn-warning btn-sm">Search</button>
+                    <form action="MainController">
+                        <input type="text" name="search" placeholder="Search">
+                        <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
+                    </form>
                 </div>
-
+                <%
+                    AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                    if (acc != null) {
+                %>
+                <div class="col-md-2 col">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <h5><a class="nav-link" href="#">Hello <%=acc.getFullName()%></a></h5>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="LogoutController">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <%
+                } else {
+                %>
                 <div class="col-md-1 col">
-                    <button class="btn btn-warning btn-sm">Login</button>
+                    <a class="btn btn-warning btn-sm user" href="login.html"> LOGIN </a>
                 </div>
+                <%
+                    }
+                %>
             </div>
         </nav>
 
@@ -69,19 +92,19 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
+                            <a class="nav-link" href="HomeController">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
+                            <a class="nav-link" href="AdvancedSearch.html">Advanced Search</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Team</a>
+                            <a class="nav-link active" href="ViewborrowController">Borrow List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Connect</a>
+                            <a class="nav-link" href="#">Following</a>
                         </li>
                     </ul>
                 </div>
@@ -126,7 +149,16 @@
                             <td data-lable="Mã sách"><%= p.getBookItemID()%></td>
                             <td data-lable="Ngày mượn"><%= p.getBorrowDate()%></td>
                             <td data-lable="Hạn trả"><%= p.getExpiredDate()%></td>
-                            <td data-lable="Ngày trả"><%= p.getReturnDate()%></td>
+                                <td data-lable="Ngày trả"><% if (p.getReturnDate() == null) {
+                                                                String returnDate = "";
+                                                                out.print(returnDate);
+                                                            } else{                                                           
+                                %>
+                                <%=p.getReturnDate()%>
+                                <% 
+                                                            } 
+                                %>
+                                </td>
                             <td data-lable="Tình trạng"><span class="status">[<%= p.getBorrowStatus()%>]</span> </td>
 
                         </tr>
@@ -174,7 +206,7 @@
                     <div class="col-md-3 col-lg-4 col-xl-3">
                         <h5>About</h5>
                         <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-                        <p class="mb-0">Assignment PRJ301 SP2022</p>
+                        <p class="mb-0">Project SWP SU2022</p>
                     </div>
 
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
@@ -195,7 +227,7 @@
                         <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
                         <ul class="list-unstyled">
                             <li><i class="fa fa-home mr-2"></i> FPT Uni</li>
-                            <li><i class="fa fa-envelope mr-2"></i> andeptrai@gmail.com</li>
+                            <li><i class="fa fa-envelope mr-2"></i>library@gmail.com</li>
                             <li><i class="fa fa-phone mr-2"></i> + 84 877660374</li>
                             <li><i class="fa fa-print mr-2"></i></li>
                         </ul>
