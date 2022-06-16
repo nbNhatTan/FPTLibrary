@@ -23,7 +23,7 @@ public class LoginController extends HttpServlet {
 
     private static final String ERROR = "login.html";
     private static final String ADMIN_PAGE = "";
-    private static final String PAGE = "HomePageFPTU.html";
+    private static final String PAGE = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
