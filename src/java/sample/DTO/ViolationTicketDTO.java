@@ -16,13 +16,13 @@ public class ViolationTicketDTO {
     private int bookingTicketID;
     private Date createDate;
     private String description;
-    private String ticketStatus;
+    private boolean ticketStatus;
     private String staffID;
 
     public ViolationTicketDTO() {
     }
 
-    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, String ticketStatus, String staffID) {
+    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, boolean ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
         this.createDate = createDate;
         this.description = description;
@@ -54,11 +54,11 @@ public class ViolationTicketDTO {
         this.description = description;
     }
 
-    public String getTicketStatus() {
+    public boolean getTicketStatus() {
         return ticketStatus;
     }
 
-    public void setTicketStatus(String ticketStatus) {
+    public void setTicketStatus(boolean ticketStatus) {
         this.ticketStatus = ticketStatus;
     }
 
