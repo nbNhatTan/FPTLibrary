@@ -27,10 +27,10 @@ public class TicketDAO {
 //    private static final String GETLISTTICKET_STATUS = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket WHERE userID = ? AND borrowStatus = ?";
     private static final String GETLISTBOOKNAME_USERID = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ?";//user
     private static final String GETLISTBOOKNAME_STATUS = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ? AND borrowStatus = ?";
-    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, description, ticketStatus FROM tblViolationTicket WHERE staffID = ?";//staff
-    private static final String GETVIOLATIONTICKET_BOOKINGTICKETID = "SELECT violationTicketID, bookingTicketID, description, ticketStatus, staffID FROM tblViolationTicket WHERE bookingTicketID = ?";//user
+    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus FROM tblViolationTicket WHERE staffID = ?";//staff
+    private static final String GETVIOLATIONTICKET_BOOKINGTICKETID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus, staffID FROM tblViolationTicket WHERE bookingTicketID = ?";//user
     private static final String CREATE_BOOKINGTICKET = "INSERT INTO tblBookingTicket(userID, bookItemID, borrowDate, expiredDate, borrowStatus) VALUES (?,?,?,?,?)";
-    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, description, ticketStatus, staffID) VALUES (?,?,?,?)";
+    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, createDate, description, ticketStatus, staffID) VALUES (?,?,?,?)";
     //private static final String GETLISTTICKET_STAFFID = "SELECT bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket e JOIN tblStaffTicket a ON e.bookingTicketID = a.ticketID WHERE a.staffID = ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String CONFIRMBOOKINGTICKET = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
@@ -205,11 +205,14 @@ public class TicketDAO {
                 ptm.setString(1, staffID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
+                    int violationTicketID = rs.getInt("violationTicketID");
                     int bookingTicketID = rs.getInt("bookingTicketID");
                     String description = rs.getString("description");
-                    String ticketStatus = rs.getString("ticketStatus");
+                    boolean ticketStatus = rs.getBoolean("ticketStatus");
                     Date createDate = rs.getDate("createDate");
-                    list.add(new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID));
+                    ViolationTicketDTO violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
+                    violation.setViolationTicketID(violationTicketID);
+                    list.add(violation);
                 }
             }
         } catch (Exception e) {
@@ -242,7 +245,7 @@ public class TicketDAO {
                 while (rs.next()) {
                     int violationTicketID = rs.getInt("violationTicketID");
                     String description = rs.getString("description");
-                    String ticketStatus = rs.getString("ticketStatus");
+                    boolean ticketStatus = rs.getBoolean("ticketStatus");
                     String staffID = rs.getString("staffID");
                     Date createDate = rs.getDate("createDate");
                     violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
@@ -312,8 +315,9 @@ public class TicketDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATE_VIOLATIONTICKET);
                 ptm.setInt(1, ticket.getBookingTicketID());
+                ptm.setDate(1, ticket.getCreateDate());
                 ptm.setString(2, ticket.getDescription());
-                ptm.setString(3, ticket.getTicketStatus());
+                ptm.setBoolean(3, ticket.getTicketStatus());
                 ptm.setString(4, ticket.getStaffID());
                 ptm.execute();
                 rs = ptm.getGeneratedKeys();
