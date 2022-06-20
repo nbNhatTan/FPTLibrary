@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.DTO;
 
@@ -8,7 +9,7 @@ import java.sql.Date;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class NewsDTO {
 
@@ -19,6 +20,9 @@ public class NewsDTO {
     private String Body;
     private String AccountID;
     private Date uploadDate;
+
+    public NewsDTO() {
+    }
 
     public NewsDTO(String newsID, String writerName, String title, String head, String Body, String AccountID, Date uploadDate) {
         this.newsID = newsID;
@@ -90,4 +94,5 @@ public class NewsDTO {
     public String toString() {
         return "FPTLibrary.sample.DTO.Account[ id=" + newsID + " ]";
     }
+
 }

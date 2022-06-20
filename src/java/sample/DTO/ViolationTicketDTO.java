@@ -1,12 +1,15 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.DTO;
 
+import java.sql.Date;
+
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class ViolationTicketDTO {
 
@@ -15,12 +18,23 @@ public class ViolationTicketDTO {
     private String description;
     private String ticketStatus;
     private String staffID;
+     private Date createDate;
 
     public ViolationTicketDTO() {
     }
 
-    public ViolationTicketDTO(int bookingTicketID, String description, String ticketStatus, String staffID) {
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+
+    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, String ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
+        this.createDate = createDate;
         this.description = description;
         this.ticketStatus = ticketStatus;
         this.staffID = staffID;
@@ -70,4 +84,5 @@ public class ViolationTicketDTO {
     public String toString() {
         return "FPTLibrary.sample.DTO.Account[ id=" + violationTicketID + " ]";
     }
+
 }

@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.DAO;
 
@@ -15,15 +16,15 @@ import sample.Utils.DBUtils;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class AccountDAO {
 
-    private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE userID=? AND password=?";
+    private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID=? AND password=?";
     private static final String SEARCH = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE fullName like ?";
     private static final String DELETE = "UPDATE tblAccounts SET status='false' WHERE accountID=?";
-    private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
-    private static final String CHECK_DUPLICATE = "SELECT fullName FROM tblAccounts WHERE accountID=?";
+    private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, password=?, email=?, address=?, phone=? WHERE accountID=?";
+    private static final String CHECK_DUPLICATE = "SELECT accountID FROM tblAccounts WHERE accountID=?";
     private static final String CREATE = "INSERT INTO tblAccounts(accountID, fullName, password, roleID, email, address, phone, status) VALUES (?,?,?,?,?,?,?,?)";
 
     public AccountDTO checkLogin(String accountID, String password) throws SQLException {
@@ -126,7 +127,7 @@ public class AccountDAO {
         return check;
     }
 
-    public boolean update(AccountDTO acc) throws SQLException {
+    public boolean updateUser(AccountDTO acc) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -135,7 +136,7 @@ public class AccountDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(UPDATE);
                 ptm.setString(1, acc.getFullName());
-                ptm.setInt(2, acc.getRoleID());
+                ptm.setString(2, acc.getPassword());
                 ptm.setString(3, acc.getEmail());
                 ptm.setString(4, acc.getAddress());
                 ptm.setString(5, acc.getPhone());

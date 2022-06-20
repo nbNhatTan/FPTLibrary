@@ -1,12 +1,13 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.DTO;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class BookItemDTO {
 
@@ -14,6 +15,9 @@ public class BookItemDTO {
     private int bookID;
     private String bookStatus;
     private int packageID;
+
+    public BookItemDTO() {
+    }
 
     public BookItemDTO(String bookItemID, int bookID, String bookStatus, int packageID) {
         this.bookItemID = bookItemID;

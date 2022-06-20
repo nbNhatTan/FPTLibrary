@@ -1,6 +1,6 @@
 <%-- 
-    Document   : error
-    Created on : Jun 15, 2022, 10:38:23 PM
+    Document   : user
+    Created on : Jun 16, 2022, 9:33:12 AM
     Author     : Admin
 --%>
 
@@ -9,10 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Error Page</title>
+        <title>JSP Page</title>
     </head>
     <body>
-        <h1>Error!! Your account does not have access!</h1>
-        <a href="HomePageFPTU.html">Home</a>
+        <h1>Hello World!</h1>
     </body>
 </html>

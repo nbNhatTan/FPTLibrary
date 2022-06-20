@@ -11,22 +11,24 @@ import java.sql.Date;
  *
  * @author Admin
  */
-public class BookingTicketDTO {
+public class BorrowDTO {
 
+    private String image;
+    private String bookName;
     private int bookingTicketID;
-    private String userID;
     private String bookItemID;
     private Date borrowDate;
     private Date expiredDate;
     private Date returnDate;
     private String borrowStatus;
 
-    public BookingTicketDTO() {
+    public BorrowDTO() {
     }
 
-    public BookingTicketDTO(int bookingTicketID, String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
+    public BorrowDTO(String image, String bookName, int bookingTicketID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
+        this.image = image;
+        this.bookName = bookName;
         this.bookingTicketID = bookingTicketID;
-        this.userID = userID;
         this.bookItemID = bookItemID;
         this.borrowDate = borrowDate;
         this.expiredDate = expiredDate;
@@ -34,13 +36,20 @@ public class BookingTicketDTO {
         this.borrowStatus = borrowStatus;
     }
 
-    public BookingTicketDTO(String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
-        this.userID = userID;
-        this.bookItemID = bookItemID;
-        this.borrowDate = borrowDate;
-        this.expiredDate = expiredDate;
-        this.returnDate = returnDate;
-        this.borrowStatus = borrowStatus;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public int getBookingTicketID() {
@@ -49,14 +58,6 @@ public class BookingTicketDTO {
 
     public void setBookingTicketID(int bookingTicketID) {
         this.bookingTicketID = bookingTicketID;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
     }
 
     public String getBookItemID() {
@@ -97,11 +98,6 @@ public class BookingTicketDTO {
 
     public void setBorrowStatus(String borrowStatus) {
         this.borrowStatus = borrowStatus;
-    }
-
-    @Override
-    public String toString() {
-        return "FPTLibrary.sample.DTO.Account[ id=" + bookingTicketID + " ]";
     }
 
 }

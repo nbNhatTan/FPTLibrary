@@ -1,12 +1,13 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.DTO;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class BookDTO {
 
@@ -14,23 +15,40 @@ public class BookDTO {
     private String bookName;
     private int quantity;
     private String bookshelf;
-    private int languageID;
+    private String language;
     private String description;
     private String DDC;
-    private int authorID;
-    private int publisherID;
+    private String author;
+    private String publisher;
     private String publishYear;
     private String image;
 
-    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, int languageID, int authorID, int publisherID, String publishYear, String image) {
+    public BookDTO() {
+    }
+
+    public BookDTO(int bookID, String bookName, int quantity, String bookshelf, String language, String description, String DDC, String author, String publisher, String publishYear, String image) {
+        this.bookID = bookID;
+        this.bookName = bookName;
+        this.quantity = quantity;
+        this.bookshelf = bookshelf;
+        this.language = language;
+        this.description = description;
+        this.DDC = DDC;
+        this.author = author;
+        this.publisher = publisher;
+        this.publishYear = publishYear;
+        this.image = image;
+    }
+
+    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, String language, String author, String publisher, String publishYear, String image) {
         this.bookName = bookName;
         this.quantity = Quantity;
         this.bookshelf = bookshelf;
         this.description = description;
         this.DDC = DDC;
-        this.languageID = languageID;
-        this.authorID = authorID;
-        this.publisherID = publisherID;
+        this.language = language;
+        this.author = author;
+        this.publisher = publisher;
         this.publishYear = publishYear;
         this.image = image;
     }
@@ -55,8 +73,8 @@ public class BookDTO {
         return quantity;
     }
 
-    public void setQuantity(int Quantity) {
-        this.quantity = Quantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getBookshelf() {
@@ -67,12 +85,12 @@ public class BookDTO {
         this.bookshelf = bookshelf;
     }
 
-    public int getLanguageID() {
-        return languageID;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setLanguageID(int languageID) {
-        this.languageID = languageID;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getDescription() {
@@ -91,20 +109,20 @@ public class BookDTO {
         this.DDC = DDC;
     }
 
-    public int getAuthorID() {
-        return authorID;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorID(int authorID) {
-        this.authorID = authorID;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public int getPublisherID() {
-        return publisherID;
+    public String getPublisher() {
+        return publisher;
     }
 
-    public void setPublisherID(int publisherID) {
-        this.publisherID = publisherID;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public String getPublishYear() {

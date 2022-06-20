@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sample.error;
+package sample.Error;
 
 /**
  *
  * @author Admin
  */
 public class AccountError {
-     private String accountIDError;
+
+    private String accountIDError;
     private String fullNameError;
     private String passwordError;
     private String confirmError;
@@ -18,18 +19,16 @@ public class AccountError {
     private String emailError;
     private String addressError;
     private String phoneError;
-    
 
     public AccountError() {
-        accountIDError="";
-        fullNameError="";
-        passwordError="";
-        confirmError="";
-        roleIDError="";
-        emailError="";
-        addressError="";
-        phoneError="";
-
+        accountIDError = "";
+        fullNameError = "";
+        passwordError = "";
+        confirmError = "";
+        roleIDError = "";
+        emailError = "";
+        addressError = "";
+        phoneError = "";
     }
 
     public AccountError(String accountIDError, String fullNameError, String passwordError, String confirmError, String roleIDError, String emailError, String addressError, String phoneError) {
@@ -107,7 +106,4 @@ public class AccountError {
         this.phoneError = phoneError;
     }
 
-   
-
-    
 }
