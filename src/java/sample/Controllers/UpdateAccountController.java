@@ -6,6 +6,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,22 +21,21 @@ import sample.Error.AccountError;
  *
  * @author Admin
  */
-@WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
-public class RegisterController extends HttpServlet {
+@WebServlet(name = "UpdateAccountController", urlPatterns = {"/UpdateAccountController"})
+public class UpdateAccountController extends HttpServlet {
 
-    private static final String ERROR = "register.jsp";
-    private static final String SUCCESS = "login.jsp";
+    private static final String ERROR = "updateAccount.jsp";
+    private static final String SUCCESS = "home.html";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+      String url = ERROR;
         try {
             String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
-            String roleID = request.getParameter("roleID");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
@@ -44,25 +44,13 @@ public class RegisterController extends HttpServlet {
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
 
-            boolean checkDuplicate = dao.checkDuplicate(accountID);
-            if (checkDuplicate) {
-                accountError.setAccountIDError("Duplicate UserID!");
-                checkValidation = false;
-            }
-            if (accountID.length() < 2 || accountID.length() > 10) {
-                accountError.setAccountIDError("AccountID must be in [2, 10]");
-                checkValidation = false;
-            }
+            
             if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
                 checkValidation = false;
             }
             if (!password.equals(confirm)) {
                 accountError.setConfirmError("Password must equals!");
-                checkValidation = false;
-            }
-            if (!Pattern.matches("[012]", roleID)) {
-                accountError.setRoleIDError("RoleID must be in [0,2]");
                 checkValidation = false;
             }
             if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
@@ -79,9 +67,9 @@ public class RegisterController extends HttpServlet {
             }
 
             if (checkValidation) {
-                AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
-                boolean checkCreate = dao.create(account);
-                if (checkCreate) {
+                AccountDTO account = new AccountDTO(accountID, fullName, password, 1, email, address, phone, true);
+                boolean checkUpdate = dao.updateUser(account);
+                if (checkUpdate) {
                     url = SUCCESS;
                 }
             } else {

@@ -1,6 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
 public class MainController extends HttpServlet {
 
@@ -21,7 +22,7 @@ public class MainController extends HttpServlet {
     private static final String LOGIN = "Login";
     private static final String SEARCH_CONTROLLER = "SearchController";
     private static final String SEARCH = "Search";
-    private static final String DETAIL_CONTROLLER = "DetailController";
+    private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";
     private static final String BORROW_CONTROLLER = "BorrowController";
     private static final String BORROW = "Borrow";
@@ -33,13 +34,19 @@ public class MainController extends HttpServlet {
     private static final String VIEWBORROWSTAFF_CONTROLLER = "ViewborrowStaffController";
     private static final String CONFIRM = "Confirm";
     private static final String CONFIRM_CONTROLLER = "ConfirmController";
-    private static final String FINETICKET = "Fineticket";
-    private static final String FINETICKET_CONTROLLER = "FineticketController";
-    private static final String CREATEFINETICKET = "CreateFineticket";
-    private static final String CREATEFINETICKET_CONTROLLER = "CreateFineticketController";
-    private static final String VIEWFINETICKET = "ViewFineticket";
-    private static final String VIEWFINETICKET_CONTROLLER = "ViewFineticketController";
-    
+    private static final String VIOLATIONTICKET = "Violationticket";
+    private static final String VIOLATIONTICKET_CONTROLLER = "ViolationticketController";
+    private static final String CREATEVIOLATIONTICKET = "CreateFineticket";
+    private static final String CREATEVIOLATIONTICKET_CONTROLLER = "CreateViolationticketController";
+    private static final String VIEWVIOLATIONTICKET = "ViewFineticket";
+    private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
+    private static final String REGISTER = "Register";
+    private static final String REGISTER_CONTROLLER = "RegisterController";
+    private static final String UPDATEACCOUNT = "UpdateAccount";
+    private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
+    private static final String ADDBOOK = "AddBook";
+    private static final String ADDBOOK_CONTROLLER = "AddBookController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -62,12 +69,18 @@ public class MainController extends HttpServlet {
                 url = VIEWBORROWSTAFF_CONTROLLER;
             } else if (CONFIRM.equals(action)) {
                 url = CONFIRM_CONTROLLER;
-            }else if (FINETICKET.equals(action)) {
-                url = FINETICKET_CONTROLLER;
-            }else if (CREATEFINETICKET.equals(action)) {
-                url = CREATEFINETICKET_CONTROLLER;
-            }else if (VIEWFINETICKET.equals(action)) {
-                url = VIEWFINETICKET_CONTROLLER;
+            } else if (VIOLATIONTICKET.equals(action)) {
+                url = VIOLATIONTICKET_CONTROLLER;
+            } else if (CREATEVIOLATIONTICKET.equals(action)) {
+                url = CREATEVIOLATIONTICKET_CONTROLLER;
+            } else if (VIEWVIOLATIONTICKET.equals(action)) {
+                url = VIEWVIOLATIONTICKET_CONTROLLER;
+            } else if (REGISTER.equals(action)) {
+                url = REGISTER_CONTROLLER;
+            }else if (UPDATEACCOUNT.equals(action)) {
+                url = UPDATEACCOUNT_CONTROLLER;
+            }else if (ADDBOOK.equals(action)) {
+                url = ADDBOOK_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());
