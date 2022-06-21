@@ -468,4 +468,59 @@ public class BookDAO {
         }
         return null;
     }
+       // Advance Search: 
+    private static final String ADVANCE_SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], "
+            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
+            + "ON b.languageID = l.languageID JOIN tblAuthors a "
+            + "ON b.authorID = a.authorID JOIN tblPublishers p "
+            + "ON b.publisherID = p.publisherID "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
+    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage) throws SQLException {
+        List<BookDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADVANCE_SEARCH);
+                ptm.setString(1, "%" + bBookName + "%");
+                ptm.setString(2, "%" + bAuthor + "%");
+                ptm.setString(3, "%" + bPublisher + "%");
+                ptm.setString(4, "%" + bLanguage + "%");
+                rs = ptm.executeQuery();
+                System.out.print(ADVANCE_SEARCH);
+                while (rs.next()) {
+                    int bookID = rs.getInt("bookID");
+                    String bookName = rs.getString("bookName");
+                    String bookshelf = rs.getString("bookshelf");
+                    String image = rs.getString("image");
+                    String description = rs.getString("description");
+                    String DDC = rs.getString("DDC");
+                    String language = rs.getString("languageName");
+                    String author = rs.getString("authorName");
+                    String publisher = rs.getString("publisherName");
+                    String publishYear = rs.getString("publishYear");
+                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    book.setBookID(bookID);
+                    list.add(book);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
+    }
+    
 }
