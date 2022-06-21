@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DTO;
 
@@ -9,30 +8,21 @@ import java.sql.Date;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class ViolationTicketDTO {
 
     private int violationTicketID;
     private int bookingTicketID;
+    private Date createDate;
     private String description;
-    private String ticketStatus;
+    private boolean ticketStatus;
     private String staffID;
-     private Date createDate;
 
     public ViolationTicketDTO() {
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-
-    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, String ticketStatus, String staffID) {
+    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, boolean ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
         this.createDate = createDate;
         this.description = description;
@@ -64,11 +54,11 @@ public class ViolationTicketDTO {
         this.description = description;
     }
 
-    public String getTicketStatus() {
+    public boolean getTicketStatus() {
         return ticketStatus;
     }
 
-    public void setTicketStatus(String ticketStatus) {
+    public void setTicketStatus(boolean ticketStatus) {
         this.ticketStatus = ticketStatus;
     }
 
@@ -80,9 +70,16 @@ public class ViolationTicketDTO {
         this.staffID = staffID;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public String toString() {
         return "FPTLibrary.sample.DTO.Account[ id=" + violationTicketID + " ]";
     }
-
 }

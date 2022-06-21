@@ -1,21 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DTO;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class RoleDTO {
 
     private int roleID;
     private String rolelName;
-
-    public RoleDTO() {
-    }
 
     public RoleDTO(int roleID, String rolelName) {
         this.roleID = roleID;

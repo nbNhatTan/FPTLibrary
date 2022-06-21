@@ -14,38 +14,35 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
+import sample.DTO.ViolationTicketDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "ViewViolationController", urlPatterns = {"/ViewViolationController"})
+public class ViewViolationController extends HttpServlet {
 
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "borrow.jsp";
         try {
             TicketDAO dao = new TicketDAO();
+
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            String status = request.getParameter("borrowStatus");
+
             if (loginAccount != null) {
-                List<BorrowDTO> list;
-                if (status == null) {
-                    list = dao.GetListTicket_UserID(loginAccount.getAccountID());
-                } else {
-                    list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
-                }
-                request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
+                List<ViolationTicketDTO> list = dao.GetListViolationTicket_StaffID(loginAccount.getAccountID());
+                request.setAttribute("ListViolationStaff", list);
+                url = "violation.jsp";
             } else {
-                url = "login.html";
+                url = "error.jsp";
             }
         } catch (Exception e) {
-            log("Error at ViewborrowController: " + e.toString());
+            log("Error at ViewViolationController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

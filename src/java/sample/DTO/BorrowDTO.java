@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DTO;
 
@@ -9,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class BorrowDTO {
 
@@ -21,9 +20,6 @@ public class BorrowDTO {
     private Date expiredDate;
     private Date returnDate;
     private String borrowStatus;
-
-    public BorrowDTO() {
-    }
 
     public BorrowDTO(String image, String bookName, int bookingTicketID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
         this.image = image;
@@ -99,5 +95,6 @@ public class BorrowDTO {
     public void setBorrowStatus(String borrowStatus) {
         this.borrowStatus = borrowStatus;
     }
+
 
 }

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DTO;
 
@@ -9,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class BookingTicketDTO {
 
@@ -20,19 +19,6 @@ public class BookingTicketDTO {
     private Date expiredDate;
     private Date returnDate;
     private String borrowStatus;
-
-    public BookingTicketDTO() {
-    }
-
-    public BookingTicketDTO(int bookingTicketID, String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
-        this.bookingTicketID = bookingTicketID;
-        this.userID = userID;
-        this.bookItemID = bookItemID;
-        this.borrowDate = borrowDate;
-        this.expiredDate = expiredDate;
-        this.returnDate = returnDate;
-        this.borrowStatus = borrowStatus;
-    }
 
     public BookingTicketDTO(String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
         this.userID = userID;
@@ -103,5 +89,4 @@ public class BookingTicketDTO {
     public String toString() {
         return "FPTLibrary.sample.DTO.Account[ id=" + bookingTicketID + " ]";
     }
-
 }

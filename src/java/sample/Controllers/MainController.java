@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -13,15 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class MainController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
     private static final String LOGIN_CONTROLLER = "LoginController";
     private static final String LOGIN = "Login";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-    private static final String SEARCH = "Search";
+    private static final String SEARCHBOOK_CONTROLLER = "SearchBookController";
+    private static final String SEARCHBOOK = "SearchBook";
     private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";
     private static final String BORROW_CONTROLLER = "BorrowController";
@@ -42,10 +41,8 @@ public class MainController extends HttpServlet {
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
-    private static final String UPDATEACCOUNT = "UpdateAccount";
-    private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
-    private static final String ADDBOOK = "AddBook";
-    private static final String ADDBOOK_CONTROLLER = "AddBookController";
+    private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
+    private static final String ADVANCESEARCH = "AdvanceSearch";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -55,8 +52,8 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             if (LOGIN.equals(action)) {
                 url = LOGIN_CONTROLLER;
-            } else if (SEARCH.equals(action)) {
-                url = SEARCH_CONTROLLER;
+            } else if (SEARCHBOOK.equals(action)) {
+                url = SEARCHBOOK_CONTROLLER;
             } else if (DETAIL.equals(action)) {
                 url = DETAIL_CONTROLLER;
             } else if (BORROW.equals(action)) {
@@ -77,10 +74,8 @@ public class MainController extends HttpServlet {
                 url = VIEWVIOLATIONTICKET_CONTROLLER;
             } else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
-            }else if (UPDATEACCOUNT.equals(action)) {
-                url = UPDATEACCOUNT_CONTROLLER;
-            }else if (ADDBOOK.equals(action)) {
-                url = ADDBOOK_CONTROLLER;
+            } else if (ADVANCESEARCH.equals(action)) {
+                url = ADVANCESEARCH_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

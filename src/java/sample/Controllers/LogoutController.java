@@ -5,49 +5,39 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
+public class LogoutController extends HttpServlet {
+
+    private static final String ERROR = "login.html";
+    private static final String SUCCESS = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "borrow.jsp";
+        String url = ERROR;
         try {
-            TicketDAO dao = new TicketDAO();
             HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            String status = request.getParameter("borrowStatus");
-            if (loginAccount != null) {
-                List<BorrowDTO> list;
-                if (status == null) {
-                    list = dao.GetListTicket_UserID(loginAccount.getAccountID());
-                } else {
-                    list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
-                }
-                request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
-            } else {
-                url = "login.html";
+            if (session != null) {
+                session.removeAttribute("LOGIN_ACCOUNT");
+                session.invalidate();
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at ViewborrowController: " + e.toString());
+            log("Error at LogoutController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DAO;
 
@@ -14,25 +13,36 @@ import java.util.ArrayList;
 import java.util.List;
 import sample.DTO.BookDTO;
 import sample.DTO.BookItemDTO;
+import sample.DTO.NewsDTO;
 import sample.DTO.PackageDTO;
 import sample.Utils.DBUtils;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class BookDAO {
 
     private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image]) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
-    private static final String SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE ? like ?";
+    private static final String SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE bookName like ?";
     private static final String GETLIST_PACKAGE = "SELECT packageName, price, importDate FROM tblPackage";
     private static final String GETLIST_BOOKITEM = "SELECT bookItemID, bookID, bookStatus, packageID FROM tblBookItem";
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
     private static final String COUNT = "SELECT COUNT bookItemID FROM tblBookItem WHERE bookID = ?";
     private static final String GETBOOKBYID = "SELECT bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
     private static final String CREATE_TABLE = "INSERT INTO ?(?) VALUES (?)";
+    private static final String GET_TABLE = "SELECT ? FROM ? WHERE ? LIKE ? ";
+    private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook ORDER BY bookID DESC";
+    private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
+    private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
+    private static final String ADVANCE_SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], "
+            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
+            + "ON b.languageID = l.languageID JOIN tblAuthors a "
+            + "ON b.authorID = a.authorID JOIN tblPublishers p "
+            + "ON b.publisherID = p.publisherID "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
 
     public int createBook(BookDTO book) throws SQLException {
         int id = 0;
@@ -325,18 +335,21 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATE_BOOK);
-                ptm.setString(1, name);
                 String table = "tbl" + infor + "s";
+                String labelName = infor.toLowerCase() + "Name";
+                String labelID = infor.toLowerCase() + "ID";
+                ptm.setString(1, labelID);
                 ptm.setString(2, table);
+                ptm.setString(3, labelName);
+                ptm.setString(4, name);
                 rs = ptm.executeQuery();
                 if (rs.next()) {
                     id = rs.getInt(1);
                 } else {
                     ptm = conn.prepareStatement(CREATE_TABLE);
                     ptm.setString(1, table);
-                    table = infor.toLowerCase() + "Name";
-                    ptm.setString(1, table);
-                    ptm.setString(1, name);
+                    ptm.setString(2, labelName);
+                    ptm.setString(3, name);
                     ptm.executeQuery();
                     rs = ptm.getGeneratedKeys();
                     if (rs.next()) {
@@ -355,5 +368,162 @@ public class BookDAO {
             }
         }
         return id;
+    }
+
+    public List<BookDTO> getTop5Book() throws SQLException {
+        List<BookDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETTOP5BOOK);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int bookID = rs.getInt("bookID");
+                    String bookName = rs.getString("bookName");
+                    String image = rs.getString("image");
+                    BookDTO book = new BookDTO(bookName, 0, "", "", "", "", "", "", "", image);
+                    book.setBookID(bookID);
+                    list.add(book);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public List<NewsDTO> getTopNews() throws SQLException {
+        List<NewsDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETTOPNEWS);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int newsID = rs.getInt("newsID");
+                    String title = rs.getString("title");
+                    Date uploadDate = rs.getDate("uploadDate");
+                    NewsDTO news = new NewsDTO(newsID, "", title, "", "", "", uploadDate);
+                    news.setNewsID(newsID);
+                    list.add(news);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public NewsDTO getNews() throws SQLException {
+        NewsDTO news = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETNEWS);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int newsID = rs.getInt("newsID");
+                    String writeName = rs.getString("writerName");
+                    String title = rs.getString("title");
+                    String head = rs.getString("head");
+                    String body = rs.getString("body");
+                    String staffID = rs.getString("staffID");
+                    Date uploadDate = rs.getDate("uploadDate");
+                    news = new NewsDTO(newsID, writeName, title, head, body, staffID, uploadDate);
+                    news.setNewsID(newsID);
+                    return news;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
+    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage) throws SQLException {
+        List<BookDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADVANCE_SEARCH);
+                ptm.setString(1, "%" + bBookName + "%");
+                ptm.setString(2, "%" + bAuthor + "%");
+                ptm.setString(3, "%" + bPublisher + "%");
+                ptm.setString(4, "%" + bLanguage + "%");
+                rs = ptm.executeQuery();
+                System.out.print(ADVANCE_SEARCH);
+                while (rs.next()) {
+                    int bookID = rs.getInt("bookID");
+                    String bookName = rs.getString("bookName");
+                    String bookshelf = rs.getString("bookshelf");
+                    String image = rs.getString("image");
+                    String description = rs.getString("description");
+                    String DDC = rs.getString("DDC");
+                    String language = rs.getString("languageName");
+                    String author = rs.getString("authorName");
+                    String publisher = rs.getString("publisherName");
+                    String publishYear = rs.getString("publishYear");
+                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    book.setBookID(bookID);
+                    list.add(book);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return list;
     }
 }

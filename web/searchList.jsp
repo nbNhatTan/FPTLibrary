@@ -1,43 +1,51 @@
 <%-- 
-    Document   : borrow
-    Created on : Jun 14, 2022, 5:07:23 PM
-    Author     : NhatTan
+    Document   : SearchList
+    Created on : Jun 12, 2022, 8:28:46 PM
+    Author     : bachds
 --%>
 
-<%@page import="java.sql.Date"%>
 <%@page import="sample.DTO.AccountDTO"%>
-<%@page import="sample.DTO.BorrowDTO"%>
+<%@page import="sample.DAO.BookDAO"%>
 <%@page import="java.util.List"%>
+<%@page import="sample.DTO.BookDTO"%>
+<%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
     <head>
-        <meta charset="utf-8" />
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="searchList.css">
+        <link rel="stylesheet" href="style1.css">
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thông tin mượn sách</title>
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            />
-        <link
-            href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
-            rel="stylesheet"
-            />
+        <title>Thư viện FPTU HCM</title>
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+        <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
+              rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="styleBorrow.css" />
+
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+
     </head>
+
     <body>
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <%
+            String search = request.getParameter("search");
+            if (search == null) {
+                search = "";
+            }
+        %>
+        <nav class="navbar navbar-expand-md navbar-light">
             <div class="container-fluid padding">
                 <div class="col-md-5">
                     <div class="p-2">
-                        <a class="navbar-branch" href="#">
+                        <a class="navbar-branch" href="HomePageFPTU.jsp">
                             <img
                                 class="img"
                                 src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/LogoFPT.png?v=1653532923912"
@@ -49,7 +57,7 @@
                 </div>
                 <div class="col-md-6">
                     <form action="MainController">
-                        <input type="text" name="search" placeholder="Search">
+                        <input type="text" name="search" placeholder="Search" value=<%=search%>>
                         <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
                     </form>
                 </div>
@@ -79,14 +87,12 @@
             </div>
         </nav>
 
-        <nav class="nav navbar-expand-md navbar-light bg-light sticky-top">
+        <nav class="nav navbar-expand-md navbar-light sticky-top">
             <div>
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarResponsive"
-                    >
+                <button class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -101,7 +107,7 @@
                             <a class="nav-link" href="AdvancedSearch.html">Advanced Search</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="ViewborrowController">Borrow List</a>
+                            <a class="nav-link" href="ViewborrowController">Borrow List</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Following</a>
@@ -111,93 +117,77 @@
             </div>
         </nav>
 
-        <div>
 
-            <div class="table-container">
-                <h1 class = "heading"> Đơn mượn sách</h1>
-                <table class="borrow-table">
-                    <thead>
-                        <tr>
-                            <th>Cuốn sách</th>
-                            <th>Tên sách</th>
-                            <th>Mã sách</th>
-                            <th>Ngày mượn</th>
-                            <th>Hạn trả</th>
-                            <th>Ngày trả</th>
-                            <th>Tình trạng</th>
+        <div class="main">
+            <div class="body-page row">
+                <div class="col-md-1"></div>
+                <div class="container col-md-10 content">
+                    <div class="title-result">
+                        <h3>
+                            Result
+                        </h3>
+                    </div>
 
+                    <div class="wrapper">
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            List<BorrowDTO> list = (List<BorrowDTO>) request.getAttribute("ListBorrow");
-                            if (list != null) {
-                                if (list.size() > 0) {
-                                    for (BorrowDTO p : list) {
-                        %>
-                        <tr>
-                            <td data-lable="Cuốn sách">
-                                <img
-                                    src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/Young.png?v=1653570847480"
-                                    width="100"
-                                    height="150"
-                                    />
-
-                            </td>
-                            <td data-lable="Tên sách"><%= p.getBookName()%></td>
-                            <td data-lable="Mã sách"><%= p.getBookItemID()%></td>
-                            <td data-lable="Ngày mượn"><%= p.getBorrowDate()%></td>
-                            <td data-lable="Hạn trả"><%= p.getExpiredDate()%></td>
-                            <td data-lable="Ngày trả"><% if (p.getReturnDate() == null) {
-                                                            String returnDate = "";
-                                                            out.print(returnDate);
-                                                        } else{                                                           
+                        <div class="wrapper-column-1">
+                            <%
+                                List<BookDTO> list = (List<BookDTO>) request.getAttribute("LIST_BOOK");
+                                if (list != null) {
+                                    if (list.size() > 0) {
                             %>
-                            <%=p.getReturnDate()%>
-                            <% 
-                                                        } 
-                            %>
-                            </td>
-                            <td data-lable="Tình trạng"><span class="status">[<%= p.getBorrowStatus()%>]</span> </td>
+                            <form action="MainController">
+                                <div class="all-books"> 
+                                    <%
+                                        for (BookDTO book : list) {
+                                    %>
 
-                        </tr>
-                        <%
+                                    <div class="book">
+                                        <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                            <img src="<%= book.getImage()%>"> 
+                                            <h3>
+                                                <%= book.getBookName()%>
+                                            </h3>
+                                        </a>
+                                    </div>
+
+                                    <%
+                                        }
+                                    %>
+
+                                </div>
+                            </form>
+                            <%
                                     }
                                 }
-                            }
-                        %>
-                    </tbody>
+                            %>
+                        </div>
 
-                </table>
+                        <div class="wrapper-column-2">
 
+                        </div>
+                    </div>
+                    <div class="all-button-pages">
+                        <button>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button>1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>4</button>
+                        <button>...</button>
+                        <button>7</button>
+                        <button>8</button>
+                        <button>9</button>
+                        <button>10</button>
+                        <button>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
             </div>
-
-
-
-
         </div>
-
-
-        <div class="pagination">
-            <ul>
-                <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
-                <li class="numb"><span>1</span></li>
-                <li class="numb"><span>2</span></li>
-                <li class="numb"><span>3</span></li>
-                <li class="numb"><span>4</span></li>
-                <li class="numb"><span>5</span></li>
-                <li class="numb"><span>6</span></li>
-                <li class="dots"><span>...</span></li>
-                <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
-            </ul>
-
-
-        </div>
-
-
-
-
 
 
         <footer class="text-light">
@@ -240,5 +230,7 @@
                 </div>
             </div>
         </footer>
+
     </body>
+
 </html>

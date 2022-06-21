@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DTO;
 
@@ -9,7 +8,7 @@ import java.sql.Date;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class PackageDTO {
 
@@ -17,16 +16,6 @@ public class PackageDTO {
     private String packageName;
     private int price;
     private Date importDate;
-
-    public PackageDTO() {
-    }
-
-    public PackageDTO(int packageID, String packageName, int price, Date importDate) {
-        this.packageID = packageID;
-        this.packageName = packageName;
-        this.price = price;
-        this.importDate = importDate;
-    }
 
     public PackageDTO(String packageName, int price, Date importDate) {
         this.packageName = packageName;

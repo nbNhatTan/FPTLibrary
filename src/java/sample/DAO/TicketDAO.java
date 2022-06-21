@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sample.DAO;
 
@@ -12,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import sample.DTO.BookDTO;
 import sample.DTO.BookingTicketDTO;
 import sample.DTO.BorrowDTO;
 import sample.DTO.ViolationTicketDTO;
@@ -19,21 +19,22 @@ import sample.Utils.DBUtils;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 public class TicketDAO {
-    //    private static final String GETLISTTICKET_USERID = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus FROM tblBookingTicket WHERE userID = ?";//user
+
+//    private static final String GETLISTTICKET_USERID = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus FROM tblBookingTicket WHERE userID = ?";//user
 //    private static final String GETLISTTICKET_STATUS = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket WHERE userID = ? AND borrowStatus = ?";
     private static final String GETLISTBOOKNAME_USERID = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ?";//user
     private static final String GETLISTBOOKNAME_STATUS = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ? AND borrowStatus = ?";
-    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, description, ticketStatus FROM tblViolationTicket WHERE staffID = ?";//staff
-    private static final String GETVIOLATIONTICKET_BOOKINGTICKETID = "SELECT violationTicketID, bookingTicketID, description, ticketStatus, staffID FROM tblViolationTicket WHERE bookingTicketID = ?";//user
+    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus FROM tblViolationTicket WHERE staffID = ?";//staff
+    private static final String GETVIOLATIONTICKET_BOOKINGTICKETID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus, staffID FROM tblViolationTicket WHERE bookingTicketID = ?";//user
     private static final String CREATE_BOOKINGTICKET = "INSERT INTO tblBookingTicket(userID, bookItemID, borrowDate, expiredDate, borrowStatus) VALUES (?,?,?,?,?)";
-    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, description, ticketStatus, staffID) VALUES (?,?,?,?)";
+    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, createDate, description, ticketStatus, staffID) VALUES (?,?,?,?)";
     //private static final String GETLISTTICKET_STAFFID = "SELECT bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket e JOIN tblStaffTicket a ON e.bookingTicketID = a.ticketID WHERE a.staffID = ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String CONFIRMBOOKINGTICKET = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
-    private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID= (SELECT bookItemID FROM tblBookingTicket WHERE bookingTicketID = ?)";
+    private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID = ?";
     private static final String UPDATEVIOLATIONSTATUS = "UPDATE tblViolationTicket SET ticketStatus=? WHERE violationTicketID=?";
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
@@ -204,11 +205,14 @@ public class TicketDAO {
                 ptm.setString(1, staffID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
+                    int violationTicketID = rs.getInt("violationTicketID");
                     int bookingTicketID = rs.getInt("bookingTicketID");
                     String description = rs.getString("description");
-                    String ticketStatus = rs.getString("ticketStatus");
+                    boolean ticketStatus = rs.getBoolean("ticketStatus");
                     Date createDate = rs.getDate("createDate");
-                    list.add(new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID));
+                    ViolationTicketDTO violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
+                    violation.setViolationTicketID(violationTicketID);
+                    list.add(violation);
                 }
             }
         } catch (Exception e) {
@@ -241,7 +245,7 @@ public class TicketDAO {
                 while (rs.next()) {
                     int violationTicketID = rs.getInt("violationTicketID");
                     String description = rs.getString("description");
-                    String ticketStatus = rs.getString("ticketStatus");
+                    boolean ticketStatus = rs.getBoolean("ticketStatus");
                     String staffID = rs.getString("staffID");
                     Date createDate = rs.getDate("createDate");
                     violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
@@ -278,11 +282,15 @@ public class TicketDAO {
                 ptm.setDate(3, ticket.getBorrowDate());
                 ptm.setDate(4, ticket.getExpiredDate());
                 ptm.setString(5, ticket.getBorrowStatus());
-                ptm.executeQuery();
-                rs = ptm.getGeneratedKeys();
-                while (rs.next()) {
-                    id = rs.getInt(1);
-                }
+                ptm.execute();
+//                rs = ptm.getGeneratedKeys();
+//                while (rs.next()) {
+//                    id = rs.getInt(1);
+//                }
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm.setString(1, "Pending");
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.execute();
             }
         } catch (Exception e) {
             e.toString();
@@ -307,10 +315,11 @@ public class TicketDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATE_VIOLATIONTICKET);
                 ptm.setInt(1, ticket.getBookingTicketID());
+                ptm.setDate(1, ticket.getCreateDate());
                 ptm.setString(2, ticket.getDescription());
-                ptm.setString(3, ticket.getTicketStatus());
+                ptm.setBoolean(3, ticket.getTicketStatus());
                 ptm.setString(4, ticket.getStaffID());
-                ptm.executeQuery();
+                ptm.execute();
                 rs = ptm.getGeneratedKeys();
                 while (rs.next()) {
                     id = rs.getInt(1);

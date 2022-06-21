@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -14,18 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
-import sample.Error.AccountError;
+import sample.DTO.AccountError;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 @WebServlet(name = "RegisterController", urlPatterns = {"/RegisterController"})
 public class RegisterController extends HttpServlet {
 
     private static final String ERROR = "register.jsp";
-    private static final String SUCCESS = "login.jsp";
-
+    private static final String SUCCESS = "login.html";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,54 +37,48 @@ public class RegisterController extends HttpServlet {
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
-
+            
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
-
+            
             boolean checkDuplicate = dao.checkDuplicate(accountID);
             if (checkDuplicate) {
                 accountError.setAccountIDError("Duplicate UserID!");
                 checkValidation = false;
-            }
-            if (accountID.length() < 2 || accountID.length() > 10) {
+            }if (accountID.length() < 2 || accountID.length() > 10) {
                 accountError.setAccountIDError("AccountID must be in [2, 10]");
                 checkValidation = false;
-            }
-            if (fullName.length() < 5 || fullName.length() > 20) {
+            }if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
                 checkValidation = false;
-            }
-            if (!password.equals(confirm)) {
+            }if (!password.equals(confirm)) {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
-            }
-            if (!Pattern.matches("[012]", roleID)) {
+            }if (!Pattern.matches("[012]", roleID)) {
                 accountError.setRoleIDError("RoleID must be in [0,2]");
                 checkValidation = false;
-            }
-            if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+            }if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
-            }
-            if (address.length() < 5 || address.length() > 40) {
+            }if (address.length() < 5 || address.length() > 40) {
                 accountError.setAddressError("Address must be in [5, 40]");
                 checkValidation = false;
-            }
-            if (!Pattern.matches("\\d{10,12}", phone)) {
+            }if (!Pattern.matches("\\d{10,12}", phone)) {
                 accountError.setPhoneError("Phone must be number and in [10, 12]");
                 checkValidation = false;
             }
-
+            
+            
             if (checkValidation) {
-                AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
+                AccountDTO account = new  AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     url = SUCCESS;
                 }
-            } else {
-                request.setAttribute("ACCOUNT_ERROR", accountError);
-            }
+            }else {
+                    request.setAttribute("ACCOUNT_ERROR", accountError);
+                }
 
         } catch (Exception e) {
             log("Error at CreateController: " + e.toString());
