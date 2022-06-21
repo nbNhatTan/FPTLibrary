@@ -17,7 +17,7 @@ import sample.DTO.BookDTO;
 
 /**
  *
- * @author admin
+ * @author NhatTan
  */
 @WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
 public class AdvanceSearchController extends HttpServlet {
@@ -40,7 +40,7 @@ public class AdvanceSearchController extends HttpServlet {
                 request.setAttribute("ADVANCE_LIST_BOOK", listBook);
                 url = SUCCESS;
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             log("Error at AdvanceSearchController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);

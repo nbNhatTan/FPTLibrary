@@ -41,7 +41,9 @@ public class MainController extends HttpServlet {
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
-    
+    private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
+    private static final String ADVANCESEARCH = "AdvanceSearch";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -64,14 +66,16 @@ public class MainController extends HttpServlet {
                 url = VIEWBORROWSTAFF_CONTROLLER;
             } else if (CONFIRM.equals(action)) {
                 url = CONFIRM_CONTROLLER;
-            }else if (VIOLATIONTICKET.equals(action)) {
+            } else if (VIOLATIONTICKET.equals(action)) {
                 url = VIOLATIONTICKET_CONTROLLER;
-            }else if (CREATEVIOLATIONTICKET.equals(action)) {
+            } else if (CREATEVIOLATIONTICKET.equals(action)) {
                 url = CREATEVIOLATIONTICKET_CONTROLLER;
-            }else if (VIEWVIOLATIONTICKET.equals(action)) {
+            } else if (VIEWVIOLATIONTICKET.equals(action)) {
                 url = VIEWVIOLATIONTICKET_CONTROLLER;
-            }else if (REGISTER.equals(action)) {
+            } else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
+            } else if (ADVANCESEARCH.equals(action)) {
+                url = ADVANCESEARCH_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

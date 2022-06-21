@@ -100,7 +100,7 @@
                                 <a class="nav-link" href="#">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="AdvancedSearch.html">Advanced Search</a>
+                                <a class="nav-link" href="advanceSearch.jsp">Advanced Search</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="ViewborrowController">Borrow List</a>
