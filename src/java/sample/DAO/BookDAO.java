@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import sample.DTO.BookDTO;
 import sample.DTO.BookItemDTO;
+import sample.DTO.NewsDTO;
 import sample.DTO.PackageDTO;
 import sample.Utils.DBUtils;
 
@@ -21,8 +22,7 @@ import sample.Utils.DBUtils;
  * @author NhatTan
  */
 public class BookDAO {
-    // Bách: tui sửa cái query của SEARCH rồi đấy từ "WHERE ? like ?" -> "WHERE bookName like ?" nhé
-    // Bách: lí do vì sửa vậy cái hàm getListBook mới search được theo ý, ông có cách sửa lại thì giúp tôi nhé? Tôi thử mấy cách rôi không được
+
     private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image]) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
@@ -33,6 +33,9 @@ public class BookDAO {
     private static final String COUNT = "SELECT COUNT bookItemID FROM tblBookItem WHERE bookID = ?";
     private static final String GETBOOKBYID = "SELECT bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
     private static final String CREATE_TABLE = "INSERT INTO ?(?) VALUES (?)";
+    private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook ORDER BY bookID DESC";
+    private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
+    private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
 
     public int createBook(BookDTO book) throws SQLException {
         int id = 0;
@@ -139,7 +142,7 @@ public class BookDAO {
         return id;
     }
 
-    public List<BookDTO> getListBook( String search) throws SQLException {
+    public List<BookDTO> getListBook(String search) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -149,7 +152,6 @@ public class BookDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(SEARCH);
                 ptm.setString(1, "%" + search + "%");
-
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int bookID = rs.getInt("bookID");
@@ -165,7 +167,6 @@ public class BookDAO {
                     BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
-
                 }
             }
         } catch (Exception e) {
@@ -181,7 +182,6 @@ public class BookDAO {
                 conn.close();
             }
         }
-
         return list;
     }
 
@@ -359,57 +359,8 @@ public class BookDAO {
         }
         return id;
     }
-   
-    public BookDTO getDetailBook(String bookName) throws SQLException {
-        BookDTO book = null;
-        Connection conn = null;
-        PreparedStatement ptm = null;
-        ResultSet rs = null;
-        try {
-            conn = DBUtils.getConnection();
-            if (conn != null) {
-                ptm = conn.prepareStatement(SEARCH);
-                ptm.setString(1, bookName);
-                ptm.setString(2, "%" + bookName + "%");
-                rs = ptm.executeQuery();
-                if (rs.next()) {
-                    
-                    int quantity = rs.getInt("quantity");
-                    String bookshelf = rs.getString("bookshelf");
-                    String description = rs.getString("description");
-                    String DDC = rs.getString("DDC");
-                    String languageID = rs.getString("languageID");
-                    String authorID = rs.getString("authorID");
-                    String publisherID = rs.getString("publisherID");
-                    String publishYear = rs.getString("publishYear");
-                    String image = rs.getString("image");
-                    book = new BookDTO(bookName, quantity, bookshelf, description, DDC, languageID, authorID, publisherID, publishYear, image);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (ptm != null) {
-                ptm.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-        return book;
-    }
-    
-    // Advance Search: 
-    private static final String ADVANCE_SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], "
-            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
-            + "ON b.languageID = l.languageID JOIN tblAuthors a "
-            + "ON b.authorID = a.authorID JOIN tblPublishers p "
-            + "ON b.publisherID = p.publisherID "
-            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
-    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage) throws SQLException {
+
+    public List<BookDTO> getTop5Book() throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -417,25 +368,13 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(ADVANCE_SEARCH);
-                ptm.setString(1, "%" + bBookName + "%");
-                ptm.setString(2, "%" + bAuthor + "%");
-                ptm.setString(3, "%" + bPublisher + "%");
-                ptm.setString(4, "%" + bLanguage + "%");
+                ptm = conn.prepareStatement(GETTOP5BOOK);
                 rs = ptm.executeQuery();
-                System.out.print(ADVANCE_SEARCH);
                 while (rs.next()) {
                     int bookID = rs.getInt("bookID");
                     String bookName = rs.getString("bookName");
-                    String bookshelf = rs.getString("bookshelf");
                     String image = rs.getString("image");
-                    String description = rs.getString("description");
-                    String DDC = rs.getString("DDC");
-                    String language = rs.getString("languageName");
-                    String author = rs.getString("authorName");
-                    String publisher = rs.getString("publisherName");
-                    String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, 0, "", "", "", "", "", "", "", image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -453,8 +392,80 @@ public class BookDAO {
                 conn.close();
             }
         }
-
         return list;
     }
-    
+
+    public List<NewsDTO> getTopNews() throws SQLException {
+        List<NewsDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETTOPNEWS);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int newsID = rs.getInt("newsID");
+                    String title = rs.getString("title");
+                    Date uploadDate = rs.getDate("uploadDate");
+                    NewsDTO news = new NewsDTO(newsID, "", title, "", "", "", uploadDate);
+                    news.setNewsID(newsID);
+                    list.add(news);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public NewsDTO getNews() throws SQLException {
+        NewsDTO news = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETNEWS);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int newsID = rs.getInt("newsID");
+                    String writeName = rs.getString("writerName");
+                    String title = rs.getString("title");
+                    String head = rs.getString("head");
+                    String body = rs.getString("body");
+                    String staffID = rs.getString("staffID");
+                    Date uploadDate = rs.getDate("uploadDate");
+                    news = new NewsDTO(newsID, writeName, title, head, body, staffID, uploadDate);
+                    news.setNewsID(newsID);
+                    return news;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
 }

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -18,7 +17,7 @@ import sample.DTO.BookDTO;
 
 /**
  *
- * @author bachds
+ * @author NhatTan
  */
 @WebServlet(name = "SearchBookController", urlPatterns = {"/SearchBookController"})
 public class SearchBookController extends HttpServlet {
@@ -44,6 +43,7 @@ public class SearchBookController extends HttpServlet {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

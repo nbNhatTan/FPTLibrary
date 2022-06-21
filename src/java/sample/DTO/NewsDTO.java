@@ -12,29 +12,29 @@ import java.sql.Date;
  */
 public class NewsDTO {
 
-    private String newsID;
+    private int newsID;
     private String writerName;
     private String title;
     private String head;
-    private String Body;
+    private String body;
     private String AccountID;
     private Date uploadDate;
 
-    public NewsDTO(String newsID, String writerName, String title, String head, String Body, String AccountID, Date uploadDate) {
+    public NewsDTO(int newsID, String writerName, String title, String head, String body, String AccountID, Date uploadDate) {
         this.newsID = newsID;
         this.writerName = writerName;
         this.title = title;
         this.head = head;
-        this.Body = Body;
+        this.body = body;
         this.AccountID = AccountID;
         this.uploadDate = uploadDate;
     }
 
-    public String getNewsID() {
+    public int getNewsID() {
         return newsID;
     }
 
-    public void setNewsID(String newsID) {
+    public void setNewsID(int newsID) {
         this.newsID = newsID;
     }
 
@@ -63,11 +63,11 @@ public class NewsDTO {
     }
 
     public String getBody() {
-        return Body;
+        return body;
     }
 
-    public void setBody(String Body) {
-        this.Body = Body;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getAccountID() {

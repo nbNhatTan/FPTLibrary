@@ -15,13 +15,13 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author NhatTan
  */
 @WebServlet(name = "LogoutController", urlPatterns = {"/LogoutController"})
 public class LogoutController extends HttpServlet {
 
-    private static final String ERROR = "login.jsp";
-    private static final String SUCCESS = "login.jsp";
+    private static final String ERROR = "login.html";
+    private static final String SUCCESS = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class LogoutController extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             if (session != null) {
-                session.removeAttribute("LOGIN_USER");
+                session.removeAttribute("LOGIN_ACCOUNT");
                 session.invalidate();
                 url = SUCCESS;
             }

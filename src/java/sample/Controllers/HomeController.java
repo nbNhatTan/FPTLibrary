@@ -5,6 +5,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,38 +13,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.BookDTO;
+import sample.DTO.NewsDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "HomeController", urlPatterns = {"/HomeController"})
+public class HomeController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "borrow.jsp";
+        String url = "Home.jsp";
         try {
-            TicketDAO dao = new TicketDAO();
+            BookDAO dao = new BookDAO();
+            List<BookDTO> top5Book = dao.getTop5Book();
+
             HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            String status = request.getParameter("borrowStatus");
-            if (loginAccount != null) {
-                List<BorrowDTO> list;
-                if (status == null) {
-                    list = dao.GetListTicket_UserID(loginAccount.getAccountID());
-                } else {
-                    list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
-                }
-                request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
-            } else {
-                url = "login.html";
-            }
+            session.setAttribute("TOP_BOOK", top5Book);
+
+            List<NewsDTO> topNews = dao.getTopNews();
+            request.setAttribute("TOP_NEWS", topNews);
+
+            NewsDTO news = dao.getNews();
+            request.setAttribute("NEWS", news);
+String s="";
         } catch (Exception e) {
             log("Error at ViewborrowController: " + e.toString());
         } finally {

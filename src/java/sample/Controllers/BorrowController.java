@@ -26,33 +26,39 @@ public class BorrowController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = "ViewborrowController";
         try {
             String bookID = request.getParameter("bookID");
-            TicketDAO dao = new TicketDAO();
-            String bookItemID = dao.GetBookItemID(Integer.parseInt(bookID));
+
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (loginAccount != null) {
+                TicketDAO dao = new TicketDAO();
+                String bookItemID = dao.GetBookItemID(Integer.parseInt(bookID));
 
-            long millis = System.currentTimeMillis();
-            java.sql.Date borrowDate = new java.sql.Date(millis);
+                long millis = System.currentTimeMillis();
+                java.sql.Date borrowDate = new java.sql.Date(millis);
 
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            df.setLenient(false);
-            java.util.Date dat = df.parse("2022-6-14");
-            java.util.Date dat1 = df.parse("2022-10-14");
-            long date = dat.getTime();
-            long date1 = dat1.getTime();
-            long fourMonth = date1 - date;
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                df.setLenient(false);
+                java.util.Date dat = df.parse("2022-6-14");
+                java.util.Date dat1 = df.parse("2022-10-14");
+                long date = dat.getTime();
+                long date1 = dat1.getTime();
+                long fourMonth = date1 - date;
 
-            java.sql.Date expiredDate = new java.sql.Date(millis + fourMonth);
-            BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Pending");
-            dao.createBookingTicket(ticket);
+                java.sql.Date expiredDate = new java.sql.Date(millis + fourMonth);
+                BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Pending");
+                dao.createBookingTicket(ticket);
 
-            request.setAttribute("MESSAGE", "Borrow successfully");
+                request.setAttribute("MESSAGE", "Borrow successfully");
+            } else {
+                url = "login.html";
+            }
         } catch (Exception e) {
             log("Error at BorrowController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowController").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
