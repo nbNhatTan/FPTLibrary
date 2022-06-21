@@ -49,7 +49,6 @@ public class HomeController extends HttpServlet {
 
             NewsDTO news = dao.getNews();
             request.setAttribute("NEWS", news);
-String s="";
         } catch (Exception e) {
             log("Error at ViewborrowController: " + e.toString());
         } finally {
