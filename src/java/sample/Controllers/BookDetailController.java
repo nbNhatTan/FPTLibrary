@@ -21,8 +21,8 @@ import sample.DTO.BookDTO;
 public class BookDetailController extends HttpServlet {
 
     private static final String ERROR = "searchList.jsp";
-    private static final String SUCCESS = "Detail.jsp";
-    private static final String SUCCESS2 = "BookingConfirm.jsp";
+    private static final String SUCCESS = "detail.jsp";
+    private static final String SUCCESS2 = "bookingConfirm.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

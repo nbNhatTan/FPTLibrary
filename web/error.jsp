@@ -9,6 +9,6 @@
     </head>
     <body>
         <h1>Error!! Your account does not have access!</h1>
-        <a href="HomePageFPTU.html">Home</a>
+        <a href="HomeController">Home</a>
     </body>
 </html>
