@@ -19,9 +19,9 @@ public class MainController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String LOGIN_CONTROLLER = "LoginController";
     private static final String LOGIN = "Login";
-    private static final String SEARCH_CONTROLLER = "SearchController";
-    private static final String SEARCH = "Search";
-    private static final String DETAIL_CONTROLLER = "DetailController";
+    private static final String SEARCHBOOK_CONTROLLER = "SearchBookController";
+    private static final String SEARCHBOOK = "SearchBook";
+    private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";
     private static final String BORROW_CONTROLLER = "BorrowController";
     private static final String BORROW = "Borrow";
@@ -33,12 +33,14 @@ public class MainController extends HttpServlet {
     private static final String VIEWBORROWSTAFF_CONTROLLER = "ViewborrowStaffController";
     private static final String CONFIRM = "Confirm";
     private static final String CONFIRM_CONTROLLER = "ConfirmController";
-    private static final String FINETICKET = "Fineticket";
-    private static final String FINETICKET_CONTROLLER = "FineticketController";
-    private static final String CREATEFINETICKET = "CreateFineticket";
-    private static final String CREATEFINETICKET_CONTROLLER = "CreateFineticketController";
-    private static final String VIEWFINETICKET = "ViewFineticket";
-    private static final String VIEWFINETICKET_CONTROLLER = "ViewFineticketController";
+    private static final String VIOLATIONTICKET = "Violationticket";
+    private static final String VIOLATIONTICKET_CONTROLLER = "ViolationticketController";
+    private static final String CREATEVIOLATIONTICKET = "CreateFineticket";
+    private static final String CREATEVIOLATIONTICKET_CONTROLLER = "CreateViolationticketController";
+    private static final String VIEWVIOLATIONTICKET = "ViewFineticket";
+    private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
+    private static final String REGISTER = "Register";
+    private static final String REGISTER_CONTROLLER = "RegisterController";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -48,8 +50,8 @@ public class MainController extends HttpServlet {
             String action = request.getParameter("action");
             if (LOGIN.equals(action)) {
                 url = LOGIN_CONTROLLER;
-            } else if (SEARCH.equals(action)) {
-                url = SEARCH_CONTROLLER;
+            } else if (SEARCHBOOK.equals(action)) {
+                url = SEARCHBOOK_CONTROLLER;
             } else if (DETAIL.equals(action)) {
                 url = DETAIL_CONTROLLER;
             } else if (BORROW.equals(action)) {
@@ -62,12 +64,14 @@ public class MainController extends HttpServlet {
                 url = VIEWBORROWSTAFF_CONTROLLER;
             } else if (CONFIRM.equals(action)) {
                 url = CONFIRM_CONTROLLER;
-            }else if (FINETICKET.equals(action)) {
-                url = FINETICKET_CONTROLLER;
-            }else if (CREATEFINETICKET.equals(action)) {
-                url = CREATEFINETICKET_CONTROLLER;
-            }else if (VIEWFINETICKET.equals(action)) {
-                url = VIEWFINETICKET_CONTROLLER;
+            }else if (VIOLATIONTICKET.equals(action)) {
+                url = VIOLATIONTICKET_CONTROLLER;
+            }else if (CREATEVIOLATIONTICKET.equals(action)) {
+                url = CREATEVIOLATIONTICKET_CONTROLLER;
+            }else if (VIEWVIOLATIONTICKET.equals(action)) {
+                url = VIEWVIOLATIONTICKET_CONTROLLER;
+            }else if (REGISTER.equals(action)) {
+                url = REGISTER_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

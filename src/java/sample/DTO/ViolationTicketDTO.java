@@ -4,6 +4,8 @@
  */
 package sample.DTO;
 
+import java.sql.Date;
+
 /**
  *
  * @author NhatTan
@@ -12,15 +14,17 @@ public class ViolationTicketDTO {
 
     private int violationTicketID;
     private int bookingTicketID;
+    private Date createDate;
     private String description;
-    private String ticketStatus;
+    private boolean ticketStatus;
     private String staffID;
 
     public ViolationTicketDTO() {
     }
 
-    public ViolationTicketDTO(int bookingTicketID, String description, String ticketStatus, String staffID) {
+    public ViolationTicketDTO(int bookingTicketID, Date createDate, String description, boolean ticketStatus, String staffID) {
         this.bookingTicketID = bookingTicketID;
+        this.createDate = createDate;
         this.description = description;
         this.ticketStatus = ticketStatus;
         this.staffID = staffID;
@@ -50,11 +54,11 @@ public class ViolationTicketDTO {
         this.description = description;
     }
 
-    public String getTicketStatus() {
+    public boolean getTicketStatus() {
         return ticketStatus;
     }
 
-    public void setTicketStatus(String ticketStatus) {
+    public void setTicketStatus(boolean ticketStatus) {
         this.ticketStatus = ticketStatus;
     }
 
@@ -64,6 +68,14 @@ public class ViolationTicketDTO {
 
     public void setStaffID(String staffID) {
         this.staffID = staffID;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     @Override

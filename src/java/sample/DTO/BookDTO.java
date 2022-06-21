@@ -14,23 +14,23 @@ public class BookDTO {
     private String bookName;
     private int quantity;
     private String bookshelf;
-    private int languageID;
+    private String language;
     private String description;
     private String DDC;
-    private int authorID;
-    private int publisherID;
+    private String author;
+    private String publisher;
     private String publishYear;
     private String image;
 
-    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, int languageID, int authorID, int publisherID, String publishYear, String image) {
+    public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, String language, String author, String publisher, String publishYear, String image) {
         this.bookName = bookName;
         this.quantity = Quantity;
         this.bookshelf = bookshelf;
         this.description = description;
         this.DDC = DDC;
-        this.languageID = languageID;
-        this.authorID = authorID;
-        this.publisherID = publisherID;
+        this.language = language;
+        this.author = author;
+        this.publisher = publisher;
         this.publishYear = publishYear;
         this.image = image;
     }
@@ -67,12 +67,12 @@ public class BookDTO {
         this.bookshelf = bookshelf;
     }
 
-    public int getLanguageID() {
-        return languageID;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setLanguageID(int languageID) {
-        this.languageID = languageID;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getDescription() {
@@ -91,20 +91,20 @@ public class BookDTO {
         this.DDC = DDC;
     }
 
-    public int getAuthorID() {
-        return authorID;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorID(int authorID) {
-        this.authorID = authorID;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public int getPublisherID() {
-        return publisherID;
+    public String getPublisher() {
+        return publisher;
     }
 
-    public void setPublisherID(int publisherID) {
-        this.publisherID = publisherID;
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
     }
 
     public String getPublishYear() {
