@@ -42,7 +42,7 @@ public class ViewborrowController extends HttpServlet {
                 request.setAttribute("ListBorrow", list);
                 url = "borrow.jsp";
             } else {
-                url = "login.html";
+                url = "login.jsp";
             }
         } catch (Exception e) {
             log("Error at ViewborrowController: " + e.toString());

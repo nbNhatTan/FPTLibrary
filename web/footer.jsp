@@ -6,7 +6,7 @@
           <div class="col-md-3 col-lg-4 col-xl-3">
             <h5>About</h5>
             <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-            <p class="mb-0">Assignment PRJ301 SP2022</p>
+            <p class="mb-0">Project SWP391 SU2022</p>
           </div>
 
           <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
@@ -26,10 +26,10 @@
             <h5>Contact</h5>
             <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
             <ul class="list-unstyled">
-              <li><i class="fa fa-home mr-2"></i> FPT Uni</li>
-              <li><i class="fa fa-envelope mr-2"></i> andeptrai@gmail.com</li>
-              <li><i class="fa fa-phone mr-2"></i> + 84 877660374</li>
-              <li><i class="fa fa-print mr-2"></i></li>
+              <li><i class="mr-2"></i> FPT Uni</li>
+              <li><i class="mr-2"></i>Github</li>
+              <li><i class="mr-2"></i></li>
+              <li><i class="mr-2"></i></li>
             </ul>
           </div>
           <div class="col-12 copyright mt-3">
