@@ -41,6 +41,10 @@ public class MainController extends HttpServlet {
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
+    private static final String LOADACCOUNT = "LoadAccount";
+    private static final String LOADACCOUNT_CONTROLLER = "LoadAccountController";
+    private static final String UPDATEACCOUNT = "UpdateAccount";
+    private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -72,6 +76,10 @@ public class MainController extends HttpServlet {
                 url = VIEWVIOLATIONTICKET_CONTROLLER;
             }else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
+            }else if (LOADACCOUNT.equals(action)) {
+                url = LOADACCOUNT_CONTROLLER;
+            }else if (UPDATEACCOUNT.equals(action)) {
+                url = UPDATEACCOUNT_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

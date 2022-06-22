@@ -1,9 +1,10 @@
 <%-- 
     Document   : register
-    Created on : Jun 15, 2022, 7:43:12 AM
-    Author     : NhatTan
+    Created on : Jun 15, 2022, 9:59:49 PM
+    Author     : Admin
 --%>
 
+<%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -27,31 +28,34 @@
     <body>
        <jsp:include page="header.jsp"></jsp:include>
 
-
-
-        <div>
+<div>
 
 
             <div>
 
-
-
             </div>
-            <h3 class="title-text">REGISTER</h3>
+            <h3 class="title-text">UPDATE ACCOUNT</h3>
             <%
                 AccountError accountError = (AccountError) request.getAttribute("ACCOUNT_ERROR");
                 if (accountError == null) {
                     accountError = new AccountError();
                 }
+                
+                AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
             %>
             <form action="MainController" method="POST">
 
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
-                        <td><input name="accountID" type="text" placeholder="Enter accountID" required=""><%= accountError.getAccountIDError()%></td>
+                        <td><input name="accountID" type="text" value="<%= acc.getAccountID()%>" readonly=""></td>
                     </tr>
 
+                    <tr>
+                        <td><label for="">Role ID:</label></td>
+                        <td><input name="roleID"type="text" value="<%= acc.getRoleID()%>" readonly=""></td>                            
+                    </tr>
+                    
                     <tr>
                         <td><label for="">Full Name:</label></td>
                         <td><input name="fullName" type="text" placeholder="Enter Full Name" required=""><%= accountError.getFullNameError()%></td>                            
@@ -59,17 +63,12 @@
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="text" placeholder="Enter Password" required=""></td>
+                        <td><input name="password" type="password" placeholder="Enter Password" required=""></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="text" placeholder="Enter Password" required=""><%= accountError.getConfirmError()%></td>                            
-                    </tr>
-
-                    <tr>
-                        <td><label for="">Role ID:</label></td>
-                        <td><input name="roleID"type="text" placeholder="Enter Role ID" required=""><%= accountError.getRoleIDError()%></td>                            
+                        <td><input name="confirm" type="password" placeholder="Enter Password" required=""><%= accountError.getConfirmError()%></td>                            
                     </tr>
 
                     <tr>
@@ -89,17 +88,17 @@
 
                     <tr>
                         <td></td>
-                        <td class="a"><a href="login.html"><button type="button" class="btn btn-light btn-sm">Cancel</button></a>
-                            <button class="btn btn-warning btn-sm" type="submit" name="action" value="Register">Register</button></td>
+                        <td class="a"><button class="btn btn-warning btn-sm" type="submit" name="action" value="UpdateAccount">UPDATE</button></td>
+
                     </tr>
 
                 </table>
             </form>
 
         </div>
-    </div>
 
 
-   <jsp:include page="footer.jsp"></jsp:include>
+
+    <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
