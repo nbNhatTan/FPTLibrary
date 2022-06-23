@@ -22,7 +22,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <form action="MainController">
                     <input type="text" name="search" placeholder="Search">
                     <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
@@ -33,6 +33,10 @@
                 if (acc != null) {
             %>
             <div class="col-md-2 col">
+
+                <%
+                    if (acc.getRoleID() == 2 || acc.getRoleID() == 3) {
+                %>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <h5><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <%=acc.getFullName()%></a></h5>
@@ -41,8 +45,32 @@
                         <a class="nav-link" href="LogoutController">Logout</a>
                     </li>
                 </ul>
-            </div>
 
+                <%
+                } else {
+                %>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <h5><a class="nav-link" href="">Hello <%=acc.getFullName()%></a></h5>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="LogoutController">Logout</a>
+                    </li>
+                </ul>
+                <%
+                    }
+                %>
+
+            </div>
+            <%
+                } else {
+            %>
+            <div class="col-md-1 col">
+                <a class="btn btn-warning btn-sm user" href="login.jsp"> LOGIN </a>
+            </div>
+            <%
+                }
+            %>
         </div>
     </nav>
 
@@ -64,31 +92,30 @@
                     <li class="nav-item">
                         <a class="nav-link" href="about.jsp">About</a>
                     </li>
-
                     <%
-                        if (acc.getRoleID() == 0) {
+                        if(acc != null){
+                            if (acc.getRoleID() == 1) {
                     %>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Manager Account</a>
+                        <a class="nav-link" href="managerAccount.jsp">Manager Account</a>
                     </li>
                     <%
-                        }
-                        if (acc.getRoleID() == 2) {
+                            }
+                            if (acc.getRoleID() == 2) {
                     %>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="ViewborrowController">Borrow List</a>
+                        <a class="nav-link" href="ViewborrowController">Staff Borrow List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="ViewViolationController">Violation List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">New List</a>
-                        <%
+                    </li>
+                    <%
                             }
-                            if (acc.getRoleID() == 1) {
-                        %>
-
+                            if (acc.getRoleID() == 3) {
+                    %>
                     <li class="nav-item">
                         <a class="nav-link" href="AdvancedSearch.html">Advanced Search</a>
                     </li>
@@ -99,16 +126,9 @@
                         <a class="nav-link" href="#">Following</a>
                     </li>
                     <%
-                        }
-                    } else {
-                    %>
-                    <div class="col-md-1 col">
-                        <a class="btn btn-warning btn-sm user" href="login.jsp"> LOGIN </a>
-                    </div>
-                    <%
+                            }
                         }
                     %>
-
                     </li>
                 </ul>
             </div>
