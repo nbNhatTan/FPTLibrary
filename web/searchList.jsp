@@ -83,7 +83,7 @@
                             %>
                         </div>
 
-                        <div class="wrapper-column-2">
+                        
 
                         </div>
                     </div>

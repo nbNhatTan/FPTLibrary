@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6 container-fluid">
                             <h5><%= book.getBookName()%></h5>
-                            <table width="100%">
+                            <table class="table" width="100%">
                                 <tr>
                                     <td><h6>Authors: </h6></td>
                                     <td><%= book.getAuthor()%></td>
