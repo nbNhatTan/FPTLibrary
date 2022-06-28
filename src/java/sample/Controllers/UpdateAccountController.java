@@ -5,57 +5,76 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
+import sample.DTO.AccountError;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "UpdateAccountController", urlPatterns = {"/UpdateAccountController"})
+public class UpdateAccountController extends HttpServlet {
 
-    private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "";
-    private static final String PAGE = "HomeController";
+    private static final String ERROR = "LoadAccountController";
+    private static final String SUCCESS = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+         String url = ERROR;
         try {
-            String accID = request.getParameter("accountID");
+            String accountID = request.getParameter("accountID");
+            String fullName = request.getParameter("fullName");
+            String roleID = request.getParameter("roleID");
             String password = request.getParameter("password");
+            String confirm = request.getParameter("confirm");
+            String email = request.getParameter("email");
+            String address = request.getParameter("address");
+            String phone = request.getParameter("phone");
+
+            boolean checkValidation = true;
+            AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
-            if (loginAccount != null) {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    int roleID = loginAccount.getRoleID();
-                    if (roleID == 0) {
-                        url = ADMIN_PAGE;
-                    } else if (roleID == 1 || roleID == 2) {
-                        url = PAGE;
-                    } else {
-                        request.setAttribute("ERROR", "Your role is not support !!!");
-                    }
-                } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
-                }
-            } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!!!");
+
+            if (fullName.length() < 5 || fullName.length() > 20) {
+                accountError.setFullNameError("FullName must be in [5, 20]");
+                checkValidation = false;
+            }
+            if (!password.equals(confirm)) {
+                accountError.setConfirmError("Password must equals!");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+                accountError.setEmailError("Email not correct!");
+                checkValidation = false;
+            }
+            if (address.length() < 5 || address.length() > 40) {
+                accountError.setAddressError("Address must be in [5, 40]");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("\\d{10,12}", phone)) {
+                accountError.setPhoneError("Phone must be number and in [10, 12]");
+                checkValidation = false;
             }
 
+            if (checkValidation) {
+                AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
+                boolean checkUpdate = dao.update(account);
+                if (checkUpdate) {
+                    url = SUCCESS;
+                }
+            } else {
+                request.setAttribute("ACCOUNT_ERROR", accountError);
+            }
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at CreateController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

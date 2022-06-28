@@ -23,7 +23,6 @@ import sample.DTO.ViolationTicketDTO;
 @WebServlet(name = "ViewViolationController", urlPatterns = {"/ViewViolationController"})
 public class ViewViolationController extends HttpServlet {
 
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,11 +34,26 @@ public class ViewViolationController extends HttpServlet {
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
 
             if (loginAccount != null) {
-                List<ViolationTicketDTO> list = dao.GetListViolationTicket_StaffID(loginAccount.getAccountID());
+                String staffID = request.getParameter("staffID");
+                if (staffID == null) {
+                    staffID = "%%";
+                }
+
+                String status = request.getParameter("status");
+                int paid;
+                if (status == null) {
+                    paid = 2;
+                } else {
+                    paid = Integer.parseInt(status);
+                }
+
+                List<ViolationTicketDTO> list = dao.GetListViolationTicket_StaffID(staffID, paid);
                 request.setAttribute("ListViolationStaff", list);
+                request.setAttribute("StaffID", staffID);
+                request.setAttribute("Status", status);
                 url = "violation.jsp";
             } else {
-                url = "error.jsp";
+                url = "login.jsp";
             }
         } catch (Exception e) {
             log("Error at ViewViolationController: " + e.toString());

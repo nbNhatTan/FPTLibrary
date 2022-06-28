@@ -36,7 +36,7 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "Home.jsp";
+        String url = "home.jsp";
         try {
             BookDAO dao = new BookDAO();
             List<BookDTO> top5Book = dao.getTop5Book();
@@ -49,7 +49,6 @@ public class HomeController extends HttpServlet {
 
             NewsDTO news = dao.getNews();
             request.setAttribute("NEWS", news);
-String s="";
         } catch (Exception e) {
             log("Error at ViewborrowController: " + e.toString());
         } finally {

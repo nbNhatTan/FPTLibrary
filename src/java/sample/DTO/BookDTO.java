@@ -34,7 +34,18 @@ public class BookDTO {
         this.publishYear = publishYear;
         this.image = image;
     }
-
+    public BookDTO(){
+        this.bookName = "";
+        this.quantity = 0;
+        this.bookshelf = "";
+        this.description = "";
+        this.DDC = "";
+        this.language = "";
+        this.author = "";
+        this.publisher = "";
+        this.publishYear = "";
+        this.image = "";
+    }
     public int getBookID() {
         return bookID;
     }
