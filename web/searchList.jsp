@@ -64,7 +64,7 @@
 
                                     <div class="book">
                                         <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                            <img src="<%= book.getImage()%>"> 
+                                            <img src="<%= book.getImage()%>" width="180" height="260"> 
                                             <h3>
                                                 <%= book.getBookName()%>
                                             </h3>

@@ -50,8 +50,8 @@
                                 %>
                                     <div class="col-md-2 new-item text-center">
                                         <img src="<%=p.getImage()%>"
-                                             width="188"
-                                             height="230" />
+                                             width="180"
+                                             height="260" />
                                         <p><a href="MainController?action=Detail&bookID=<%=p.getBookID()%>"><%=p.getBookName()%></a></p>
                                     </div>                            
                                 <%
