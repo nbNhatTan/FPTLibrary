@@ -38,31 +38,33 @@
             <div class="main">
                 <div class="row news">
                     <div class="col-md-1"></div>
-                    <div class="col-md-10 contents">
+                        <div class="col-md-10 contents">
 
-                        <div class="new row">
-                        <%
-                            List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
-                            if (list != null) {
-                                if (list.size() > 0) {
-                                    for (BookDTO p : list) {
-                        %>
-                        <div class="col-md-2 new-item text-center">
-                            <img src="<%=p.getImage()%>"
-                                 width="188"
-                                 height="230" />
-                            <p><a href="MainController?action=Detail&bookID=<%=p.getBookID()%>"><%=p.getBookName()%></a></p>
-                        </div>                            
-                        <%
+                            <div class="new row">
+                                <div class="col-md-1"></div>
+                                <%
+                                    List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                                    if (list != null) {
+                                        if (list.size() > 0) {
+                                            for (BookDTO p : list) {
+                                %>
+                                    <div class="col-md-2 new-item text-center">
+                                        <img src="<%=p.getImage()%>"
+                                             width="188"
+                                             height="230" />
+                                        <p><a href="MainController?action=Detail&bookID=<%=p.getBookID()%>"><%=p.getBookName()%></a></p>
+                                    </div>                            
+                                <%
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                        %>
-                    </div>
+                                %>
+                                <div class="col-md-1"></div>
+                            </div>
 
+                        </div>
+                    <div class="col-md-1"></div>
                 </div>
-                <div class="col-md-1"></div>
-            </div>
             <hr height="100">
             <div class="contents row">
                 <div class="col-md-1"></div>
@@ -95,7 +97,7 @@
                                     for (NewsDTO n : listN) {
                         %>
                         <div >
-                            <h6><a href="" title="View Product"><%= n.getTitle()%></a></h6>
+                            <h6><a href=""><%= n.getTitle()%></a></h6>
                         </div>
                         <%
                                     }

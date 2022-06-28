@@ -35,14 +35,20 @@ public class MainController extends HttpServlet {
     private static final String CONFIRM_CONTROLLER = "ConfirmController";
     private static final String VIOLATIONTICKET = "Violationticket";
     private static final String VIOLATIONTICKET_CONTROLLER = "ViolationticketController";
-    private static final String CREATEVIOLATIONTICKET = "CreateFineticket";
-    private static final String CREATEVIOLATIONTICKET_CONTROLLER = "CreateViolationticketController";
+    private static final String CREATEVIOLATIONTICKET = "CreateViolationticket";
+    private static final String CREATEVIOLATIONTICKET_CONTROLLER = "CreateViolationController";
     private static final String VIEWVIOLATIONTICKET = "ViewFineticket";
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
     private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
     private static final String ADVANCESEARCH = "AdvanceSearch";
+    private static final String UPDATEACCOUNT = "UpdateAccount";
+    private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
+    private static final String VIEWBORROWDETAIL = "View";
+    private static final String VIEWBORROWDETAIL_CONTROLLER = "ViewBorrowDetailController";
+    private static final String ADDBOOK = "AddBook";
+    private static final String ADDBOOK_CONTROLLER = "AddBookController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -76,6 +82,12 @@ public class MainController extends HttpServlet {
                 url = REGISTER_CONTROLLER;
             } else if (ADVANCESEARCH.equals(action)) {
                 url = ADVANCESEARCH_CONTROLLER;
+            }else if (UPDATEACCOUNT.equals(action)) {
+                url = UPDATEACCOUNT_CONTROLLER;
+            }else if (VIEWBORROWDETAIL.equals(action)) {
+                url = VIEWBORROWDETAIL_CONTROLLER;
+            }else if (ADDBOOK.equals(action)) {
+                url = ADDBOOK_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

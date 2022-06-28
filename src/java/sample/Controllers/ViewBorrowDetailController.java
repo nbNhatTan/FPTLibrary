@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -15,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author admin
+ * @author NhatTan
  */
-@WebServlet(name = "BookingConfirmController", urlPatterns = {"/BookingConfirmController"})
-public class BookingConfirmController extends HttpServlet {
+@WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
+public class ViewBorrowDetailController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +36,10 @@ public class BookingConfirmController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookingConfirmController</title>");            
+            out.println("<title>Servlet ViewBorrowDetailController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BookingConfirmController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewBorrowDetailController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

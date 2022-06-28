@@ -5,6 +5,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,9 +21,18 @@ import sample.DTO.BorrowDTO;
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "ViewborrowStaffController", urlPatterns = {"/ViewborrowStaffController"})
+public class ViewborrowStaffController extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,16 +41,26 @@ public class ViewborrowController extends HttpServlet {
             TicketDAO dao = new TicketDAO();
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            String status = request.getParameter("borrowStatus");
             if (loginAccount != null) {
                 List<BorrowDTO> list;
-                list = dao.GetListTicket_UserID(loginAccount.getAccountID());
+                if (status == null) {
+                    list = dao.GetListTicket_StaffID(loginAccount.getAccountID());
+                } else {
+                    if (status.equals("Pending")) {
+                        list = dao.GetListTicket_Status("", status);
+                    } else {
+                        list = dao.GetListTicket_Status(loginAccount.getAccountID(), status);
+                    }
+                }
                 request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
+                request.setAttribute("Status", status);
+                url = "borrowStaff.jsp";
             } else {
                 url = "login.jsp";
             }
         } catch (Exception e) {
-            log("Error at ViewborrowController: " + e.toString());
+            log("Error at ViewborrowStaffController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

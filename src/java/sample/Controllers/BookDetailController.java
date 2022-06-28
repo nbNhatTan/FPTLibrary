@@ -32,7 +32,7 @@ public class BookDetailController extends HttpServlet {
             String bookID = request.getParameter("bookID");
             String action = request.getParameter("action");
             BookDAO dao = new BookDAO();
-            BookDTO book = dao.getProductByID(Integer.parseInt(bookID));
+            BookDTO book = dao.getBookByID(Integer.parseInt(bookID));
             if (book != null) {
                 request.setAttribute("DETAIL_BOOK", book);
                 url = SUCCESS;

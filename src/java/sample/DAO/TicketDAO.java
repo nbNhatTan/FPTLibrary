@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import sample.DTO.BookDTO;
 import sample.DTO.BookingTicketDTO;
 import sample.DTO.BorrowDTO;
 import sample.DTO.ViolationTicketDTO;
@@ -26,14 +25,27 @@ public class TicketDAO {
 //    private static final String GETLISTTICKET_USERID = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus FROM tblBookingTicket WHERE userID = ?";//user
 //    private static final String GETLISTTICKET_STATUS = "SELECT bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket WHERE userID = ? AND borrowStatus = ?";
     private static final String GETLISTBOOKNAME_USERID = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ?";//user
-    private static final String GETLISTBOOKNAME_STATUS = "SELECT b.[image], b.bookName, t.bookingTicketID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID WHERE t.userID = ? AND borrowStatus = ?";
-    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus FROM tblViolationTicket WHERE staffID = ?";//staff
+    private static final String GETLISTBOOKNAME_STATUS = "SELECT b.[image], b.bookName, t.bookingTicketID, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
+            + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
+            + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
+            + "WHERE s.staffID like ? AND t.borrowStatus like ?";
+    private static final String GETLISTBOOKTICKET_PENDING = "SELECT b.[image], b.bookName, t.bookingTicketID, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
+            + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID \n"
+            + "WHERE t.borrowStatus like 'Pending'";
+    private static final String GETLISTVIOLATIONTICKET_STAFFID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus FROM tblViolationTicket WHERE staffID like ?";//staff
+    private static final String GETLISTVIOLATIONTICKET_STAFFID_STATUS = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus FROM tblViolationTicket WHERE staffID like ? AND ticketStatus = ?";//staff
     private static final String GETVIOLATIONTICKET_BOOKINGTICKETID = "SELECT violationTicketID, bookingTicketID, createDate, description, ticketStatus, staffID FROM tblViolationTicket WHERE bookingTicketID = ?";//user
     private static final String CREATE_BOOKINGTICKET = "INSERT INTO tblBookingTicket(userID, bookItemID, borrowDate, expiredDate, borrowStatus) VALUES (?,?,?,?,?)";
-    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, createDate, description, ticketStatus, staffID) VALUES (?,?,?,?)";
-    //private static final String GETLISTTICKET_STAFFID = "SELECT bookItemID, borrowDate, expiredDate, returnDate FROM tblBookingTicket e JOIN tblStaffTicket a ON e.bookingTicketID = a.ticketID WHERE a.staffID = ?";
+    private static final String CREATE_VIOLATIONTICKET = "INSERT INTO tblViolationTicket(bookingTicketID, createDate, description, ticketStatus, staffID) VALUES (?,?,?,?,?)";
+    private static final String GETLISTBOOKNAME_STAFFID = "SELECT b.[image], b.bookName, t.bookingTicketID, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
+            + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
+            + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
+            + "WHERE s.staffID like ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
-    private static final String CONFIRMBOOKINGTICKET = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
+    private static final String UPDATEBOOKINGTICKET_STATUS = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID = ?";
     private static final String UPDATEVIOLATIONSTATUS = "UPDATE tblViolationTicket SET ticketStatus=? WHERE violationTicketID=?";
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
@@ -97,7 +109,12 @@ public class TicketDAO {
                     Date expiredDate = rs.getDate("expiredDate");
                     Date returnDate = rs.getDate("returnDate");
                     String borrowStatus = rs.getString("borrowStatus");
-                    list.add(new BorrowDTO(image, bookName, bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus));
+                    long now = System.currentTimeMillis();
+                    long expire = expiredDate.getTime();
+                    if (now > expire) {
+                        borrowStatus = "Expired";
+                    }
+                    list.add(new BorrowDTO(image, bookName, bookingTicketID, userID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus));
                 }
             }
         } catch (Exception e) {
@@ -116,45 +133,7 @@ public class TicketDAO {
         return list;
     }
 
-//    public List<BookingTicketDTO> GetListTicket_Status(String userID, String status) throws SQLException {
-//        List<BookingTicketDTO> list = new ArrayList<>();
-//        Connection conn = null;
-//        PreparedStatement ptm = null;
-//        ResultSet rs = null;
-//        try {
-//            conn = DBUtils.getConnection();
-//            if (conn != null) {
-//                ptm = conn.prepareStatement(GETLISTTICKET_STATUS);
-//                ptm.setString(1, userID);
-//                ptm.setString(2, status);
-//                rs = ptm.executeQuery();
-//                while (rs.next()) {
-//                    int bookingTicketID = rs.getInt("bookingTicketID");
-//                    String bookItemID = rs.getString("bookItemID");
-//                    Date borrowDate = rs.getDate("borrowDate");
-//                    Date expiredDate = rs.getDate("expiredDate");
-//                    Date returnDate = rs.getDate("returnDate");
-//                    BookingTicketDTO bookingTicket = new BookingTicketDTO(userID, bookItemID, borrowDate, expiredDate, returnDate, status);
-//                    bookingTicket.setBookingTicketID(bookingTicketID);
-//                    list.add(bookingTicket);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (rs != null) {
-//                rs.close();
-//            }
-//            if (ptm != null) {
-//                ptm.close();
-//            }
-//            if (conn != null) {
-//                conn.close();
-//            }
-//        }
-//        return list;
-//    }
-    public List<BorrowDTO> GetListTicket_Status(String userID, String status) throws SQLException {
+    public List<BorrowDTO> GetListTicket_StaffID(String staffID) throws SQLException {
         List<BorrowDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -162,19 +141,107 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(GETLISTBOOKNAME_STATUS);
-                ptm.setString(1, userID);
-                ptm.setString(2, status);
+                ptm = conn.prepareStatement(GETLISTBOOKNAME_STAFFID);
+                ptm.setString(1, staffID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String image = rs.getString("image");
                     String bookName = rs.getString("bookName");
                     int bookingTicketID = rs.getInt("bookingTicketID");
+                    String userID = rs.getString("userID");
                     String bookItemID = rs.getString("bookItemID");
                     Date borrowDate = rs.getDate("borrowDate");
                     Date expiredDate = rs.getDate("expiredDate");
                     Date returnDate = rs.getDate("returnDate");
-                    list.add(new BorrowDTO(image, bookName, bookingTicketID, bookItemID, borrowDate, expiredDate, returnDate, status));
+                    String borrowStatus = rs.getString("borrowStatus");
+                    long now = System.currentTimeMillis();
+                    long expire = expiredDate.getTime();
+                    if (now > expire) {
+                        borrowStatus = "Expired";
+                    }
+                    list.add(new BorrowDTO(image, bookName, bookingTicketID, userID, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+    //    public List<BookingTicketDTO> GetListTicket_Status(String userID, String status) throws SQLException {
+    //        List<BookingTicketDTO> list = new ArrayList<>();
+    //        Connection conn = null;
+    //        PreparedStatement ptm = null;
+    //        ResultSet rs = null;
+    //        try {
+    //            conn = DBUtils.getConnection();
+    //            if (conn != null) {
+    //                ptm = conn.prepareStatement(GETLISTTICKET_STATUS);
+    //                ptm.setString(1, userID);
+    //                ptm.setString(2, status);
+    //                rs = ptm.executeQuery();
+    //                while (rs.next()) {
+    //                    int bookingTicketID = rs.getInt("bookingTicketID");
+    //                    String bookItemID = rs.getString("bookItemID");
+    //                    Date borrowDate = rs.getDate("borrowDate");
+    //                    Date expiredDate = rs.getDate("expiredDate");
+    //                    Date returnDate = rs.getDate("returnDate");
+    //                    BookingTicketDTO bookingTicket = new BookingTicketDTO(userID, bookItemID, borrowDate, expiredDate, returnDate, status);
+    //                    bookingTicket.setBookingTicketID(bookingTicketID);
+    //                    list.add(bookingTicket);
+    //                }
+    //            }
+    //        } catch (Exception e) {
+    //            e.printStackTrace();
+    //        } finally {
+    //            if (rs != null) {
+    //                rs.close();
+    //            }
+    //            if (ptm != null) {
+    //                ptm.close();
+    //            }
+    //            if (conn != null) {
+    //                conn.close();
+    //            }
+    //        }
+    //        return list;
+    //    }
+
+    public List<BorrowDTO> GetListTicket_Status(String staffID, String status) throws SQLException {
+        List<BorrowDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (staffID.equals("")) {
+                    ptm = conn.prepareStatement(GETLISTBOOKTICKET_PENDING);
+                } else {
+                    ptm = conn.prepareStatement(GETLISTBOOKNAME_STATUS);
+                    ptm.setString(1, staffID);
+                    ptm.setString(2, status);
+                }
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String image = rs.getString("image");
+                    String bookName = rs.getString("bookName");
+                    int bookingTicketID = rs.getInt("bookingTicketID");
+                    String userID = rs.getString("userID");
+                    String bookItemID = rs.getString("bookItemID");
+                    Date borrowDate = rs.getDate("borrowDate");
+                    Date expiredDate = rs.getDate("expiredDate");
+                    Date returnDate = rs.getDate("returnDate");
+                    list.add(new BorrowDTO(image, bookName, bookingTicketID, userID, bookItemID, borrowDate, expiredDate, returnDate, status));
                 }
             }
         } catch (Exception e) {
@@ -193,7 +260,7 @@ public class TicketDAO {
         return list;
     }
 
-    public List<ViolationTicketDTO> GetListViolationTicket_StaffID(String staffID) throws SQLException {
+    public List<ViolationTicketDTO> GetListViolationTicket_StaffID(String staffID, int status) throws SQLException {
         List<ViolationTicketDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -201,8 +268,14 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(GETLISTVIOLATIONTICKET_STAFFID);
-                ptm.setString(1, staffID);
+                if (status == 2) {
+                    ptm = conn.prepareStatement(GETLISTVIOLATIONTICKET_STAFFID);
+                    ptm.setString(1, staffID);
+                } else {
+                    ptm = conn.prepareStatement(GETLISTVIOLATIONTICKET_STAFFID_STATUS);
+                    ptm.setString(1, staffID);
+                    ptm.setInt(2, status);
+                }
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int violationTicketID = rs.getInt("violationTicketID");
@@ -313,12 +386,16 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
+                ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
+                ptm.setString(1, "HandleViolation");
+                ptm.setInt(2, ticket.getBookingTicketID());
+                ptm.executeUpdate();
                 ptm = conn.prepareStatement(CREATE_VIOLATIONTICKET);
                 ptm.setInt(1, ticket.getBookingTicketID());
-                ptm.setDate(1, ticket.getCreateDate());
-                ptm.setString(2, ticket.getDescription());
-                ptm.setBoolean(3, ticket.getTicketStatus());
-                ptm.setString(4, ticket.getStaffID());
+                ptm.setDate(2, ticket.getCreateDate());
+                ptm.setString(3, ticket.getDescription());
+                ptm.setBoolean(4, ticket.getTicketStatus());
+                ptm.setString(5, ticket.getStaffID());
                 ptm.execute();
                 rs = ptm.getGeneratedKeys();
                 while (rs.next()) {
@@ -351,11 +428,11 @@ public class TicketDAO {
                 ptm.setDate(1, returnDate);
                 ptm.setString(2, "Returned");
                 ptm.setInt(3, bookingTicketID);
-                check1 = ptm.executeUpdate() > 0 ? true : false;
+                check1 = ptm.executeUpdate() > 0;
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
                 ptm.setString(1, "On Bookshelf");
                 ptm.setInt(2, bookingTicketID);
-                check2 = ptm.executeUpdate() > 0 ? true : false;
+                check2 = ptm.executeUpdate() > 0;
             }
             check = check1 && check2;
         } catch (Exception e) {
@@ -380,14 +457,14 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CONFIRMBOOKINGTICKET);
+                ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
                 ptm.setString(1, "Borrowing");
                 ptm.setInt(2, bookingTicketID);
-                check1 = ptm.executeUpdate() > 0 ? true : false;
+                check1 = ptm.executeUpdate() > 0;
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
                 ptm.setString(1, "Borrowing");
                 ptm.setInt(2, bookingTicketID);
-                check2 = ptm.executeUpdate() > 0 ? true : false;
+                check2 = ptm.executeUpdate() > 0;
             }
             check = check1 && check2;
         } catch (Exception e) {
@@ -413,7 +490,7 @@ public class TicketDAO {
                 ptm = conn.prepareStatement(UPDATEVIOLATIONSTATUS);
                 ptm.setString(1, ticketStatus);
                 ptm.setString(2, violationTicketID);
-                check = ptm.executeUpdate() > 0 ? true : false;
+                check = ptm.executeUpdate() > 0;
             }
         } catch (Exception e) {
             e.toString();
@@ -467,10 +544,10 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_VIOLATIONTICKET);
+                ptm = conn.prepareStatement(CREATESTAFFTICKET);
                 ptm.setString(1, staffID);
                 ptm.setInt(2, ticketID);
-                check = ptm.executeUpdate() > 0 ? true : false;
+                check = ptm.executeUpdate() > 0;
             }
         } catch (Exception e) {
             e.toString();
