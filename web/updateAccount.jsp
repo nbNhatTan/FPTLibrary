@@ -18,7 +18,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="CSS/style.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,42 +48,46 @@
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
-                        <td><input name="accountID" type="text" value="<%= acc.getAccountID()%>" readonly=""></td>
+                        <td><input name="accountID" type="text" class="form-control" value="<%= acc.getAccountID()%>" readonly=""></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Role ID:</label></td>
-                        <td><input name="roleID"type="text" value="<%= acc.getRoleID()%>" readonly=""></td>                            
+                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" readonly=""></td>                            
                     </tr>
                     
                     <tr>
                         <td><label for="">Full Name:</label></td>
-                        <td><input name="fullName" type="text" placeholder="Enter Full Name" required=""><%= accountError.getFullNameError()%></td>                            
+                        <td><input name="fullName" type="text" class="form-control" value="<%= acc.getFullName()%>" placeholder="Enter Full Name"><%= accountError.getFullNameError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="password" placeholder="Enter Password" required=""></td>
+                        <td><input name="password" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="password" placeholder="Enter Password" required=""><%= accountError.getConfirmError()%></td>                            
+                        <td><input name="confirm" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"><%= accountError.getConfirmError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Mail:</label></td>
-                        <td><input name="email" type="text" placeholder="Enter Mail" required=""><%= accountError.getEmailError()%></td>                            
+                        <td><input name="email" type="text" class="form-control" placeholder="Enter Mail" value="<%= acc.getEmail()%>"><%= accountError.getEmailError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Address:</label></td>
-                        <td><input name="address"type="text" placeholder="Enter Address" required=""><%= accountError.getAddressError()%></td>                            
+                        <td><input name="address"type="text" class="form-control" placeholder="Enter Address" value="<%= acc.getAddress()%>"><%= accountError.getAddressError()%></td>                            
                     </tr>
 
                     <tr>
-                        <td><label for="">Phone:</label></td>
-                        <td><input name="phone" type="text" placeholder="Enter Phone" required=""><%= accountError.getPhoneError()%></td>                            
+                        <td><label>Phone:</label></td>
+                        <td><input name="phone" type="text" class="form-control" placeholder="Enter Phone" value="<%= acc.getPhone()%>"><%= accountError.getPhoneError()%></td>                            
+                    </tr>                  
+                    <tr>
+                        <td></td>
+                        <td></td>                            
                     </tr>                  
 
                     <tr>

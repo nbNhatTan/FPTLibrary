@@ -1,13 +1,16 @@
 <%-- 
-    Document   : advancedSearch
-    Created on : Jun 22, 2022, 3:54:54 PM
-    Author     : Admin
+    Document   : advanceSearch
+    Created on : Jun 16, 2022, 11:25:37 AM
+    Author     : bachds
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
-<head>
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
@@ -19,7 +22,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="./style1.css" />
+
+        <link rel="stylesheet" href="CSS/style1.css" />
+        <link rel="stylesheet" href="CSS/advanceSearch.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,83 +32,116 @@
     </head>
 </head>
 <body>
-   <jsp:include page="header.jsp"></jsp:include>
-    <div class="main">
-        <div class="row news">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 contents">
-                <div class="content">
-                    
-                    <div class="row">
-                        
-                        <div class="col-md-6 container-fluid">
-                            <h5>Lập trình thật vui</h5>
-                            <table width="100%">
+    <jsp:include page="header.jsp"></jsp:include>
+        <div class="main">
+            <div class="row contents">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="content">
+
+                        <form action="MainController" method="POST">
+
+                            <table class="my-table container-fluid">
                                 <tr>
-                                    <td>Authors: </td>
-                                    <td>
-                                        xxxx
-                                    </td>
+                                    <td><label for="">Book Name:</label></td>
+                                    <td><input type="text" name="bookName" placeholder="can be blank..."></td>
+                                </tr>
+
+                                <tr>
+                                    <td><label for="">Publisher</label></td>
+                                    <td><input type="text" name="publisher" placeholder="can be blank..."></td>
                                 </tr>
                                 <tr>
-                                    <td>Publisher: </td>
-                                    <td>
-                                        Nhà xuất bản xxx
-                                    </td>
+                                    <td><label for="">Author</label></td>
+                                    <td><input type="text" name="author" placeholder="can be blank..."></td>
                                 </tr>
                                 <tr>
-                                    <td>Publication date: </td>
-                                    <td>2018</td>
+                                    <td><label for="">Language</label></td>
+                                    <td><input type="text" name="language" placeholder="can be blank..."></td>
                                 </tr>
-                                <tr>
-                                    <td>Edition: </td>
-                                    <td>Tái bản lần 2</td>
-                                </tr>
-                                <tr>
-                                    <td>Number of pages: </td>
-                                    <td>200</td>
-                                </tr>
-                                <tr>
-                                    <td>Language:</td>
-                                    <td>Tiếng Việt</td>
-                                </tr>
-                                <tr>
-                                    <td>Loại Sách:</td>
-                                    <td>Tạp chí Khoa Học</td>
-                                </tr>
+
+
                             </table>
-                            Booktag: 
+                            <div class="">
+                                <div class="padding">
 
-                            <p>Uploaded: 1 year, 3 months ago.</p>
-                            <p>Numbers: 20 left</p>
-                            
+                                    <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
 
-                        </div>
+                                    <button class="btn btn-warning btn-sm" type="reset">reset</button>
+                                </div>
+
+                            </div>
+                        </form>
                     </div>
+                    <div class="table-container content">
+                        <h1 class="heading"> Danh sách kết quả</h1>
+                        <table class="tableStyle book">
+                            <thead>
+                                <tr>
+                                    <th>Số thứ tự</th>
+                                    <th>Bìa sách</th>
+                                    <th>Nội dung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                                List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
+                                if (list != null) {
+                                    if (!list.isEmpty()) {
+                                        int count = 0;
+                                        for (BookDTO book : list) {
+                                            count++;
+                            %>
+                            <tr class="tb">
+                                <td class="tb" data-lable="Số thứ tự"><%= count%></td>
+                                <td class="tb" data-lable="Bìa sách"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
+                                <td class="tb" data-lable="Nội dung">
+                                    <div class="noBorder">
+                                        <table>
+                                            <tr>
+                                                <td>Tên sách:</td>
+                                                <td>
+                                                    <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                                        <%= book.getBookName()%>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tác giả:</td>
+                                                <td>
+                                                    <%= book.getPublisher()%>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nhà xuất bản:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                <td><%= book.getPublishYear()%></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ngôn ngữ:</td>
+                                                <td><%= book.getLanguage()%></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                            <%
+                                        }
+                                    }
+                                }
+                            %>
+                        </tbody>
+                    </table>
                 </div>
-
-
             </div>
             <div class="col-md-1"></div>
         </div>
-        <div class="contents row">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 contents">
-                <div class="content">
-                    <h6>Booking Confirm: </h6>
-                    <button class="btn btn-light btn-sm">Cancel</button>
-                    <button class="bookingButton btn btn-light btn-sm">Confirm</button>
-                </div>
 
-
-            </div>
-            <div class="col-md-1"></div>
-        </div>
-       
     </div>
-   <jsp:include page="footer.jsp"></jsp:include>
+
+    <jsp:include page="footer.jsp"></jsp:include>
 
 
-   
 </body>
 </html>

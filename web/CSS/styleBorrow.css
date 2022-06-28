@@ -26,15 +26,7 @@ html, body {
       padding: 40px;
       
   }
-  footer a {
-      color: #f8f9fa !important;
-  }
-
-
-
-
-
-
+  
 .table-container{
     padding: 0 10%;
     margin: 40px auto 0;
@@ -53,10 +45,11 @@ html, body {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 50px;
+    
   }
   
   .borrow-table thead{
-    background-color: #ff6f00;
+    background-color: #a0a0a0;
     text-align: center;
   
   }
@@ -70,7 +63,7 @@ html, body {
     opacity: 1;
     padding:12px;
     vertical-align: top;
-    border: 1px solid #00000085;
+    border: 1px solid #000000;
   
   }
   
@@ -78,8 +71,8 @@ html, body {
     font-size: 14px;
     letter-spacing: 0.35px;
     font-weight: normal;
-    color: #ffffff;
-    background-color: #a0a0a0;
+    color: #000000;
+    background-color: #e9ecef;
     padding: 8px;
     text-align: center;
     border: 1px solid #000;
@@ -93,13 +86,28 @@ html, body {
       letter-spacing: 0.35px;
       color: #0e740085;
   }
+  .borrow-table .Pending{
+      color: #ffa500;
+  }
+  .borrow-table .Borrowing{
+      color: #00b050;
+  }
+  .borrow-table .Returned{
+      color: #0008ff;
+  }
+  .borrow-table .Expired{
+      color: #f00;
+  }
+  .borrow-table .HandleViolation{
+      color: #ffa500;
+  }
   
   .pagination ul{
     display: flex;
-    background: rgb(191, 191, 191);
+    background: #e9ecef;
     padding: 8px;
     border-radius:50px ;
-    margin-left: 80px;
+    margin-left: 10%;
     border: 1px solid #000;
   }
   
@@ -151,5 +159,8 @@ html, body {
     color: #fff;
   }
   
+  a{
+      color: #343a40;
+  }
   
   

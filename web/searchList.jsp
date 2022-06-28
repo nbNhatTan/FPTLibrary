@@ -15,8 +15,8 @@
 
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="searchList.css">
-        <link rel="stylesheet" href="style1.css">
+        <link rel="stylesheet" href="CSS/searchList.css">
+        <link rel="stylesheet" href="CSS/style1.css">
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
         <title>Thư viện FPTU HCM</title>
         <link rel="stylesheet"

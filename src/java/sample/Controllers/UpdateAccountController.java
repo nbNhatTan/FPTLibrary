@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -18,7 +17,7 @@ import sample.DTO.AccountError;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
 @WebServlet(name = "UpdateAccountController", urlPatterns = {"/UpdateAccountController"})
 public class UpdateAccountController extends HttpServlet {

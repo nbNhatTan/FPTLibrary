@@ -23,7 +23,7 @@ import sample.DTO.AccountError;
 public class RegisterController extends HttpServlet {
 
     private static final String ERROR = "register.jsp";
-    private static final String SUCCESS = "login.html";
+    private static final String SUCCESS = "login.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

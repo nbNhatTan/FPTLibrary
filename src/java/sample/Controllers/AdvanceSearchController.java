@@ -5,42 +5,43 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.BookDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
+public class AdvanceSearchController extends HttpServlet {
+
+    private static final String ERROR = "advancedSearch.jsp";
+    private static final String SUCCESS = "advancedSearch.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "borrow.jsp";
+        String url = ERROR;
         try {
-            TicketDAO dao = new TicketDAO();
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount != null) {
-                List<BorrowDTO> list;
-                list = dao.GetListTicket_UserID(loginAccount.getAccountID());
-                request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
-            } else {
-                url = "login.jsp";
+            String bBookName = request.getParameter("bookName");
+            String bAuthor = request.getParameter("author");
+            String bPublisher = request.getParameter("publisher");
+            String bLanguage = request.getParameter("language");
+            BookDAO dao = new BookDAO();
+            List<BookDTO> listBook = dao.getListBook(bBookName,bAuthor,bPublisher,bLanguage);
+            if (!listBook.isEmpty()) {
+                request.setAttribute("ADVANCE_LIST_BOOK", listBook);
+                url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at ViewborrowController: " + e.toString());
+            log("Error at AdvanceSearchController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

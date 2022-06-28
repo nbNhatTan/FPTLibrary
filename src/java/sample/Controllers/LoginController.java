@@ -21,7 +21,7 @@ import sample.DTO.AccountDTO;
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
 
-    private static final String ERROR = "login.html";
+    private static final String ERROR = "login.jsp";
     private static final String ADMIN_PAGE = "";
     private static final String PAGE = "HomeController";
 
