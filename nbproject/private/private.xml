@@ -3,19 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/header.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/borrowStaff.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/addBook.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/home.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/CSS/searchList.css</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/AccountError.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/header.jsp</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/BookError.java</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/BookDTO.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/searchList.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/bookingConfirm.jsp</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/borrow.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/home.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/about.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/detail.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
         </group>
     </open-files>
 </project-private>

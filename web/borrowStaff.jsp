@@ -119,7 +119,7 @@
                                     <%
                                         if(p.getBorrowStatus().equals("Expired")){
                                     %>
-                                    <a href="createViolationTicket.jsp?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Create Violation</button></a>
+                                    <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%
                                         }
                                     %>
