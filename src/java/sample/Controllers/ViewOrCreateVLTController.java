@@ -5,57 +5,51 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
+import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "ViewOrCreateVLTController", urlPatterns = {"/ViewOrCreateVLTController"})
+public class ViewOrCreateVLTController extends HttpServlet {
 
-    private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "about.jsp";
-    private static final String PAGE = "HomeController";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = "ViolationDetailController";
         try {
-            String accID = request.getParameter("accountID");
-            String password = request.getParameter("password");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
-            if (loginAccount != null) {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    int roleID = loginAccount.getRoleID();
-                    if (roleID == 1) {
-                        url = ADMIN_PAGE;
-                    } else if (roleID == 2 || roleID == 3) {
-                        url = PAGE;
-                    } else {
-                        request.setAttribute("ERROR", "Your role is not support !!!");
-                    }
+            int bookingTicketID = Integer.parseInt(request.getParameter("bookingTicketID"));
+            TicketDAO dao = new TicketDAO();
+            if (dao.GetViolationTicket_BookingTicketID(bookingTicketID) == null) {
+                HttpSession session = request.getSession();
+                AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                if (loginAccount.getRoleID() == 2) {
+                    url = "createViolationTicket.jsp";
                 } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
+                    url = "ViewborrowController";
+                    request.setAttribute("MESSAGE", "Don't have any Staff create the ViolationTicket for this violation!");
                 }
-            } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!!!");
             }
-
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at ViewOrCreateVLTController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

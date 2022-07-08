@@ -81,12 +81,7 @@
                         %>
                         <tr>
                             <td>
-                                <img
-                                    src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/Young.png?v=1653570847480"
-                                    width="100"
-                                    height="150"
-                                    />
-
+                                <img src="<%= p.getImage() %>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookingTicketID()%></td>
                             <td><%= p.getUserID()%></td>
@@ -124,7 +119,7 @@
                                     <%
                                         if(p.getBorrowStatus().equals("Expired")){
                                     %>
-                                    <a href="createViolationTicket.jsp?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Create Violation</button></a>
+                                    <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%
                                         }
                                     %>

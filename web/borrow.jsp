@@ -61,12 +61,7 @@
                         %>
                         <tr>
                             <td>
-                                <img
-                                    src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/Young.png?v=1653570847480"
-                                    width="100"
-                                    height="150"
-                                    />
-
+                                <img src="<%= p.getImage()%>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookName()%></td>
                             <td><%= p.getBookingTicketID()%></td>
@@ -83,16 +78,14 @@
                             </td>
                             <td><span class="<%= p.getBorrowStatus()%>">[<%= p.getBorrowStatus()%>]</span> </td>
                             <td>
-                                <form action="MainController">
-                                    <input type="hidden" name="bookingTicketID" value="<%= p.getBookingTicketID()%>"/>
-                                    <%
-                                        if (p.getBorrowStatus().equals("Expired")) {
-                                    %>
-                                    <button class="btn btn-light btn-sm" name="action" value="">View Violation</button>
-                                    <%
-                                        }
-                                    %>
-                                </form>
+                                <a href="MainController?action=View&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
+                                <%
+                                    if (p.getBorrowStatus().equals("Expired")) {
+                                %>
+                                <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
+                                <%
+                                    }
+                                %>
                             </td>
                         </tr>
                         <%
