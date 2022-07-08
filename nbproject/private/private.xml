@@ -3,12 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/ViewborrowController.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/web/manageAccount.jsp</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/ViewBorrowDetailController.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/ViewViolationController.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/web/borrowStaff.jsp</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/ViewborrowStaffController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/AccountError.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/BookError.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DTO/BookDTO.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/addBook.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
         </group>
     </open-files>
 </project-private>
