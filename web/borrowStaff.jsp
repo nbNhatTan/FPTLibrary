@@ -63,7 +63,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>ID</th>
-                                <th>UserID</th>
+                                <th>Borrower</th>
                                 <th>BookItemID</th>
                                 <th>Borrow Date</th>
                                 <th>Expiry Date</th>
@@ -84,7 +84,7 @@
                                 <img src="<%= p.getImage() %>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookingTicketID()%></td>
-                            <td><%= p.getUserID()%></td>
+                            <td><%= p.getUserID().getFullName()%></td>
                             <td><%= p.getBookItemID()%></td>
                             <td><%= p.getBorrowDate()%></td>
                             <td><%= p.getExpiredDate()%></td>

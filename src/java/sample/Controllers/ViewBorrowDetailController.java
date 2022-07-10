@@ -5,12 +5,15 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import sample.DAO.TicketDAO;
+import sample.DTO.AccountDTO;
+import sample.DTO.BorrowDTO;
 
 /**
  *
@@ -19,29 +22,31 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
 public class ViewBorrowDetailController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String ERROR = "ViewborrowStaffController";
+    private static final String ERROR2 = "ViewborrowController";
+    private static final String SUCCESS = "detailBorrow.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewBorrowDetailController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewBorrowDetailController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = ERROR2;
+        try {
+            HttpSession session = request.getSession();
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (loginAccount.getRoleID() == 2) {
+                url = ERROR;
+            }
+            String bookingTicketID = request.getParameter("bookingTicketID");
+            TicketDAO dao = new TicketDAO();
+            BorrowDTO borrow = dao.getBorrowDetail(Integer.parseInt(bookingTicketID));
+            if (borrow != null) {
+                request.setAttribute("DETAIL_BORROW", borrow);
+                url = SUCCESS;
+            }
+        } catch (Exception e) {
+            log("Error at BookDetailController: " + e.toString());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

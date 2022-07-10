@@ -85,7 +85,8 @@
                             <a href="BookDetailController?action=BkConfirm&bookID=<%= book.getBookID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Book</button></a>
                             <%
                                 }
-                            %> 
+                            %>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
 
                         </div>
                     </div>

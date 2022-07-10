@@ -44,7 +44,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bookDetailImage text-center container-fluid">
-                                <img src="<%= borrow.getImage()%>"/>
+                                <img src="<%= borrow.getImage()%>" width="280" height="400"/>
                             </div>
                         </div>
                         <div class="col-md-6 container-fluid">
@@ -74,7 +74,20 @@
                                     <td><h6>Status: </h6></td>
                                     <td><%= borrow.getBorrowStatus()%></td>
                                 </tr>
+                                <tr>
+                                    <td><h6>Borrower: </h6></td>
+                                    <td><%= borrow.getUserID().getFullName()%></td>
+                                </tr>
+                                <tr>
+                                    <td><h6>Management staff: </h6></td>
+                                    <td><%= borrow.getStaffID().getFullName()%></td>
+                                </tr>
+                                <tr>
+                                    <td><br></td>
+                                </tr>
                             </table>
+                                <br>
+                            <button onclick="history.back()" type="button" class="btn btn-dark">Back to List</button>
                         </div>
                     </div>
                                 <%
