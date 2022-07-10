@@ -117,7 +117,7 @@
                                     %>
                                 </form>
                                     <%
-                                        if(p.getBorrowStatus().equals("Expired")){
+                                        if(p.getBorrowStatus().equals("Expired")||p.getBorrowStatus().equals("HandleViolation")){
                                     %>
                                     <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%

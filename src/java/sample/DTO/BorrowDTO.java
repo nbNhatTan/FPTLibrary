@@ -21,6 +21,7 @@ public class BorrowDTO {
     private Date expiredDate;
     private Date returnDate;
     private String borrowStatus;
+    private String staffID;
 
     public BorrowDTO(String image, String bookName, int bookingTicketID, String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
         this.image = image;
@@ -104,6 +105,14 @@ public class BorrowDTO {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+    public String getStaffID() {
+        return staffID;
+    }
+
+    public void setStaffID(String staffID) {
+        this.staffID = staffID;
     }
 
 }
