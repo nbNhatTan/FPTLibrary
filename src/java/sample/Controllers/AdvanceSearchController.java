@@ -22,7 +22,7 @@ import sample.DTO.BookDTO;
 @WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
 public class AdvanceSearchController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
+    private static final String ERROR = "advancedSearch.jsp";
     private static final String SUCCESS = "advancedSearch.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

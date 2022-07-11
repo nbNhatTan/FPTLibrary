@@ -38,13 +38,33 @@
             <div>
 
                 <div class="table-container">
-                    <h1 class = "heading">Borrow List</h1>
+                    <h3 class = "">
+                    <%
+                        String status = (String) request.getAttribute("Status");
+                        if(status==null) status="";
+                    %>
+                        <ol class="breadcrumb">
+                            <li class="nac-item">
+                                <a class="nav-link" href="ViewborrowStaffController"><%= status.equals("") ? "<strong>All Ticket</strong>" : "All Ticket"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Pending"><%= status.equals("Pending") ? "<strong>Confirmation</strong>" : "Confirmation"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Expired"><%= status.equals("Expired") ? "<strong>Ticket Expired</strong>" : "Ticket Expired"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Returned"><%= status.equals("Returned") ? "<strong>Borrowed Ticket</strong>" : "Borrowed Ticket"%></a>
+                            </li>
+                        </ol>
+                    </h3>
                     <table class="borrow-table">
                         <thead>
                             <tr>
                                 <th>Image</th>
-                                <th>Book Name</th>
-                                <th>BookingTicketID</th>
+                                <th>ID</th>
+                                <th>UserID</th>
+                                <th>BookItemID</th>
                                 <th>Borrow Date</th>
                                 <th>Expiry Date</th>
                                 <th>Return Date</th>
@@ -63,12 +83,14 @@
                             <td>
                                 <img src="<%= p.getImage() %>" width="100" height="150"/>
                             </td>
-                            <td><%= p.getBookName()%></td>
                             <td><%= p.getBookingTicketID()%></td>
+                            <td><%= p.getUserID()%></td>
+                            <td><%= p.getBookItemID()%></td>
                             <td><%= p.getBorrowDate()%></td>
                             <td><%= p.getExpiredDate()%></td>
                             <td>
-                                <% if (p.getReturnDate() == null) {
+                                <% 
+                                    if (p.getReturnDate() == null) {
                                         String returnDate = "";
                                         out.print(returnDate);
                                     } else {
@@ -80,14 +102,28 @@
                             <td>
                                 <form action="MainController">
                                     <input type="hidden" name="bookingTicketID" value="<%= p.getBookingTicketID()%>"/>
+                                    <button class="btn btn-light btn-sm" name="action" value="View">View</button>
                                     <%
-                                        if (p.getBorrowStatus().equals("Expired")) {
+                                        if(p.getBorrowStatus().equals("Pending")){
                                     %>
-                                    <button class="btn btn-light btn-sm" name="action" value="">View Violation</button>
+                                    <button class="btn btn-light btn-sm" name="action" value="Confirm">Confirm</button>
+                                    <%
+                                        }
+                                        if(p.getBorrowStatus().equals("Borrowing")){
+                                    %>
+                                    <button class="btn btn-light btn-sm" name="action" value="Return">Return</button>
                                     <%
                                         }
                                     %>
                                 </form>
+                                    <%
+                                        if(p.getBorrowStatus().equals("Expired")){
+                                    %>
+                                    <a href="createViolationTicket.jsp?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Create Violation</button></a>
+                                    <%
+                                        }
+                                    %>
+                               
                             </td>
                         </tr>
                         <%
@@ -117,7 +153,7 @@
                 <li class="numb"><span>5</span></li>
                 <li class="numb"><span>6</span></li>
                 <li class="dots"><span>...</span></li>
-                <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
+                <li class="btn next"><span>Next<i class="fas fa-angle-right"></i></span></li>
             </ul>
 
 

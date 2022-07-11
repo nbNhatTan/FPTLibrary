@@ -4,6 +4,7 @@
     Author     : NhatTan
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -30,11 +31,11 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <div class="main">
-        <div class="row news">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 contents">
-                <div class="content">
+        <div class="main">
+            <div class="row news">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="content">
                     <%
                         BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
                         if (book != null) {
@@ -77,7 +78,7 @@
                                     <td><%= book.getDescription()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Booktag: </h6></td>
+                                    <td><h6>Book Tag: </h6></td>
                                     <td></td>
                                 </tr>
                             </table>                            
@@ -113,36 +114,21 @@
 
                     <div class="new2 row" >
                         <div class="col-md-1"></div>
+                        <%
+                            List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                            if (list != null) {
+                                if (!list.isEmpty()) {
+                                    for (BookDTO b : list) {
+                        %>
                         <div class="col-md-2 new-item text-center">
-                            <img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/SEBook.png?v=1653570818013"
-                                 width="188"
-                                 height="230" />
-                            <p>Tuoi tre</p>
+                            <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><img src="<%= b.getImage()%>" width="188" height="230"/></a>
+                            <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><p><%= b.getBookName()%></p></a>
                         </div>
-                        <div class="col-md-2 new-item text-center">
-                            <img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/JBasicBook.png?v=1653570829608"
-                                 width="188"
-                                 height="230" />
-                            <p>Tuoi tre</p>
-                        </div>
-                        <div class="col-md-2 new-item text-center">
-                            <img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/ProgramingAndLife.png?v=1653570834023"
-                                 width="188"
-                                 height="230" />
-                            <p>Tuoi tre</p>
-                        </div>
-                        <div class="col-md-2 new-item text-center">
-                            <img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/Young.png?v=1653570847480"
-                                 width="188"
-                                 height="230" />
-                            <p>Tuoi tre</p>
-                        </div>
-                        <div class="col-md-2 new-item text-center">
-                            <img src="https://cdn.glitch.global/b5568004-6653-447c-bb6a-cd2cd0c89e38/Young.png?v=1653570847480"
-                                 width="188"
-                                 height="230" />
-                            <p>Tuoi tre</p>
-                        </div>
+                        <%
+                                    }
+                                }
+                            }
+                        %>
                         <div class="col-md-1"></div>
                     </div>
                 </div>

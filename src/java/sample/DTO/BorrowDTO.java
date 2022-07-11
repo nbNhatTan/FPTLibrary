@@ -15,16 +15,18 @@ public class BorrowDTO {
     private String image;
     private String bookName;
     private int bookingTicketID;
+    private String userID;
     private String bookItemID;
     private Date borrowDate;
     private Date expiredDate;
     private Date returnDate;
     private String borrowStatus;
 
-    public BorrowDTO(String image, String bookName, int bookingTicketID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
+    public BorrowDTO(String image, String bookName, int bookingTicketID, String userID, String bookItemID, Date borrowDate, Date expiredDate, Date returnDate, String borrowStatus) {
         this.image = image;
         this.bookName = bookName;
         this.bookingTicketID = bookingTicketID;
+        this.userID = userID;
         this.bookItemID = bookItemID;
         this.borrowDate = borrowDate;
         this.expiredDate = expiredDate;
@@ -96,5 +98,12 @@ public class BorrowDTO {
         this.borrowStatus = borrowStatus;
     }
 
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 
 }

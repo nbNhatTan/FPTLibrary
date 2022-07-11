@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import sample.DTO.BookDTO;
@@ -30,10 +31,8 @@ public class BookDAO {
     private static final String GETLIST_PACKAGE = "SELECT packageName, price, importDate FROM tblPackage";
     private static final String GETLIST_BOOKITEM = "SELECT bookItemID, bookID, bookStatus, packageID FROM tblBookItem";
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
-    private static final String COUNT = "SELECT COUNT bookItemID FROM tblBookItem WHERE bookID = ?";
-    private static final String GETBOOKBYID = "SELECT bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
-    private static final String CREATE_TABLE = "INSERT INTO ?(?) VALUES (?)";
-    private static final String GET_TABLE = "SELECT ? FROM ? WHERE ? LIKE ? ";
+    private static final String COUNT = "SELECT COUNT(bookItemID) FROM tblBookItem WHERE bookID = ?";
+    private static final String GETBOOKBYID = "SELECT bookName, quantity, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
     private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook ORDER BY bookID DESC";
     private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
     private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
@@ -52,18 +51,18 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_BOOK);
+                ptm = conn.prepareStatement(CREATE_BOOK,Statement.RETURN_GENERATED_KEYS);
                 ptm.setString(1, book.getBookName());
                 ptm.setInt(2, book.getQuantity());
                 ptm.setString(3, book.getBookshelf());
-                ptm.setString(4, book.getDescription());
-                ptm.setString(5, book.getDDC());
-                ptm.setInt(6, findInformationID(book.getLanguage(), "Language"));
+                ptm.setInt(4, findInformationID(book.getLanguage(), "Language"));
+                ptm.setString(5, book.getDescription());
+                ptm.setString(6, book.getDDC());
                 ptm.setInt(7, findInformationID(book.getAuthor(), "Author"));
                 ptm.setInt(8, findInformationID(book.getPublisher(), "Publisher"));
                 ptm.setString(9, book.getPublishYear());
                 ptm.setString(10, book.getImage());
-                ptm.executeQuery();
+                ptm.executeUpdate();
                 rs = ptm.getGeneratedKeys();
                 while (rs.next()) {
                     id = rs.getInt(1);
@@ -90,11 +89,11 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_PACKAGE);
+                ptm = conn.prepareStatement(CREATE_PACKAGE, Statement.RETURN_GENERATED_KEYS);
                 ptm.setString(1, pack.getPackageName());
                 ptm.setInt(2, pack.getPrice());
                 ptm.setDate(3, pack.getImportDate());
-                ptm.executeQuery();
+                ptm.execute();
                 rs = ptm.getGeneratedKeys();
                 while (rs.next()) {
                     id = rs.getInt(1);
@@ -113,8 +112,8 @@ public class BookDAO {
         return id;
     }
 
-    public int createBookItem(int bookID, int packageID) throws SQLException {
-        int id = 0;
+    public int insertBookItem(int bookID, int packageID) throws SQLException {
+        int total = 0;
         int count = 0;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -128,13 +127,18 @@ public class BookDAO {
                 while (rs.next()) {
                     count = rs.getInt(1);
                 }
-                String bookItemID = bookID + "-" + count;
-                ptm = conn.prepareStatement(CREATE_BOOKITEM);
-                ptm.setString(1, bookItemID);
-                ptm.setInt(2, bookID);
-                ptm.setString(3, "In bookshelf");
-                ptm.setInt(4, packageID);
-                ptm.executeQuery();
+                int quantity = getBookByID(bookID).getQuantity();
+                for (int i = 0; i < quantity; i++) {
+                    count++;
+                    String bookItemID = bookID + "-" + count;
+                    ptm = conn.prepareStatement(CREATE_BOOKITEM);
+                    ptm.setString(1, bookItemID);
+                    ptm.setInt(2, bookID);
+                    ptm.setString(3, "On bookshelf");
+                    ptm.setInt(4, packageID);
+                    ptm.executeUpdate();
+                    total++;
+                }
             }
         } catch (Exception e) {
             e.toString();
@@ -146,7 +150,7 @@ public class BookDAO {
                 conn.close();
             }
         }
-        return id;
+        return total;
     }
 
     public List<BookDTO> getListBook(String search) throws SQLException {
@@ -284,7 +288,7 @@ public class BookDAO {
         return check;
     }
 
-    public BookDTO getProductByID(int bookID) throws SQLException {
+    public BookDTO getBookByID(int bookID) throws SQLException {
         BookDTO book;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -297,6 +301,7 @@ public class BookDAO {
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String bookName = rs.getString("bookName");
+                    int quantity = rs.getInt("quantity");
                     String bookshelf = rs.getString("bookshelf");
                     String image = rs.getString("image");
                     String description = rs.getString("description");
@@ -305,7 +310,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    book = new BookDTO(bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     return book;
                 }
@@ -334,23 +339,26 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_BOOK);
+
                 String table = "tbl" + infor + "s";
                 String labelName = infor.toLowerCase() + "Name";
                 String labelID = infor.toLowerCase() + "ID";
-                ptm.setString(1, labelID);
-                ptm.setString(2, table);
-                ptm.setString(3, labelName);
-                ptm.setString(4, name);
+                String sql = "SELECT " + labelID + " FROM " + table + " WHERE " + labelName + " LIKE '" + name + "'";
+                ptm = conn.prepareStatement(sql);
+//                ptm.setString(1, labelID);
+//                ptm.setString(2, table);
+//                ptm.setString(3, labelName);
+//                ptm.setString(4, name);
                 rs = ptm.executeQuery();
                 if (rs.next()) {
                     id = rs.getInt(1);
                 } else {
-                    ptm = conn.prepareStatement(CREATE_TABLE);
-                    ptm.setString(1, table);
-                    ptm.setString(2, labelName);
-                    ptm.setString(3, name);
-                    ptm.executeQuery();
+                    sql = "INSERT INTO " + table + "(" + labelName + ") VALUES ('" + name + "')";
+                    ptm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//                    ptm.setString(1, table);
+//                    ptm.setString(2, labelName);
+//                    ptm.setString(3, name);
+                    ptm.executeUpdate();
                     rs = ptm.getGeneratedKeys();
                     if (rs.next()) {
                         id = rs.getInt(1);

@@ -53,7 +53,7 @@ public class BorrowController extends HttpServlet {
 
                 request.setAttribute("MESSAGE", "Borrow successfully");
             } else {
-                url = "login.html";
+                url = "login.jsp";
             }
         } catch (Exception e) {
             log("Error at BorrowController: " + e.toString());

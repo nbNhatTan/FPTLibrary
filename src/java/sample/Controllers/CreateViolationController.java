@@ -30,12 +30,10 @@ public class CreateViolationController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = "ViewViolationController";
         try {
-            String bookID = request.getParameter("bookID");
-
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             int bookingTicketID = Integer.parseInt(request.getParameter("bookingTicketID"));
-            String description = request.getParameter("bookingTicketID");
+            String description = request.getParameter("description");
             if (loginAccount != null) {
                 long millis = System.currentTimeMillis();
                 java.sql.Date createDate = new java.sql.Date(millis);
@@ -44,9 +42,9 @@ public class CreateViolationController extends HttpServlet {
                 TicketDAO dao = new TicketDAO();
                 dao.createViolationTicket(ticket);
 
-                request.setAttribute("MESSAGE", "Borrow successfully");
+                request.setAttribute("MESSAGE", "Create successfully");
             } else {
-                url = "HomeController";
+                url = "login.jsp";
             }
         } catch (Exception e) {
             log("Error at CreateViolationController: " + e.toString());

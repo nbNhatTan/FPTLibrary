@@ -4,7 +4,7 @@
     Author     : Admin
 --%>
 
-<%@page import="sample.Error.BookError"%>
+<%@page import="sample.DTO.BookError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -49,50 +49,49 @@
                         <td><label for="">Book Name:</label></td>
                         <td><input name="bookName" type="text" placeholder="Enter Book Name" required=""><%= bookError.getBookNameError()%></td>
                     </tr>
-
                     <tr>
                         <td><label for="">Quantity:</label></td>
                         <td><input name="quantity" type="text" placeholder="Enter Quantity" required=""><%= bookError.getQuantityError()%></td>                            
                     </tr>
-
                     <tr>
                         <td><label for="">Bookshelf:</label></td>
                         <td><input name="bookshelf" type="text" placeholder="Enter Bookshelf" required=""><%= bookError.getBookshelfError()%></td>                            
                     </tr>
-                    
                     <tr>
                         <td><label for="">Language:</label></td>
                         <td><input name="language" type="text" placeholder="Enter Language" required=""><%= bookError.getLanguageError()%></td>                            
                     </tr>
-                    
-                    <tr>
-                        <td><label for="">Description:</label></td>
-                        <td><input name="description" type="text" placeholder="Enter Description" required=""><%= bookError.getDescriptionError()%></td>                            
-                    </tr>
-                    
-                    <tr>
-                        <td><label for="">DDC:</label></td>
-                        <td><input name="DDC" type="text" placeholder="Enter DDC" required=""><%= bookError.getDDCError()%></td>                            
-                    </tr>
-                    
                     <tr>
                         <td><label for="">Author:</label></td>
                         <td><input name="author" type="text" placeholder="Enter Author" required=""><%= bookError.getAuthorError()%></td>                            
                     </tr>
-                    
                     <tr>
                         <td><label for="">Publisher:</label></td>
                         <td><input name="publisher" type="text" placeholder="Enter Publisher" required=""><%= bookError.getPublisherError()%></td>                            
                     </tr>
-                    
+                    <tr>
+                        <td><label for="">Description:</label></td>
+                        <td><input name="description" type="text" placeholder="Enter Description" required=""><%= bookError.getDescriptionError()%></td>                            
+                    </tr>
+                    <tr>
+                        <td><label for="">DDC:</label></td>
+                        <td><input name="DDC" type="text" placeholder="Enter DDC" required=""><%= bookError.getDDCError()%></td>                            
+                    </tr>
                     <tr>
                         <td><label for="">Publish Year:</label></td>
                         <td><input name="publishYear" type="text" placeholder="Enter Publish Year" required=""><%= bookError.getPublishYearError()%></td>                            
                     </tr>
-                    
                     <tr>
                         <td><label for="">Image:</label></td>
                         <td><input name="image" type="text" placeholder="Enter Image" required=""><%= bookError.getImageError()%></td>                            
+                    </tr>
+                    <tr>
+                        <td><label for="">Package Name:</label></td>
+                        <td><input name="packageName" type="text" placeholder="Enter Package Name" required=""><%= bookError.getPackageNameError()%></td>                            
+                    </tr>
+                    <tr>
+                        <td><label for="">Price:</label></td>
+                        <td><input name="price" type="text" placeholder="Enter Price" required=""><%= bookError.getPriceError()%></td>                            
                     </tr>
                     <tr>
                         <td></td>

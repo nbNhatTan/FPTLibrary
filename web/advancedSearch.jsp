@@ -10,8 +10,7 @@
 <!DOCTYPE html>
 
 <html>
-    
-    <head>
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
@@ -34,81 +33,76 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <div class="main">
-        <div class="row contents">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 contents">
-                <div class="content">
+        <div class="main">
+            <div class="row contents">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="content">
 
-                    <form action="MainController" method="POST">
+                        <form action="MainController" method="POST">
 
-                        <table class="my-table container-fluid">
-                            <tr>
-                                <td><label for="">Book Name:</label></td>
-                                <td><input type="text" name="bookName" placeholder="can be blank..."></td>
-                            </tr>
+                            <table class="my-table container-fluid">
+                                <tr>
+                                    <td><label for="">Book Name:</label></td>
+                                    <td><input type="text" name="bookName" placeholder="can be blank..."></td>
+                                </tr>
 
-                            <tr>
-                                <td><label for="">Publisher</label></td>
-                                <td><input type="text" name="publisher" placeholder="can be blank..."></td>
-                            </tr>
-                            <tr>
-                                <td><label for="">Author</label></td>
-                                <td><input type="text" name="author" placeholder="can be blank..."></td>
-                            </tr>
-                            <tr>
-                                <td><label for="">Language</label></td>
-                                <td><input type="text" name="language" placeholder="can be blank..."></td>
-                            </tr>
+                                <tr>
+                                    <td><label for="">Publisher</label></td>
+                                    <td><input type="text" name="publisher" placeholder="can be blank..."></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="">Author</label></td>
+                                    <td><input type="text" name="author" placeholder="can be blank..."></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="">Language</label></td>
+                                    <td><input type="text" name="language" placeholder="can be blank..."></td>
+                                </tr>
 
 
-                        </table>
-                        <div class="">
-                            <div class="padding">
+                            </table>
+                            <div class="">
+                                <div class="padding">
 
-                                <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
+                                    <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
 
-                                <button class="btn btn-warning btn-sm" type="reset">reset</button>
+                                    <button class="btn btn-warning btn-sm" type="reset">reset</button>
+                                </div>
+
                             </div>
-
-                        </div>
-                    </form>
-                </div>
-                <%
-                    List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
-                    if (list != null) {
-                        if (!list.isEmpty()) {
-                            int count = 0;
-                %>
-                <div class="table-container content">
-                    <h1 class="heading"> Danh sách kết quả</h1>
-                    <table class="tableStyle book">
-                        <thead>
-                            <tr>
-                                <th>Số thứ tự</th>
-                                <th>Bìa sách</th>
-                                <th>Nội dung</th>
-
-
-                            </tr>
-                        </thead>
-                        <tbody>
-
+                        </form>
+                    </div>
+                    <div class="table-container content">
+                        <h1 class="heading"> Danh sách kết quả</h1>
+                        <table class="tableStyle book">
+                            <thead>
+                                <tr>
+                                    <th>Số thứ tự</th>
+                                    <th>Bìa sách</th>
+                                    <th>Nội dung</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                             <%
-                                for (BookDTO book : list) {
-                                    count++;
+                                List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
+                                if (list != null) {
+                                    if (!list.isEmpty()) {
+                                        int count = 0;
+                                        for (BookDTO book : list) {
+                                            count++;
                             %>
                             <tr class="tb">
                                 <td class="tb" data-lable="Số thứ tự"><%= count%></td>
                                 <td class="tb" data-lable="Bìa sách"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
                                 <td class="tb" data-lable="Nội dung">
                                     <div class="noBorder">
-                                        <table width="100%">
+                                        <table>
                                             <tr>
-                                                <td>Tên sách: </td>
+                                                <td>Tên sách:</td>
                                                 <td>
                                                     <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                                    <%= book.getBookName()%>
+                                                        <%= book.getBookName()%>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -119,11 +113,11 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Nhà xuất bản:</td>
+                                                <td>Nhà xuất bản:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                                 <td><%= book.getPublishYear()%></td>
                                             </tr>
                                             <tr>
-                                                <td>Ngôn ngữ: </td>
+                                                <td>Ngôn ngữ:</td>
                                                 <td><%= book.getLanguage()%></td>
                                             </tr>
                                         </table>
@@ -133,28 +127,20 @@
 
                             </tr>
                             <%
+                                        }
+                                    }
                                 }
                             %>
-
-
                         </tbody>
-
                     </table>
-
                 </div>
-                <%
-                        }
-                    }
-                %>
-
-
             </div>
             <div class="col-md-1"></div>
         </div>
 
     </div>
-   
-<jsp:include page="footer.jsp"></jsp:include>
+
+    <jsp:include page="footer.jsp"></jsp:include>
 
 
 </body>

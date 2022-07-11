@@ -25,6 +25,7 @@ public class AccountDAO {
     private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
     private static final String CHECK_DUPLICATE = "SELECT accountID FROM tblAccounts WHERE accountID=?";
     private static final String CREATE = "INSERT INTO tblAccounts(accountID, fullName, password, roleID, email, address, phone, status) VALUES (?,?,?,?,?,?,?,?)";
+    private static final String GET = "SELECT fullName, password, roleID, email, address, phone, status FROM tblAccounts WHERE accountID = ?";
 
     public AccountDTO checkLogin(String accountID, String password) throws SQLException {
         AccountDTO acc = null;
@@ -62,6 +63,45 @@ public class AccountDAO {
             }
         }
         return acc;
+    }
+
+    public AccountDTO getAccountByID(String AccountID) throws SQLException {
+        AccountDTO account;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GET);
+                ptm.setString(1, AccountID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String fullName = rs.getString("fullName");
+                    String password = rs.getString("password");
+                    int roleID = rs.getInt("roleID");
+                    String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    String phone = rs.getString("phone");
+                    Boolean status = rs.getBoolean("status");
+                    account = new AccountDTO(AccountID, fullName, password, roleID, email, address, phone, status);
+                    return account;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
     }
 
     public List<AccountDTO> getListAccount(String search) throws SQLException {

@@ -1,3 +1,4 @@
+
 /*
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
@@ -69,7 +70,7 @@ html, body {
   }
   
   .tableStyle thead{
-    background-color: #a0a0a0;
+    background-color: #ff6f00;
     text-align: center;
   
   }
@@ -90,8 +91,8 @@ html, body {
         font-size: 14px;
         letter-spacing: 0.35px;
         font-weight: normal;
-        color: #000000;
-        background-color: #e9ecef;
+        color: #222222;
+        background-color: #e8e8e8;
         padding: 8px;
         text-align: center;
         border: 1px solid #000;
@@ -161,5 +162,4 @@ html, body {
     width: 115.36px;
     height: 153.35px;
 }
-  
   

@@ -5,42 +5,38 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
+import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
 
-/**
- *
- * @author NhatTan
- */
-@WebServlet(name = "ViewborrowController", urlPatterns = {"/ViewborrowController"})
-public class ViewborrowController extends HttpServlet {
+@WebServlet(name = "LoadAccountController", urlPatterns = {"/LoadAccountController"})
+public class LoadAccountController extends HttpServlet {
+
+    private static final String ERROR = "HomeController";
+    private static final String SUCCESS = "updateAccount.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "borrow.jsp";
+        String url = ERROR;
         try {
-            TicketDAO dao = new TicketDAO();
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            AccountDAO dao = new AccountDAO();
             if (loginAccount != null) {
-                List<BorrowDTO> list;
-                list = dao.GetListTicket_UserID(loginAccount.getAccountID());
-                request.setAttribute("ListBorrow", list);
-                url = "borrow.jsp";
-            } else {
-                url = "login.jsp";
+                AccountDTO account = dao.getAccountByID(loginAccount.getAccountID());
+                if (account != null) {
+                    request.setAttribute("ACCOUNT_DETAIL", account);
+                    url = SUCCESS;
+                }
             }
         } catch (Exception e) {
-            log("Error at ViewborrowController: " + e.toString());
+            log("Error at LoadAccountController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
