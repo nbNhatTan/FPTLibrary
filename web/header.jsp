@@ -95,10 +95,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="managerAccount.jsp">Manager Account</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="feedback.jsp">View feedback</a>
+                </li>
+                
                 <%
                         }
                         if (acc.getRoleID() == 2) {
                 %>
+                
+                
                 <li class="nav-item">
                     <a class="nav-link" href="addBook.jsp">Add Book</a>
                 </li>
