@@ -29,7 +29,7 @@ public class RegisterController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID");
+            String accountID = request.getParameter("accountID").replaceAll("\\s","").trim();
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");

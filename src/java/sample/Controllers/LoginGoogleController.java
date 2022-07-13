@@ -42,7 +42,7 @@ public class LoginGoogleController extends HttpServlet {
             String accessToken = getToken(code);
             GoogleDTO userGoogle= getUserInfo(accessToken);
             
-            String accID = userGoogle.getGiven_name();
+            String accID = userGoogle.getGiven_name().replaceAll("\\s","").trim();
             String password = userGoogle.getId();
             String fullName = userGoogle.getName();
             String email = userGoogle.getEmail();
@@ -53,7 +53,7 @@ public class LoginGoogleController extends HttpServlet {
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
+                    session.setAttribute("LOGIN_ACCOUNT", account);
                     url = SUCCESS;
                 }
             } else {
