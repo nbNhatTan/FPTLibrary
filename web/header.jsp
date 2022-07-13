@@ -119,7 +119,7 @@
                         if (acc.getRoleID() == 3) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="advancedSearch.jsp">Advanced Search</a>
+                    <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="LoadAdvancedSearchController">Advanced Search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/borrow.jsp")?"active":""%>" href="ViewborrowController">Borrow List</a>

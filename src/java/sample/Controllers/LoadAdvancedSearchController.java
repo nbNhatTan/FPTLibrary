@@ -6,40 +6,44 @@ package sample.Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.DAO.TicketDAO;
-import sample.DTO.ViolationTicketDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.CategoryDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViolationDetailController", urlPatterns = {"/ViolationDetailController"})
-public class ViolationDetailController extends HttpServlet {
+@WebServlet(name = "LoadAdvancedSearchController", urlPatterns = {"/LoadAdvancedSearchController"})
+public class LoadAdvancedSearchController extends HttpServlet {
 
-    private static final String ERROR = "ViewViolationController";
-    private static final String SUCCESS = "violationDetail.jsp";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
         try {
-            String violationTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            ViolationTicketDTO violation = dao.getViolationDetail(Integer.parseInt(violationTicketID));
-            if (violation != null) {
-                request.setAttribute("DETAIL_VIOLATION", violation);
-                url = SUCCESS;
+            BookDAO dao = new BookDAO();
+            List<CategoryDTO> listCategory = dao.getAllBookTag();
+            if (!listCategory.isEmpty()) {
+                request.setAttribute("LIST_CATEGORY", listCategory);
             }
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at LoadAdvancedSearchController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
         }
     }
 

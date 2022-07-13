@@ -67,21 +67,31 @@
                                 </tr>
                                 <tr>
                                     <td><h6>Status: </h6></td>
-                                    <td><%=violation.getTicketStatus()%></td>
+                                    <%
+                                        if (violation.getTicketStatus()) {
+                                    %>
+                                    <td><span style="color: #f00">[Unpaid]</span> </td>
+                                    <%
+                                        } else {
+                                    %>
+                                    <td><span style="color: #00b050"</span> </td>
+                                    <%
+                                        }
+                                    %>
                                 </tr>
                             </table>                            
                             <%
                                 AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-                                if(loginAccount.getRoleID() == 2){
+                                if (loginAccount.getRoleID() == 2){
                             %>
-                            <a href="PayViolationController?violationTicketID=<%= violation.getViolationTicketID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Return</button></a>
+                            <a href="PayViolationController?violationTicketID=<%= violation.getViolationTicketID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Pay</button></a>
                             <%
                                 }
                             %>
-                            <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
-                            <%
-                                }
-                            %> 
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back to List</button>
+                    <%
+                        }
+                    %> 
 
                         </div>
                         <div class="col-md-3"></div>

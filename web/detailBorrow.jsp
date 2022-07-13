@@ -72,7 +72,10 @@
                                 </tr>
                                 <tr>
                                     <td><h6>Status: </h6></td>
-                                    <td><%= borrow.getBorrowStatus()%></td>
+                                    <td><span style="color: <%=borrow.getBorrowStatus().equals("Pending")?"#ffa500":
+                                                               borrow.getBorrowStatus().equals("Borrowing")?"#00b050":
+                                                               borrow.getBorrowStatus().equals("Returned")?"#0008ff":
+                                                               borrow.getBorrowStatus().equals("Expired")?"#f00":"#ffa500"%>">[<%= borrow.getBorrowStatus()%>]</span> </td>
                                 </tr>
                                 <tr>
                                     <td><h6>Borrower: </h6></td>
@@ -87,7 +90,7 @@
                                 </tr>
                             </table>
                                 <br>
-                            <button onclick="history.back()" type="button" class="btn btn-dark">Back to List</button>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back to List</button>
                         </div>
                     </div>
                                 <%

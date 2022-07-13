@@ -50,6 +50,7 @@ public class TicketDAO {
             + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
             + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
             + "WHERE t.bookingTicketID like ?";
+    private static final String GETVIOLATIONDETAIL = "SELECT violationTicketID, staffID, createDate, description, ticketStatus FROM tblViolationTicket WHERE bookingTicketID like ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKINGTICKET_STATUS = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID = ?";
@@ -322,7 +323,7 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(GETLISTVIOLATIONTICKET_STAFFID);
+                ptm = conn.prepareStatement(GETVIOLATIONTICKET_BOOKINGTICKETID);
                 ptm.setInt(1, bookingTicketID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -597,6 +598,44 @@ public class TicketDAO {
                     borrow = new BorrowDTO(image, bookName, bookingTicketID, user, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus);
                     borrow.setStaffID(staff);
                     return borrow;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
+    public ViolationTicketDTO getViolationDetail(int bookingTicketID) throws SQLException {
+        ViolationTicketDTO violation;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETVIOLATIONDETAIL);
+                ptm.setInt(1, bookingTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int violationTicketID = rs.getInt("violationTicketID");
+                    String staffID = rs.getString("staffID");
+                    String description = rs.getString("description");
+                    boolean ticketStatus = rs.getBoolean("ticketStatus");
+                    Date createDate = rs.getDate("createDate");
+                    violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
+                    violation.setViolationTicketID(violationTicketID);
+                    return violation;
                 }
             }
         } catch (Exception e) {

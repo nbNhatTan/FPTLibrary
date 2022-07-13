@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/borrowStaff.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/bookingConfirm.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/HomeController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/TicketDAO.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/detailBorrow.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViewborrowStaffController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViewBorrowDetailController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/detail.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/CreateViolationController.java</file>
+        </group>
     </open-files>
 </project-private>
