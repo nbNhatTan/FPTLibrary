@@ -1,7 +1,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<footer class="navbar navbar-expand-md navbar-light">
+<footer class="text-light">
     <div class="container">
         <div class="row" style="width: 1140px">
             <div class="col-md-6 col-lg-6 col-xl-5">

@@ -36,14 +36,25 @@
 
                     <table class="my-table">
                         <tr>
-                            <td><label for="">User: </label></td>
+                            <td><label>User: </label></td>
                             <td><input type="text" name="accountID" placeholder="Enter User Name"></td>
                         </tr>
                         <tr>
-                            <td><label for="">Password: </label></td>
+                            <td><label>Password: </label></td>
                             <td><input type="password" name="password" placeholder="Enter Password"></td>
                         </tr>
+                        <<tr>
+                            <<td></td>
+                            <td>
+                            <%
+                                String message = (String) request.getAttribute("ERROR");
+                                if(message == null) message="";
+                                out.print(message);   
+                            %>
+                            </td>
+                        </tr>
                     </table>
+                    
                     <div class="row b">
                         <div  class="col-md-5"></div>
                         <div class="col-md-2">

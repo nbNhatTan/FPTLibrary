@@ -37,12 +37,12 @@
         <div class="main">
             <div class="row contents">
                 <div class="col-md-1"></div>
-                <div class="col-md-10 contents">
-                    <div class="content">
+                <div class="col-md-10 content">
+                    <div class="content"  style="padding-left: 35%;">
 
                         <form action="MainController" method="POST">
 
-                            <table class="my-table container-fluid">
+                            <table class="my-table">
                                 <%
                                     String bookName = (String) request.getAttribute("bookName");
                                     String publisher = (String) request.getAttribute("publisher");
@@ -55,6 +55,9 @@
                                     if(language == null) language = "";
                                     if(categoryId == null) categoryId = "";
                                 %>
+                                <tr>
+                                    <td><label for="">&nbsp;</label></td>
+                                </tr>
                                 <tr>
                                     <td><label for="">Book Name:</label></td>
                                     <td><input type="text" name="bookName" placeholder="can be blank..." value="<%=bookName%>"></td>
@@ -95,16 +98,17 @@
                                         </li>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <br>
+                                        <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
+                                        <a href="LoadAdvancedSearchController"><button class="btn btn-warning btn-sm" type="button">reset</button></a>
+                                    </td>
+                                </tr>
 
                             </table>
-                            <div class="">
-                                <div class="padding">
-
-                                    <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
-                                    <a href="LoadAdvancedSearchController"><button class="btn btn-warning btn-sm" type="button">reset</button></a>
-                                </div>
-
-                            </div>
+                            
                         </form>
                     </div>
                 <div class="table-container content">
@@ -174,6 +178,12 @@
                     <%
                             }
                         }
+                        String message = (String) request.getAttribute("message");
+                        if(message != null){
+                    %>
+                        <h1 class="heading"><%=message%></h1>
+                    <%
+                        }
                     %>
                 </div>
             </div>
@@ -183,12 +193,5 @@
     </div>
 
     <jsp:include page="footer.jsp"></jsp:include>
-    <%
-        if (request.getAttribute("message") != null) {
-    %>
-    <script> window.alert("No result!");</script>
-    <%
-        }
-    %>
 </body>
 </html>

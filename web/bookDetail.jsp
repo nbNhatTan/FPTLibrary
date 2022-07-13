@@ -38,6 +38,11 @@
                 <div class="col-md-10 contents">
                     <div class="content">
                     <%
+                        AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                        boolean check = true;
+                        if(accLogin == null) {
+                            check = false;
+                        }
                         BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
                         if (book != null) {
                     %>
@@ -81,23 +86,23 @@
                                 <tr>
                                     <td><h6>Book Tag: </h6></td>
                                     <td class="list-unstyled">
-                                        <li>
-                                            <%
-                                                List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                                if (listCategory != null) {
-                                                    for (CategoryDTO c : listCategory) {
-                                            %>
-                                            <a href="" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8; 
-                                               display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
-                                            <%
-                                                    }
-                                                }
-                                            %>
-                                        </li>
-                                    </td>
+                                <li>
+                                    <%
+                                        List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
+                                        if (listCategory != null) {
+                                            for (CategoryDTO c : listCategory) {
+                                    %>
+                                    <a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
+                                       display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </li>
+                                </td>
                                 </tr>
                             </table>                            
-                            <a href="BookDetailController?action=BkConfirm&bookID=<%= book.getBookID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Book</button></a>
+                            <button type="button" onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
                             <%
                                 }
                             %>
@@ -155,7 +160,28 @@
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
 
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function book() {
+            if(<%=check%>){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to borrow this book",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#F5D98F',
+                    cancelButtonColor: '#F7E5D7',
+                    confirmButtonText: 'Yes, borrow it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
+                    }
+                })
+            } else{
+                location.href = "login.jsp";
+            }
+        }
+    </script>
 
 </body>
 </html>

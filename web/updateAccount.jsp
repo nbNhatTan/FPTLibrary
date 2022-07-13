@@ -43,8 +43,8 @@
                 
                 AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
             %>
-            <form action="MainController" method="POST">
-
+            <form action="MainController" method="POST" onsubmit="return create(this);">
+                <input name="action" value="UpdateAccount" type="hidden"/>
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
@@ -92,17 +92,36 @@
 
                     <tr>
                         <td></td>
-                        <td class="a"><button class="btn btn-warning btn-sm" type="submit" name="action" value="UpdateAccount">UPDATE</button></td>
-
+                        <td class="a">
+                            <button class="btn btn-warning btn-sm">UPDATE</button>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
+                        </td>
                     </tr>
 
                 </table>
             </form>
 
         </div>
-
-
-
     <jsp:include page="footer.jsp"></jsp:include>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function create(form) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to update your information.",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F5D98F',
+                cancelButtonColor: '#F7E5D7',
+                confirmButtonText: 'Yes, I want!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
 </body>
 </html>

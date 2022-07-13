@@ -21,25 +21,20 @@ import sample.DTO.BookDTO;
 @WebServlet(name = "SearchBookController", urlPatterns = {"/SearchBookController"})
 public class SearchBookController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "searchList.jsp";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
         try {
             String search = request.getParameter("search");
             BookDAO dao = new BookDAO();
             List<BookDTO> listBook = dao.getListBook(search);
             if (!listBook.isEmpty()) {
                 request.setAttribute("LIST_BOOK", listBook);
-                url = SUCCESS;
-            }
+            } 
         } catch (Exception e) {
             log("Error at SearchListController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("searchList.jsp").forward(request, response);
         }
     }
 
