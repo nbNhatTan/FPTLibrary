@@ -4,10 +4,10 @@
     Author     : NhatTan
 --%>
 
-<%@page import="sample.DTO.CategoryDTO"%>
+<%@page import="sample.DTO.BookDTO"%>
+<%@page import="sample.DTO.BorrowDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.DTO.AccountDTO"%>
-<%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -38,73 +38,64 @@
                 <div class="col-md-10 contents">
                     <div class="content">
                     <%
-                        BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
-                        if (book != null) {
+                        BorrowDTO borrow = (BorrowDTO) request.getAttribute("DETAIL_BORROW");
+                        if (borrow != null) {
                     %>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="bookDetailImage text-center container-fluid">
-                                <img src="<%= book.getImage()%>"/>
+                                <img src="<%= borrow.getImage()%>" width="280" height="400"/>
                             </div>
                         </div>
                         <div class="col-md-6 container-fluid">
-                            <h5><%= book.getBookName()%></h5>
+                            <h5><%= borrow.getBookName()%></h5>
                             <table width="100%">
                                 <tr>
-                                    <td><h6>Authors: </h6></td>
-                                    <td><%= book.getAuthor()%></td>
+                                    <td><h6>ID: </h6></td>
+                                    <td><%= borrow.getBookingTicketID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publisher: </h6></td>
-                                    <td><%= book.getPublisher()%></td>
+                                    <td><h6>BookItemID: </h6></td>
+                                    <td><%= borrow.getBookItemID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publication Year: </h6></td>
-                                    <td><%= book.getPublishYear()%></td>
+                                    <td><h6>Borrow Date: </h6></td>
+                                    <td><%= borrow.getBorrowDate()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Language: </h6></td>
-                                    <td><%= book.getLanguage()%></td>
+                                    <td><h6>Expired Date: </h6></td>
+                                    <td><%= borrow.getExpiredDate()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>DDC: </h6></td>
-                                    <td><%= book.getDDC()%></td>
+                                    <td><h6>Return Date: </h6></td>
+                                    <td><%= borrow.getReturnDate()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Bookshelf: </h6></td>
-                                    <td><%= book.getBookshelf()%></td>
+                                    <td><h6>Status: </h6></td>
+                                    <td><span style="color: <%=borrow.getBorrowStatus().equals("Pending")?"#ffa500":
+                                                               borrow.getBorrowStatus().equals("Borrowing")?"#00b050":
+                                                               borrow.getBorrowStatus().equals("Returned")?"#0008ff":
+                                                               borrow.getBorrowStatus().equals("Expired")?"#f00":"#ffa500"%>">[<%= borrow.getBorrowStatus()%>]</span> </td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Description: </h6></td>
-                                    <td><%= book.getDescription()%></td>
+                                    <td><h6>Borrower: </h6></td>
+                                    <td><%= borrow.getUserID().getFullName()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Book Tag: </h6></td>
-                                    <td class="list-unstyled">
-                                        <li>
-                                            <%
-                                                List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                                if (listCategory != null) {
-                                                    for (CategoryDTO c : listCategory) {
-                                            %>
-                                            <a href="" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8; 
-                                               display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
-                                            <%
-                                                    }
-                                                }
-                                            %>
-                                        </li>
-                                    </td>
+                                    <td><h6>Management staff: </h6></td>
+                                    <td><%= borrow.getStaffID().getFullName()%></td>
                                 </tr>
-                            </table>                            
-                            <a href="BookDetailController?action=BkConfirm&bookID=<%= book.getBookID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Book</button></a>
-                            <%
-                                }
-                            %>
-                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
-
+                                <tr>
+                                    <td><br></td>
+                                </tr>
+                            </table>
+                                <br>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back to List</button>
                         </div>
                     </div>
+                                <%
+                                    }
+                                %>
                 </div>
 
 

@@ -4,9 +4,10 @@
     Author     : NhatTan
 --%>
 
+<%@page import="sample.DTO.BookDTO"%>
+<%@page import="sample.DTO.ViolationTicketDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.DTO.AccountDTO"%>
-<%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,57 +38,63 @@
                 <div class="col-md-10 contents">
                     <div class="content">
                     <%
-                        BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
-                        if (book != null) {
+                        ViolationTicketDTO violation = (ViolationTicketDTO) request.getAttribute("DETAIL_VIOLATION");
+                        if (violation != null) {
                     %>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="bookDetailImage text-center container-fluid">
-                                <img src="<%= book.getImage()%>"/>
-                            </div>
-                        </div>
+                        <div class="col-md-3"></div>
                         <div class="col-md-6 container-fluid">
-                            <h5><%= book.getBookName()%></h5>
                             <table width="100%">
                                 <tr>
-                                    <td><h6>Authors: </h6></td>
-                                    <td><%= book.getAuthor()%></td>
+                                    <td><h6>ViolationTicket ID: </h6></td>
+                                    <td><%=violation.getViolationTicketID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publisher: </h6></td>
-                                    <td><%= book.getPublisher()%></td>
+                                    <td><h6>BookingTicket ID: </h6></td>
+                                    <td><%= violation.getBookingTicketID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publication Year: </h6></td>
-                                    <td><%= book.getPublishYear()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Language: </h6></td>
-                                    <td><%= book.getLanguage()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>DDC: </h6></td>
-                                    <td><%= book.getDDC()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Bookshelf: </h6></td>
-                                    <td><%= book.getBookshelf()%></td>
+                                    <td><h6>Staff: </h6></td>
+                                    <td><%=violation.getStaffID()%></td>
                                 </tr>
                                 <tr>
                                     <td><h6>Description: </h6></td>
-                                    <td><%= book.getDescription()%></td>
+                                    <td><%=violation.getDescription()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Book Tag: </h6></td>
-                                    <td></td>
+                                    <td><h6>Create Date: </h6></td>
+                                    <td><%=violation.getCreateDate()%></td>
+                                </tr>
+                                <tr>
+                                    <td><h6>Status: </h6></td>
+                                    <%
+                                        if (violation.getTicketStatus()) {
+                                    %>
+                                    <td><span style="color: #f00">[Unpaid]</span> </td>
+                                    <%
+                                        } else {
+                                    %>
+                                    <td><span style="color: #00b050"</span> </td>
+                                    <%
+                                        }
+                                    %>
                                 </tr>
                             </table>                            
-                            <a href="BookDetailController?action=BkConfirm&bookID=<%= book.getBookID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Book</button></a>
+                            <%
+                                AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                                if (loginAccount.getRoleID() == 2){
+                            %>
+                            <a href="PayViolationController?violationTicketID=<%= violation.getViolationTicketID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Pay</button></a>
                             <%
                                 }
-                            %> 
+                            %>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back to List</button>
+                    <%
+                        }
+                    %> 
 
                         </div>
+                        <div class="col-md-3"></div>
                     </div>
                 </div>
 
@@ -110,7 +117,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-10 contents">
                 <div class="new">
-                    <h6 class="text-center">More like This</h6>
+                    <h6 class="text-center">New Books</h6>
 
                     <div class="new2 row" >
                         <div class="col-md-1"></div>

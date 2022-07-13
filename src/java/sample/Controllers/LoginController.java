@@ -22,7 +22,7 @@ import sample.DTO.AccountDTO;
 public class LoginController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "";
+    private static final String ADMIN_PAGE = "about.jsp";
     private static final String PAGE = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -40,9 +40,9 @@ public class LoginController extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("LOGIN_ACCOUNT", loginAccount);
                     int roleID = loginAccount.getRoleID();
-                    if (roleID == 0) {
+                    if (roleID == 1) {
                         url = ADMIN_PAGE;
-                    } else if (roleID == 1 || roleID == 2) {
+                    } else if (roleID == 2 || roleID == 3) {
                         url = PAGE;
                     } else {
                         request.setAttribute("ERROR", "Your role is not support !!!");
