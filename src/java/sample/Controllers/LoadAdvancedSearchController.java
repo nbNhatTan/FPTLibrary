@@ -5,48 +5,45 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.CategoryDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
-public class ViewBorrowDetailController extends HttpServlet {
+@WebServlet(name = "LoadAdvancedSearchController", urlPatterns = {"/LoadAdvancedSearchController"})
+public class LoadAdvancedSearchController extends HttpServlet {
 
-    private static final String ERROR = "ViewborrowStaffController";
-    private static final String ERROR2 = "ViewborrowController";
-    private static final String SUCCESS = "detailBorrow.jsp";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR2;
         try {
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount.getRoleID() == 2) {
-                url = ERROR;
-            }
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            BorrowDTO borrow = dao.getBorrowDetail(Integer.parseInt(bookingTicketID));
-            if (borrow != null) {
-                request.setAttribute("DETAIL_BORROW", borrow);
-                url = SUCCESS;
+            BookDAO dao = new BookDAO();
+            List<CategoryDTO> listCategory = dao.getAllBookTag();
+            if (!listCategory.isEmpty()) {
+                request.setAttribute("LIST_CATEGORY", listCategory);
             }
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at LoadAdvancedSearchController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
         }
     }
 

@@ -5,6 +5,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.BookDAO;
 import sample.DTO.BookDTO;
+import sample.DTO.CategoryDTO;
 
 /**
  *
@@ -21,7 +23,7 @@ import sample.DTO.BookDTO;
 public class BookDetailController extends HttpServlet {
 
     private static final String ERROR = "searchList.jsp";
-    private static final String SUCCESS = "detail.jsp";
+    private static final String SUCCESS = "bookDetail.jsp";
     private static final String SUCCESS2 = "bookingConfirm.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -35,6 +37,10 @@ public class BookDetailController extends HttpServlet {
             BookDTO book = dao.getBookByID(Integer.parseInt(bookID));
             if (book != null) {
                 request.setAttribute("DETAIL_BOOK", book);
+                List<CategoryDTO> listCategory = dao.getBookTag(Integer.parseInt(bookID));
+                if (listCategory != null) {
+                    request.setAttribute("LIST_CATEGORY", listCategory);
+                }
                 url = SUCCESS;
             }
             if (action.equals("BkConfirm")) {

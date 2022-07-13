@@ -11,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.DAO.TicketDAO;
+import sample.DTO.ViolationTicketDTO;
 
 /**
  *
@@ -19,29 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ViolationDetailController", urlPatterns = {"/ViolationDetailController"})
 public class ViolationDetailController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String ERROR = "ViewViolationController";
+    private static final String SUCCESS = "violationDetail.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViolationDetailController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViolationDetailController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = ERROR;
+        try {
+            String violationTicketID = request.getParameter("bookingTicketID");
+            TicketDAO dao = new TicketDAO();
+            ViolationTicketDTO violation = dao.getViolationDetail(Integer.parseInt(violationTicketID));
+            if (violation != null) {
+                request.setAttribute("DETAIL_VIOLATION", violation);
+                url = SUCCESS;
+            }
+        } catch (Exception e) {
+            log("Error at BookDetailController: " + e.toString());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
