@@ -41,9 +41,10 @@
                     <div class="content">
                     <%
                         AccountDTO Users = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-                       
-                            String UsersID = Users.getAccountID();
-                        
+                        String UsersID ="";
+                     if(Users != null)  {  
+                            UsersID = Users.getAccountID();
+                     }
                         BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
                        
                         if (book != null) {
@@ -125,7 +126,7 @@
                                 
                                 <textarea type="text" name="comment" required="" /></textarea>
                             <div>
-                                <button type="submit" onclick="mess()" class="feedbackButton  btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>               
+                                <button type="submit"  class="feedbackButton  btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>               
                             </div>
                             
                                 
@@ -133,9 +134,7 @@
 
                         </div>
                         </div>       
-                        <%
-                            }
-                        %>   
+                         
 
 
 
@@ -183,7 +182,7 @@
                     </table>
                         <%   
                             }
-
+            }
                         }
                     %>
                      
@@ -245,11 +244,7 @@
     <jsp:include page="footer.jsp"></jsp:include>
 
 
-    <script>
-        function mess() {
-    alert("Đánh giá thành công") 
-}
-    </script>
+
 </body>
 </html>
 

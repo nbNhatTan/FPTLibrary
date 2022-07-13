@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.FeedbackDAO;
+import sample.DTO.AccountDTO;
 import sample.DTO.FeedBackDTO;
 
 /**
@@ -24,6 +26,7 @@ public class CreateFeedBackController extends HttpServlet {
 
     private static final String ERROR = "bookDetail.jsp";
     private static final String SUCCESS = "MainController?action=Detail&bookID";
+    private static final String RETURN = "login.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,6 +34,11 @@ public class CreateFeedBackController extends HttpServlet {
         String url = ERROR;
         
         try {
+            HttpSession session = request.getSession();
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if(loginAccount != null){
+                
+            
             int count = 1;
             String feedbackID = "SP0" + count;
             FeedbackDAO dao = new FeedbackDAO();
@@ -57,6 +65,9 @@ public class CreateFeedBackController extends HttpServlet {
                 url = SUCCESS;
             
         }
+            }else{
+                url = RETURN;
+            }
     }
     catch (Exception e ) {
             log("ERROR at CreateFeedBackController:" + e.toString());
