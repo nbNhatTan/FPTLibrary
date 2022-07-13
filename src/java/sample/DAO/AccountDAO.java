@@ -10,6 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import sample.DTO.AccountDTO;
 import sample.Utils.DBUtils;
 
@@ -22,10 +30,14 @@ public class AccountDAO {
     private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID=? AND password=?";
     private static final String SEARCH = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE fullName like ?";
     private static final String DELETE = "UPDATE tblAccounts SET status='false' WHERE accountID=?";
+    private static final String DELETE1 = "DELETE tblAccounts WHERE accountID=?";
+
     private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
     private static final String CHECK_DUPLICATE = "SELECT accountID FROM tblAccounts WHERE accountID=?";
     private static final String CREATE = "INSERT INTO tblAccounts(accountID, fullName, password, roleID, email, address, phone, status) VALUES (?,?,?,?,?,?,?,?)";
     private static final String GET = "SELECT fullName, password, roleID, email, address, phone, status FROM tblAccounts WHERE accountID = ?";
+    private static final String GETALL = "SELECT accountID, fullName, password, roleID, email, address, phone, status FROM tblAccounts";
+    private static final String GETMAIL = "SELECT a.email FROM tblViolationTicket v JOIN tblBookingTicket b ON v.bookingTicketID = b.bookingTicketID JOIN tblAccounts a ON a.AccountID = b.userID WHERE v.violationTicketID=?";
 
     public AccountDTO checkLogin(String accountID, String password) throws SQLException {
         AccountDTO acc = null;
@@ -124,6 +136,44 @@ public class AccountDAO {
                     String phone = rs.getString("phone");
                     Boolean status = rs.getBoolean("status");
                     list.add(new AccountDTO(accountID, fullName, "", roleID, email, address, phone, status));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public List<AccountDTO> getAllAccount() throws SQLException {
+        List<AccountDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETALL);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String accountID = rs.getString("accountID");
+                    String fullName = rs.getString("fullName");
+                    String password = rs.getString("password");
+                    int roleID = rs.getInt("roleID");
+                    String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    String phone = rs.getString("phone");
+                    Boolean status = rs.getBoolean("status");
+                    list.add(new AccountDTO(accountID, fullName, password, roleID, email, address, phone, status));
                 }
             }
         } catch (Exception e) {
@@ -255,5 +305,61 @@ public class AccountDAO {
             }
         }
         return check;
+    }
+
+    public String GetMail(String ViolationTicketID) throws SQLException {
+        String email;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETMAIL);
+                ptm.setString(1, ViolationTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    email = rs.getString("email");
+                    return email;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+    public static void SendMail(String to, String sub,
+            String msg, final String user, final String pass) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(user, pass);
+            }
+        });
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message.setSubject(sub);
+            message.setContent(msg, "text/html");
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }
