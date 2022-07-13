@@ -82,53 +82,50 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <%
+                    String url= request.getServletPath();
+                %>
                 <li class="nav-item">
-                    <a class="nav-link active" href="HomeController">Home</a>
+                    <a class="nav-link <%= url.equals("/home.jsp")?"active":""%>" href="HomeController">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.jsp">About</a>
+                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="about.jsp">About</a>
                 </li>
                 <%
                     if(acc != null){
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link" href="managerAccount.jsp">Manager Account</a>
+                    <a class="nav-link <%= url.equals("/managerAccount.jsp")?"active":""%>" href="managerAccount.jsp">Manager Account</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="feedback.jsp">View feedback</a>
-                </li>
-                
                 <%
                         }
                         if (acc.getRoleID() == 2) {
                 %>
-                
-                
                 <li class="nav-item">
-                    <a class="nav-link" href="addBook.jsp">Add Book</a>
+                    <a class="nav-link <%= url.equals("/addBook.jsp")?"active":""%>" href="addBook.jsp">Add Book</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ViewborrowStaffController">Staff Borrow List</a>
+                    <a class="nav-link <%= url.equals("/borrowStaff.jsp")?"active":""%>" href="ViewborrowStaffController">Staff Borrow List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ViewViolationController">Violation List</a>
+                    <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">New List</a>
+                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">News List</a>
                 </li>
                 <%
                         }
                         if (acc.getRoleID() == 3) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link" href="advancedSearch.jsp">Advanced Search</a>
+                    <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="LoadAdvancedSearchController">Advanced Search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="ViewborrowController">Borrow List</a>
+                    <a class="nav-link <%= url.equals("/borrow.jsp")?"active":""%>" href="ViewborrowController">Borrow List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Following</a>
+                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">Following</a>
                 </li>
                 <%
                         }

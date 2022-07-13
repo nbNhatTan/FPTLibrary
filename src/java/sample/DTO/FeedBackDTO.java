@@ -14,13 +14,13 @@ import sample.DAO.*;
 public class FeedBackDTO {
     private String feedbackID;
     private String userID;
-    private int bookingTicketID;
+    private int bookID;
     private String comment;
 
-    public FeedBackDTO(String feedbackID, String userID, int bookingTicketID, String comment) {
+    public FeedBackDTO(String feedbackID, String userID, int bookID, String comment) {
         this.feedbackID = feedbackID;
         this.userID = userID;
-        this.bookingTicketID = bookingTicketID;
+        this.bookID = bookID;
         this.comment = comment;
     }
 
@@ -40,12 +40,12 @@ public class FeedBackDTO {
         this.userID = userID;
     }
 
-    public int getBookingTicketID() {
-        return bookingTicketID;
+    public int getBookID() {
+        return bookID;
     }
 
-    public void setBookingTicketID(int bookingTicketID) {
-        this.bookingTicketID = bookingTicketID;
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
     }
 
     public String getComment() {

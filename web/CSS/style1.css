@@ -64,6 +64,12 @@ footer a {
     background-color: deeppink;
     color: #ffffff;
 }
+
+.feedbackButton{
+    background-color: deeppink;
+    color: #ffffff;
+}
+
 .bookDetailImage {
     padding: 15px;
     background-repeat: no-repeat;

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.BookDAO;
 import sample.DTO.BookDTO;
+import sample.DTO.CategoryDTO;
 
 /**
  *
@@ -22,28 +23,45 @@ import sample.DTO.BookDTO;
 @WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
 public class AdvanceSearchController extends HttpServlet {
 
-    private static final String ERROR = "advancedSearch.jsp";
-    private static final String SUCCESS = "advancedSearch.jsp";
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
         try {
             String bBookName = request.getParameter("bookName");
             String bAuthor = request.getParameter("author");
             String bPublisher = request.getParameter("publisher");
             String bLanguage = request.getParameter("language");
+            String categoryId = request.getParameter("categoryId");
+            request.setAttribute("bookName", bBookName);
+            request.setAttribute("author", bAuthor);
+            request.setAttribute("publisher", bPublisher);
+            request.setAttribute("language", bLanguage);
+            request.setAttribute("categoryId", categoryId);
             BookDAO dao = new BookDAO();
-            List<BookDTO> listBook = dao.getListBook(bBookName,bAuthor,bPublisher,bLanguage);
+            List<CategoryDTO> listCategory = dao.getAllBookTag();
+            if (!listCategory.isEmpty()) {
+                request.setAttribute("LIST_CATEGORY", listCategory);
+            }
+            List<BookDTO> listBook;
+//            if (!categoryId.isEmpty()) {
+//                listBook = dao.getListBookByBookTag(Integer.parseInt(categoryId));
+//            } else {
+//                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage);
+//            }
+            if (categoryId.isEmpty()) {
+                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, 0);
+            } else {
+                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, Integer.parseInt(categoryId));
+            }
             if (!listBook.isEmpty()) {
                 request.setAttribute("ADVANCE_LIST_BOOK", listBook);
-                url = SUCCESS;
+            } else {
+                request.setAttribute("message", "No result!");
             }
         } catch (Exception e) {
             log("Error at AdvanceSearchController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("advancedSearch.jsp").forward(request, response);
         }
     }
 

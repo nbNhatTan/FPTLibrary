@@ -63,7 +63,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>ID</th>
-                                <th>UserID</th>
+                                <th>Borrower</th>
                                 <th>BookItemID</th>
                                 <th>Borrow Date</th>
                                 <th>Expiry Date</th>
@@ -84,7 +84,7 @@
                                 <img src="<%= p.getImage() %>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookingTicketID()%></td>
-                            <td><%= p.getUserID()%></td>
+                            <td><%= p.getUserID().getFullName()%></td>
                             <td><%= p.getBookItemID()%></td>
                             <td><%= p.getBorrowDate()%></td>
                             <td><%= p.getExpiredDate()%></td>
@@ -117,9 +117,9 @@
                                     %>
                                 </form>
                                     <%
-                                        if(p.getBorrowStatus().equals("Expired")){
+                                        if(p.getBorrowStatus().equals("Expired")||p.getBorrowStatus().equals("HandleViolation")){
                                     %>
-                                    <a href="createViolationTicket.jsp?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Create Violation</button></a>
+                                    <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%
                                         }
                                     %>

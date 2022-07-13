@@ -61,7 +61,7 @@
                         %>
                         <tr>
                             <td>
-                                <img src="<%= p.getImage() %>" width="100" height="150"/>
+                                <img src="<%= p.getImage()%>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookName()%></td>
                             <td><%= p.getBookingTicketID()%></td>
@@ -78,18 +78,14 @@
                             </td>
                             <td><span class="<%= p.getBorrowStatus()%>">[<%= p.getBorrowStatus()%>]</span> </td>
                             <td>
-                                <form action="MainController">
-                                    <input type="hidden" name="bookingTicketID" value="<%= p.getBookingTicketID()%>"/>
-                                    <%
-                                        if (p.getBorrowStatus().equals("Expired")) {
-                                    %>
-                                    <button class="btn btn-light btn-sm" name="action" value="">View Violation</button>
-                                    <%
-                                        }
-                                    %>
-                                    <button class="btn btn-light btn-sm" name="action" value="CreateFeedback">Feedback</button>
-                                    <button class="btn btn-light btn-sm" name="action" value=" ">View Violation</button>
-                                </form>
+                                <a href="MainController?action=View&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
+                                <%
+                                    if (p.getBorrowStatus().equals("Expired")||p.getBorrowStatus().equals("HandleViolation")) {
+                                %>
+                                <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
+                                <%
+                                    }
+                                %>
                             </td>
                         </tr>
                         <%

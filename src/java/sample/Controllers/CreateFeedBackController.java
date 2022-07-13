@@ -22,23 +22,35 @@ import sample.DTO.FeedBackDTO;
 @WebServlet(name = "CreateFeedBackController", urlPatterns = {"/CreateFeedBackController"})
 public class CreateFeedBackController extends HttpServlet {
 
-    private static final String ERROR = "borrow.jsp";
-    private static final String SUCCESS = "feedback.jsp";
+    private static final String ERROR = "bookDetail.jsp";
+    private static final String SUCCESS = "MainController?action=Detail&bookID";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
-
+        
         try {
-            String userID = request.getParameter("userID");
-             int bookingTicketID = Integer.parseInt(request.getParameter("bookingTicketID"));
-            String feedbackID = request.getParameter("feedbackID");  
-            String comment = request.getParameter("comment");
-
-           
-            FeedBackDTO feedback = new FeedBackDTO(feedbackID, userID, bookingTicketID, comment);
+            int count = 1;
+            String feedbackID = "SP0" + count;
             FeedbackDAO dao = new FeedbackDAO();
+            boolean CheckDup = dao.checkDuplicate(feedbackID);
+            while (CheckDup) {
+                count = count + 1;
+                if (count < 10) {
+                    feedbackID = "SP0" + count;
+                } else {
+                    feedbackID = "SP" + count;
+                }
+                CheckDup = dao.checkDuplicate(feedbackID);
+            }
+
+
+            String userID = request.getParameter("userID");
+            int bookID = Integer.parseInt(request.getParameter("bookID"));           
+            String comment = request.getParameter("comment");
+           
+            FeedBackDTO feedback = new FeedBackDTO(feedbackID, userID, bookID, comment);        
             boolean checkCreate = dao.createFeedback(feedback);
             
             if (checkCreate) {
