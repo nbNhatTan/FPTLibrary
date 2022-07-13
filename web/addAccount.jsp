@@ -1,10 +1,3 @@
-<%-- 
-    Document   : register
-    Created on : Jun 15, 2022, 9:59:49 PM
-    Author     : Admin
---%>
-
-<%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -28,75 +21,70 @@
     <body>
        <jsp:include page="header.jsp"></jsp:include>
 
-<div>
+       
+        <div>
 
 
             <div>
 
+
+
             </div>
-            <h3 class="title-text">UPDATE ACCOUNT</h3>
+            <h3 class="title-text">ADD ACCOUNT</h3>
             <%
                 AccountError accountError = (AccountError) request.getAttribute("ACCOUNT_ERROR");
                 if (accountError == null) {
                     accountError = new AccountError();
                 }
-                
-                AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
             %>
             <form action="MainController" method="POST">
 
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
-                        <td><input name="accountID" type="text" class="form-control" value="<%= acc.getAccountID()%>" readonly=""></td>
+                        <td><input name="accountID" type="text" placeholder="Enter accountID" required=""><%= accountError.getAccountIDError()%></td>
                     </tr>
 
                     <tr>
-                        <td><label for="">Role ID:</label></td>
-                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" readonly=""></td>                            
-                    </tr>
-                    
-                    <tr>
                         <td><label for="">Full Name:</label></td>
-                        <td><input name="fullName" type="text" class="form-control" value="<%= acc.getFullName()%>" placeholder="Enter Full Name"><%= accountError.getFullNameError()%></td>                            
+                        <td><input name="fullName" type="text" placeholder="Enter Full Name" required=""><%= accountError.getFullNameError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"></td>
+                        <td><input name="password" type="password" placeholder="Enter Password" required=""></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"><%= accountError.getConfirmError()%></td>                            
+                        <td><input name="confirm" type="password" placeholder="Enter Password" required=""><%= accountError.getPasswordError()%></td>                            
+                    </tr>
+
+                    <tr>
+                        <td><label for="">Role ID:</label></td>
+                        <td><input name="roleID"type="text" placeholder="Enter Role ID" required=""><%= accountError.getRoleIDError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Mail:</label></td>
-                        <td><input name="email" type="text" class="form-control" placeholder="Enter Mail" value="<%= acc.getEmail()%>"><%= accountError.getEmailError()%></td>                            
+                        <td><input name="email" type="text" placeholder="Enter Mail" required=""><%= accountError.getEmailError()%></td>                            
                     </tr>
 
                     <tr>
                         <td><label for="">Address:</label></td>
-                        <td><input name="address"type="text" class="form-control" placeholder="Enter Address" value="<%= acc.getAddress()%>"><%= accountError.getAddressError()%></td>                            
+                        <td><input name="address"type="text" placeholder="Enter Address" required=""><%= accountError.getAddressError()%></td>                            
                     </tr>
 
                     <tr>
-                        <td><label>Phone:</label></td>
-                        <td><input name="phone" type="text" class="form-control" placeholder="Enter Phone" value="<%= acc.getPhone()%>"><%= accountError.getPhoneError()%></td>                            
-                    </tr>                  
-                    <tr>
-                        <td></td>
-                        <td></td>                            
+                        <td><label for="">Phone:</label></td>
+                        <td><input name="phone" type="text" placeholder="Enter Phone" required=""><%= accountError.getPhoneError()%></td>                            
                     </tr>                  
 
                     <tr>
                         <td></td>
                         <td class="a">
                             <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
-                            <button class="btn btn-warning btn-sm" type="submit" name="action" value="UpdateAccount">UPDATE</button>
-                        </td>
-
+                            <button  class="btn btn-warning btn-sm" type="submit" name="action" value="AddAccount">Add Account</button></td>
                     </tr>
 
                 </table>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : register
-    Created on : Jun 15, 2022, 9:59:49 PM
-    Author     : Admin
---%>
-
 <%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -34,7 +28,7 @@
             <div>
 
             </div>
-            <h3 class="title-text">UPDATE ACCOUNT</h3>
+            <h3 class="title-text">EDIT ACCOUNT</h3>
             <%
                 AccountError accountError = (AccountError) request.getAttribute("ACCOUNT_ERROR");
                 if (accountError == null) {
@@ -53,7 +47,7 @@
 
                     <tr>
                         <td><label for="">Role ID:</label></td>
-                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" readonly=""></td>                            
+                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" ><%= accountError.getRoleIDError()%></td>                            
                     </tr>
                     
                     <tr>
@@ -94,8 +88,7 @@
                         <td></td>
                         <td class="a">
                             <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
-                            <button class="btn btn-warning btn-sm" type="submit" name="action" value="UpdateAccount">UPDATE</button>
-                        </td>
+                            <button class="btn btn-warning btn-sm" type="submit" name="action" value="EditAccount">UPDATE</button></td>
 
                     </tr>
 

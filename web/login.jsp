@@ -16,6 +16,14 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet" />
+        <link   rel="stylesheet" 
+                href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+                crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+                crossorigin="anonymous">
+        </script>
     </head>
 
     <body>
@@ -35,6 +43,8 @@
                 <form action="MainController" method="P0ST">
 
                     <table class="my-table">
+
+                        
                         <tr>
                             <td><label for="">User: </label></td>
                             <td><input type="text" name="accountID" placeholder="Enter User Name"></td>
@@ -51,6 +61,15 @@
 
                             <input class="btn btn-warning btn-sm" type="submit" name="action" value="Login"/>
                             <a href="register.jsp"> <button class="btn btn-warning btn-sm" type="button">Register</button> </a>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a class="btn btn-outline-dark" href="https://accounts.google.com/o/oauth2/auth?scope=email profile&redirect_uri=http://localhost:8080/FPTLibrary-Git/LoginGoogleController&response_type=code
+                                       &client_id=53864111144-aj9dkmdo6j87dl266muvck01ehdfnbjk.apps.googleusercontent.com&approval_prompt=force" role="button" style="text-transform:none">
+                                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                                        Login with Google
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-5"></div>
                     </div>
@@ -62,7 +81,7 @@
 
 
         <jsp:include page="footer.jsp"></jsp:include>
-        
+
         <script> window.alert("Xin chào!");</script>
     </body>
 
