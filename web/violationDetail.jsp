@@ -4,10 +4,10 @@
     Author     : NhatTan
 --%>
 
-<%@page import="sample.DTO.CategoryDTO"%>
+<%@page import="sample.DTO.BookDTO"%>
+<%@page import="sample.DTO.ViolationTicketDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="sample.DTO.AccountDTO"%>
-<%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +15,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Book Detail</title>
+        <title>Violation Detail</title>
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
@@ -32,83 +32,81 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
+    <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 2) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
+
+        %>
         <div class="main">
             <div class="row news">
                 <div class="col-md-1"></div>
                 <div class="col-md-10 contents">
                     <div class="content">
                     <%
-                        AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-                        boolean check = true;
-                        if(accLogin == null) {
-                            check = false;
-                        }
-                        BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
-                        if (book != null) {
+                        ViolationTicketDTO violation = (ViolationTicketDTO) request.getAttribute("DETAIL_VIOLATION");
+                        if (violation != null) {
                     %>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="bookDetailImage text-center container-fluid">
-                                <img src="<%= book.getImage()%>"/>
-                            </div>
-                        </div>
+                        <div class="col-md-3"></div>
                         <div class="col-md-6 container-fluid">
-                            <h5><%= book.getBookName()%></h5>
                             <table width="100%">
                                 <tr>
-                                    <td><h6>Authors: </h6></td>
-                                    <td><%= book.getAuthor()%></td>
+                                    <td><h6>ViolationTicket ID: </h6></td>
+                                    <td><%=violation.getViolationTicketID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publisher: </h6></td>
-                                    <td><%= book.getPublisher()%></td>
+                                    <td><h6>BookingTicket ID: </h6></td>
+                                    <td><%= violation.getBookingTicketID()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Publication Year: </h6></td>
-                                    <td><%= book.getPublishYear()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Language: </h6></td>
-                                    <td><%= book.getLanguage()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>DDC: </h6></td>
-                                    <td><%= book.getDDC()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Bookshelf: </h6></td>
-                                    <td><%= book.getBookshelf()%></td>
+                                    <td><h6>Staff: </h6></td>
+                                    <td><%=violation.getStaffID()%></td>
                                 </tr>
                                 <tr>
                                     <td><h6>Description: </h6></td>
-                                    <td><%= book.getDescription()%></td>
+                                    <td><%=violation.getDescription()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Book Tag: </h6></td>
-                                    <td class="list-unstyled">
-                                <li>
+                                    <td><h6>Create Date: </h6></td>
+                                    <td><%=violation.getCreateDate()%></td>
+                                </tr>
+                                <tr>
+                                    <td><h6>Status: </h6></td>
                                     <%
-                                        List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                        if (listCategory != null) {
-                                            for (CategoryDTO c : listCategory) {
+                                        if (violation.getTicketStatus()) {
                                     %>
-                                    <a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
-                                       display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                    <td><span style="color: #f00">[Unpaid]</span> </td>
                                     <%
-                                            }
+                                        } else {
+                                    %>
+                                    <td><span style="color: #00b050"</span> </td>
+                                    <%
                                         }
                                     %>
-                                </li>
-                                </td>
                                 </tr>
                             </table>                            
-                            <button type="button" onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
+                            <%
+                                AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                                if (loginAccount.getRoleID() == 2){
+                            %>
+                            <a href="PayViolationController?violationTicketID=<%= violation.getViolationTicketID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Pay</button></a>
                             <%
                                 }
                             %>
-                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
+                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back to List</button>
+                    <%
+                        }
+                    %> 
 
                         </div>
+                        <div class="col-md-3"></div>
                     </div>
                 </div>
 
@@ -131,7 +129,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-10 contents">
                 <div class="new">
-                    <h6 class="text-center">More like This</h6>
+                    <h6 class="text-center">New Books</h6>
 
                     <div class="new2 row" >
                         <div class="col-md-1"></div>
@@ -160,28 +158,7 @@
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function book() {
-            if(<%=check%>){
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You want to borrow this book",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#F5D98F',
-                    cancelButtonColor: '#F7E5D7',
-                    confirmButtonText: 'Yes, borrow it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
-                    }
-                })
-            } else{
-                location.href = "login.jsp";
-            }
-        }
-    </script>
+
 
 </body>
 </html>
