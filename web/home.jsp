@@ -109,7 +109,24 @@
                 <div class="col-md-1"></div>
             </div>
         </div>
-
-     <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="footer.jsp"></jsp:include>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <%
+        String message = (String) request.getAttribute("message");
+        if(message != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Success!',
+                        text: '<%=message%> success.',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        icon: 'success'
+                    });
+        </script>
+    <%
+        }
+    %>
     </body>
 </html>

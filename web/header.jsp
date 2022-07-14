@@ -8,6 +8,7 @@
         search = "";
     }
 %>
+<div class="header">
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container-fluid padding row">
         <div class="col-md-5">
@@ -135,3 +136,4 @@
         </div>
     </div>
 </nav>
+</div>

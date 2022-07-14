@@ -28,12 +28,12 @@
     <body>
        <jsp:include page="header.jsp"></jsp:include>
 <%
-            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (acc == null) {
+            AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (accLogin == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (acc.getRoleID() == 1) {
+            if (accLogin.getRoleID() == 1) {
                 response.sendRedirect("error.jsp");
                 return;
             }
