@@ -26,15 +26,8 @@
 
     <body>
        <jsp:include page="header.jsp"></jsp:include>
-
-       
         <div>
-
-
             <div>
-
-
-
             </div>
             <h3 class="title-text">REGISTER</h3>
             <%
@@ -43,8 +36,8 @@
                     accountError = new AccountError();
                 }
             %>
-            <form action="MainController" method="POST">
-
+            <form action="MainController" method="POST" onsubmit="return create(this);">
+                <input name="action" value="Register" type="hidden"/>
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
@@ -58,12 +51,12 @@
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="password" placeholder="Enter Password" required=""></td>
+                        <td><input name="password" type="text" placeholder="Enter Password" required=""></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="password" placeholder="Enter Password" required=""><%= accountError.getPasswordError()%></td>                            
+                        <td><input name="confirm" type="text" placeholder="Enter Password" required=""><%= accountError.getConfirmError()%></td>                            
                     </tr>
 
                     <tr>
@@ -88,18 +81,33 @@
 
                     <tr>
                         <td></td>
-                        <td class="a">
-                            <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
-                            <button  class="btn btn-warning btn-sm" type="submit" name="action" value="Register">Register</button></td>
+                        <td class="a"><a href="login.jsp"><button type="button" class="btn btn-light btn-sm">Cancel</button></a>
+                            <button class="btn btn-warning btn-sm">Register</button></td>
                     </tr>
 
                 </table>
             </form>
-
         </div>
-
-
-
     <jsp:include page="footer.jsp"></jsp:include>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function create(form) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to register a new account",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F5D98F',
+                cancelButtonColor: '#F7E5D7',
+                confirmButtonText: 'Yes, I want!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
 </body>
 </html>
