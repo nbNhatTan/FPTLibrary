@@ -92,8 +92,6 @@
 
 
         <jsp:include page="footer.jsp"></jsp:include>
-
-        <script> window.alert("Xin chào!");</script>
     </body>
 
 </html>

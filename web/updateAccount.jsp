@@ -51,8 +51,6 @@
                 if (accountError == null) {
                     accountError = new AccountError();
                 }
-                
-                AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
             %>
             <form action="MainController" method="POST" onsubmit="return create(this);">
                 <input name="action" value="UpdateAccount" type="hidden"/>
@@ -74,12 +72,12 @@
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"></td>
+                        <td><input name="password" type="password" class="form-control" placeholder="***" value="<%= acc.getPassword()%>"></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="password" class="form-control" placeholder="Enter Password" value="<%= acc.getPassword()%>"><%= accountError.getConfirmError()%></td>                            
+                        <td><input name="confirm" type="password" class="form-control" placeholder="***" value="<%= acc.getPassword()%>"><%= accountError.getConfirmError()%></td>                            
                     </tr>
 
                     <tr>
