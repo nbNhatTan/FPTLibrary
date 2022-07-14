@@ -26,14 +26,8 @@
 
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
-
-
         <div>
-
-
             <div>
-
             </div>
             <h3 class="title-text">ADD BOOK</h3>
             <%
@@ -42,8 +36,8 @@
                     bookError = new BookError();
                 }
             %>
-            <form action="MainController" method="POST">
-
+            <form action="MainController" method="POST" onsubmit="return create(this);">
+                <input name="action" value="AddBook" type="hidden"/>
                 <table class="my-table">
                     <tr>
                         <td><label for="">Book Name:</label></td>
@@ -95,17 +89,34 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td class="a"><button class="btn btn-warning btn-sm" type="submit" name="action" value="AddBook">Add Book</button></td>
+                        <td class="a"><button class="btn btn-warning btn-sm">Add Book</button></td>
 
                     </tr>
 
                 </table>
             </form>
-
         </div>
-    </div>
-
-
     <jsp:include page="footer.jsp"></jsp:include>
+    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function create(form) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to add a new book",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#F5D98F',
+                cancelButtonColor: '#F7E5D7',
+                confirmButtonText: 'Yes, I want!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+            return false;
+        }
+    </script>
+    
 </body>
 </html>

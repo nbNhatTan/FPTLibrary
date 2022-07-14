@@ -45,13 +45,13 @@ public class LoginController extends HttpServlet {
                     } else if (roleID == 2 || roleID == 3) {
                         url = PAGE;
                     } else {
-                        request.setAttribute("ERROR", "Your role is not support !!!");
+                        request.setAttribute("ERROR", "Your role is not support!");
                     }
                 } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
+                    request.setAttribute("ERROR", "Account have been deleted!");
                 }
             } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!!!");
+                request.setAttribute("ERROR", "Incorrect userID or password!");
             }
 
         } catch (Exception e) {
