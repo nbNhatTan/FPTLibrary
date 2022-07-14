@@ -38,8 +38,7 @@
        <jsp:include page="header.jsp"></jsp:include>
 
 
-        <div class="main">
-            <div class="body-page row">
+        <div class="main row">
                 <div class="col-md-1"></div>
                 <div class="container col-md-10 content">
                     <%
@@ -103,7 +102,6 @@
                     %>
                 </div>
                 <div class="col-md-1"></div>
-            </div>
         </div>
 
 
