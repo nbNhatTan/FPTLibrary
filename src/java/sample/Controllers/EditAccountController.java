@@ -1,10 +1,12 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,18 +19,17 @@ import sample.DTO.AccountError;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
-@WebServlet(name = "UpdateAccountController", urlPatterns = {"/UpdateAccountController"})
-public class UpdateAccountController extends HttpServlet {
+@WebServlet(name = "EditAccountController", urlPatterns = {"/EditAccountController"})
+public class EditAccountController extends HttpServlet {
 
-    private static final String ERROR = "LoadAccountController";
-    private static final String SUCCESS = "HomeController";
-
+    private static final String ERROR = "LoadManageController";
+    private static final String SUCCESS = "ViewAccountController";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         String url = ERROR;
+        String url = ERROR;
         try {
             String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
@@ -74,7 +75,7 @@ public class UpdateAccountController extends HttpServlet {
                 request.setAttribute("ACCOUNT_ERROR", accountError);
             }
         } catch (Exception e) {
-            log("Error at UpdateAccountController: " + e.toString());
+            log("Error at EditAccountController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

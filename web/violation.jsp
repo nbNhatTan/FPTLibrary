@@ -98,16 +98,20 @@ and open the template in the editor.
                                     if (v.getTicketStatus()) {
                                 %>
                                 <td><span class="Expired">[Unpaid]</span> </td>
+                                <td>
+                                    <a href="SendMailController?ViolationTicketID=<%= v.getViolationTicketID() %>"><button class="btn btn-light btn-sm">Send Mail</button></a>
+                                </td>
                                 <%
                                 } else {
                                 %>
                                 <td><span class="Borrowing">[Paid]</span> </td>
+                                <td>
+                                    
+                                </td>
                                 <%
                                     }
                                 %>
-                                <td>
-
-                                </td>
+                                
                             </tr>
                             <%
                                         }
