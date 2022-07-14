@@ -63,12 +63,16 @@
                                     %>
 
                                     <div class="book">
-                                        <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                            <img src="<%= book.getImage()%>" width="180" height="260"> 
-                                            <h3>
-                                                <%= book.getBookName()%>
-                                            </h3>
-                                        </a>
+                                        <figure>
+                                            <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                                <img src="<%= book.getImage()%>" width="180" height="260"> 
+                                                <figcaption>
+                                                    <h3>
+                                                    <%= book.getBookName()%> 
+                                                     </h3>
+                                                </figcaption>
+                                            </a>
+                                        </figure>
                                     </div>
 
                                     <%
@@ -87,25 +91,9 @@
 
                         </div>
                     </div>
-                    <div class="all-button-pages">
-                        <button>
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-                        <button>1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button>4</button>
-                        <button>...</button>
-                        <button>7</button>
-                        <button>8</button>
-                        <button>9</button>
-                        <button>10</button>
-                        <button>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-1"></div>
+                <div class="col-md-1"></div>   
+           </div>
+                
             </div>
         </div>
 
