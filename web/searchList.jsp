@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="CSS/searchList.css">
         <link rel="stylesheet" href="CSS/style1.css">
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thư viện FPTU HCM</title>
+        <title>Search</title>
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
