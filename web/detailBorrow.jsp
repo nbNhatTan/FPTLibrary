@@ -15,7 +15,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thư viện FPTU HCM</title>
+        <title>Detail Borrow</title>
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
@@ -32,6 +32,18 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
+    <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 2) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
+
+        %>
         <div class="main">
             <div class="row news">
                 <div class="col-md-1"></div>

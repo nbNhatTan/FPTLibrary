@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Đăng kí thư viện FPTU HCM</title>
+        <title>Edit Account</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -21,7 +21,18 @@
 
     <body>
        <jsp:include page="header.jsp"></jsp:include>
+<%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 1) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
 
+        %>
 <div>
 
 

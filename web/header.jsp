@@ -96,7 +96,7 @@
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/managerAccount.jsp")?"active":""%>" href="managerAccount.jsp">Manager Account</a>
+                    <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Manager Account</a>
                 </li>
                 <%
                         }
