@@ -32,7 +32,7 @@ public class ViewFeedBackController extends HttpServlet {
         try {
             String search = request.getParameter("search");
             FeedbackDAO dao = new FeedbackDAO();
-            List<FeedBackDTO> listFeedback = dao.getFeedbackList(search);
+            List<FeedBackDTO> listFeedback = dao.getFeedbackList(Integer.parseInt(search));
             if (listFeedback.size() > 0) {
                 request.setAttribute("LIST_FEEDBACK", listFeedback);
                 url = SUCCESS;

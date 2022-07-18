@@ -21,13 +21,11 @@ import sample.Utils.DBUtils;
  * @author anhkhoa
  */
 public class FeedbackDAO {
-            
-    
-        private static final String CREATE_FEEDBACK = "INSERT INTO tblFeedback(feedbackID, userID, bookID , comment, star) VALUES (?,?,?,?,?)";
-        private static final String VIEW_FEEDBACK = "SELECT FeedbackID , bookID, userID, comment , star FROM tblFeedback WHERE bookID = ?  ";
-        private static final String CHECK_DUPLICATE = "SELECT userID from tblFeedback WHERE feedbackID = ?" ;
-    
-        public boolean createFeedback(FeedBackDTO feedback) throws SQLException {
+
+    private static final String CREATE_FEEDBACK = "INSERT INTO tblFeedback(userID, bookID , comment, star) VALUES (?,?,?,?)";
+    private static final String VIEW_FEEDBACK = "SELECT FeedbackID , bookID, userID, comment , star FROM tblFeedback WHERE bookID = ?  ";
+
+    public boolean createFeedback(FeedBackDTO feedback) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -36,14 +34,13 @@ public class FeedbackDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATE_FEEDBACK);
-                ptm.setString(1, feedback.getFeedbackID());
-                ptm.setString(2, feedback.getUserID());
-                ptm.setInt(3, feedback.getBookID());
-                ptm.setString(4, feedback.getComment());
-                ptm.setInt(5, feedback.getStar());
-                    
+                ptm.setString(1, feedback.getUserID());
+                ptm.setInt(2, feedback.getBookID());
+                ptm.setString(3, feedback.getComment());
+                ptm.setInt(4, feedback.getStar());
+
                 check = ptm.executeUpdate() > 0 ? true : false;
-           
+
             }
         } catch (Exception e) {
             e.toString();
@@ -57,8 +54,8 @@ public class FeedbackDAO {
         }
         return check;
     }
-        
-     public List<FeedBackDTO> getFeedbackList(int bookID) throws SQLException, ClassNotFoundException {
+
+    public List<FeedBackDTO> getFeedbackList(int bookID) throws SQLException, ClassNotFoundException {
         List<FeedBackDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -70,11 +67,13 @@ public class FeedbackDAO {
                 ptm.setInt(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    String feedbackID = rs.getString("feedbackID");                                       
+                    int feedbackID = rs.getInt("feedbackID");
                     String userID = rs.getString("userID");
                     String comment = rs.getString("comment");
                     int star = rs.getInt("star");
-                    list.add(new FeedBackDTO(feedbackID,userID, bookID,comment,star));
+                    FeedBackDTO feedback = new FeedBackDTO(userID, bookID, comment, star);
+                    feedback.setFeedbackID(feedbackID);
+                    list.add(feedback);
                 }
             }
         } catch (Exception e) {
@@ -91,34 +90,5 @@ public class FeedbackDAO {
             }
         }
         return list;
-    }   
-        
-        
-     
-     public boolean checkDuplicate(String feedbackID ) throws SQLException{
-        boolean check = false;
-        Connection conn= null;
-        PreparedStatement ptm =null;
-        ResultSet rs =null;
-        try{
-            conn= DBUtils.getConnection();
-                    if(conn!= null){
-                        ptm = conn.prepareStatement(CHECK_DUPLICATE);
-                        ptm.setString(1, feedbackID);      
-                        rs = ptm.executeQuery();
-                        if(rs.next()){
-                            check = true;
-                        }
-                    }
-        }catch(Exception e){
-            e.printStackTrace();
-        }finally{
-            if(rs!=null) rs.close();
-            if(ptm!=null) ptm.close();
-            if(conn!=null) conn.close();           
-        }
-        return check;
     }
-     
-     
 }
