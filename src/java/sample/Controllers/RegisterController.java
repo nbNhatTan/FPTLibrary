@@ -33,7 +33,6 @@ public class RegisterController extends HttpServlet {
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
-            String roleID = request.getParameter("roleID");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
@@ -55,9 +54,6 @@ public class RegisterController extends HttpServlet {
             }if (!password.equals(confirm)) {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
-            }if (!Pattern.matches("[123]", roleID)) {
-                accountError.setRoleIDError("RoleID must be in [1,3]");
-                checkValidation = false;
             }if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
@@ -71,7 +67,7 @@ public class RegisterController extends HttpServlet {
             
             
             if (checkValidation) {
-                AccountDTO account = new  AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
+                AccountDTO account = new  AccountDTO(accountID, fullName, password, 3, email, address, phone, true);
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     url = SUCCESS;

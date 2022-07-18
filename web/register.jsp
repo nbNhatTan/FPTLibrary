@@ -69,10 +69,7 @@
                                     <label for="exampleInputEmail1">Confirm:</label>
                                     <input name="confirm" type="password" placeholder="Enter Password" class="form-control" required="" ><%= accountError.getConfirmError()%>
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Role ID:</label>
-                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" required="" ><%= accountError.getRoleIDError()%>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mail:</label>
                                     <input name="email" type="text" placeholder="Enter Mail"  class="form-control" required="" ><%= accountError.getEmailError()%>
