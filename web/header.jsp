@@ -8,6 +8,7 @@
         search = "";
     }
 %>
+<div class="header">
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container-fluid padding row">
         <div class="col-md-5">
@@ -36,7 +37,7 @@
             <div class="col-md-2 col">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <h5><a class="nav-link" href="LoadAccountController">Hello <%=acc.getFullName()%></a></h5>
+                        <h5><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <%=acc.getFullName()%></a></h5>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutController">Logout</a>
@@ -96,7 +97,7 @@
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/managerAccount.jsp")?"active":""%>" href="managerAccount.jsp">Manager Account</a>
+                    <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Manager Account</a>
                 </li>
                 <%
                         }
@@ -135,3 +136,4 @@
         </div>
     </div>
 </nav>
+</div>

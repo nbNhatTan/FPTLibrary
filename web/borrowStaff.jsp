@@ -14,7 +14,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thông tin mượn sách</title>
+        <title>Borrow Staff</title>
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -34,7 +34,18 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
+        <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 2) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
 
+        %>
             <div>
 
                 <div class="table-container">

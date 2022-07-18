@@ -53,6 +53,10 @@ public class MainController extends HttpServlet {
     private static final String CREATEFEEDBACK_CONTROLLER="CreateFeedBackController";
      private static final String VIEW_FEEDBACK="ViewFeedback";
     private static final String VIEWFEEDBACK_CONTROLLER="ViewFeedBackController";
+    private static final String ADDACOUNT = "AddAccount";
+    private static final String ADDACOUNT_CONTROLLER = "AddAccountController";
+    private static final String EDITACCOUNT = "EditAccount";
+    private static final String EDITACCOUNT_CONTROLLER = "EditAccountController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -96,6 +100,10 @@ public class MainController extends HttpServlet {
                 url = CREATEFEEDBACK_CONTROLLER;
             }else if (VIEW_FEEDBACK.equals(action)) {
                 url = VIEWFEEDBACK_CONTROLLER;
+            }else if (ADDACOUNT.equals(action)) {
+                url = ADDACOUNT_CONTROLLER;
+            }else if (EDITACCOUNT.equals(action)) {
+                url = EDITACCOUNT_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

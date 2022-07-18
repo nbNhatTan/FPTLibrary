@@ -2,12 +2,11 @@
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Update Account</title>
+        <title>Add Account</title>
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -24,11 +23,10 @@
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
     </head>
 
     <body>
-        <style>
+           <style>
             body {
                 background-image: url('./image/background.jpg');
                 background-repeat: no-repeat;
@@ -37,26 +35,27 @@
                 background-size: 100% 100%;
             }
         </style>
-        <%
-            AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (accLogin == null) {
+<%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (accLogin.getRoleID() == 1) {
+            if (acc.getRoleID() != 1) {
                 response.sendRedirect("error.jsp");
                 return;
             }
 
         %>
-        <div class="container">
+       
+       <div class="container">
             <div class="row">
                 <div class="col-md-5 mx-auto">
                     <div id="first">
                         <div class="myform form ">
                             <div class="logo mb-3">
                                 <div class="col-md-12 text-center">
-                                    <h3>Update Account</h3>
+                                    <h3>Add Account</h3>
                                 </div>
                             </div>
                             <%
@@ -64,50 +63,48 @@
                                 if (accountError == null) {
                                     accountError = new AccountError();
                                 }
-                                AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
                             %>
-                            <form action="MainController" method="POST" onsubmit="return create(this);">
-                                <input name="action" value="UpdateAccount" type="hidden"/>
+                            <form action="MainController" method="POST">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
-                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" value="<%= acc.getAccountID()%>" readonly="" >
+                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" required="" ><%= accountError.getAccountIDError()%>
                                 </div>
-                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Role ID:</label>
-                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" value="<%= acc.getRoleID()%>" readonly="">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Full Name:</label>
-                                    <input name="fullName" type="text" placeholder="Enter Full Name" value="<%= acc.getFullName()%>" class="form-control" required="" ><%= accountError.getFullNameError()%>
+                                    <input name="fullName" type="text" placeholder="Enter Full Name"  class="form-control" required="" ><%= accountError.getFullNameError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Password:</label>
-                                    <input name="password" type="password" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" >
+                                    <input name="password" type="password" placeholder="Enter Password"  class="form-control" required="" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Confirm:</label>
-                                    <input name="confirm" type="password" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" ><%= accountError.getConfirmError()%>
+                                    <input name="confirm" type="password" placeholder="Enter Password" class="form-control" required="" ><%= accountError.getConfirmError()%>
                                 </div>
-                               
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Role ID:</label>
+                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" required="" ><%= accountError.getRoleIDError()%>
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mail:</label>
-                                    <input name="email" type="text" placeholder="Enter Mail" value="<%= acc.getEmail()%>" class="form-control" required="" ><%= accountError.getEmailError()%>
+                                    <input name="email" type="text" placeholder="Enter Mail"  class="form-control" required="" ><%= accountError.getEmailError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Address:</label>
-                                    <input name="address"type="text" placeholder="Enter Address" value="<%= acc.getAddress()%>"  class="form-control" required="" ><%= accountError.getAddressError()%>
+                                    <input name="address"type="text" placeholder="Enter Address"   class="form-control" required="" ><%= accountError.getAddressError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Phone:</label>
-                                    <input  name="phone" type="text" placeholder="Enter Phone" value="<%= acc.getPhone()%>"  class="form-control" required="" ><%= accountError.getPhoneError()%>
+                                    <input  name="phone" type="text" placeholder="Enter Phone"  class="form-control" required="" ><%= accountError.getPhoneError()%>
                                 </div>
 
 
                                 <div class="col-md-12 text-center mb-3">
-                                    <button class=" btn btn-block mybtn btn-warning tx-tfm">Update</button>
+                                    <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="Register" >Register</button>
                                 </div>
                                 <div class="col-md-12 ">
                                     <div class="form-group">
-                                        <a onclick="history.back()"href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
+                                        <a onclick="history.back()" href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
                                     </div>
                                 </div>
                             </form>
@@ -116,25 +113,8 @@
                 </div>
             </div>
         </div>
-                       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function create(form) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to update your information.",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#F5D98F',
-                cancelButtonColor: '#F7E5D7',
-                confirmButtonText: 'Yes, I want!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-            return false;
-        }
-    </script>         
-    </body>
 
+
+
+</body>
 </html>

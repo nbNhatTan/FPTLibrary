@@ -14,7 +14,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thư viện FPTU HCM</title>
+        <title>FPTU HCM Library</title>
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -70,47 +70,63 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10 contents">
                     <div class="content row">
-                        <div class="contents col-md-8">
+                        <div class="main-content col-md-8">
                             <%
                                 NewsDTO news = (NewsDTO) request.getAttribute("NEWS");
                                 if (news != null) {
                             %>
-                            <div class="main-content">
+                            <div>
                                 <h1><%=news.getTitle()%></h1>                                    
-                                <h4><i><%=news.getWriterName()%><i></h4>                                    
-                                <h6><i>Staff: <%=news.getAccountID()%></i></h6>                                    
-                                <h6><i>Date: <%=news.getUploadDate()%></i></h6>
+                                <h4><i>&nbsp;&nbsp;&nbsp;Writer: <%=news.getWriterName()%></i></h4>                                    
+                                <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post by: <%=news.getAccountID()%></i></h6>                                    
+                                <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: <%=news.getUploadDate()%></i></h6>
                                 <br>
-                                <p><%=news.getHead()%></p>
-                                <p><%=news.getBody()%></p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getHead()%></p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getBody()%></p>
                             </div>
                             <%
                                 }
                             %> 
                         </div> 
-                    <div class="vertical-line"></div>
-                    <div class="contents col-md-4">
-                        <%
-                            List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
-                            if (listN != null) {
-                                if (listN.size() > 0) {
-                                    for (NewsDTO n : listN) {
-                        %>
-                        <div >
-                            <h6><a href=""><%= n.getTitle()%></a></h6>
-                        </div>
-                        <%
+                        <div class="contents col-md-4">
+                            <%
+                                List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
+                                if (listN != null) {
+                                    if (listN.size() > 0) {
+                                        for (NewsDTO n : listN) {
+                            %>
+                            <div >
+                                <h6><a href=""><%= n.getTitle()%></a></h6>
+                            </div>
+                            <%
+                                        }
                                     }
                                 }
-                            }
-                        %>
-                                            </div>
-                                            </div>
+                            %>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-1"></div>
             </div>
         </div>
-
-     <jsp:include page="footer.jsp"></jsp:include>
+    <jsp:include page="footer.jsp"></jsp:include>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <%
+        String message = (String) request.getAttribute("message");
+        if(message != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Success!',
+                        text: '<%=message%> success.',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        icon: 'success'
+                    });
+        </script>
+    <%
+        }
+    %>
     </body>
 </html>
