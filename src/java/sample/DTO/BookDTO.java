@@ -22,6 +22,15 @@ public class BookDTO {
     private String publishYear;
     private String image;
 
+    public BookDTO(String bookName, String language, String author, String publisher) {
+        this.bookName = bookName;
+        this.language = language;
+        this.author = author;
+        this.publisher = publisher;
+    }
+    
+    
+    
     public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, String language, String author, String publisher, String publishYear, String image) {
         this.bookName = bookName;
         this.quantity = Quantity;

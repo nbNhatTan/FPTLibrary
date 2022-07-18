@@ -41,8 +41,8 @@ public class MainController extends HttpServlet {
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
-    private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
-    private static final String ADVANCESEARCH = "AdvanceSearch";
+    private static final String ADVANCEDSEARCH_CONTROLLER = "AdvancedSearchController";
+    private static final String ADVANCEDSEARCH = "AdvancedSearch";
     private static final String UPDATEACCOUNT = "UpdateAccount";
     private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
     private static final String VIEWBORROWDETAIL = "View";
@@ -80,8 +80,8 @@ public class MainController extends HttpServlet {
                 url = VIEWVIOLATIONTICKET_CONTROLLER;
             } else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
-            } else if (ADVANCESEARCH.equals(action)) {
-                url = ADVANCESEARCH_CONTROLLER;
+            } else if (ADVANCEDSEARCH.equals(action)) {
+                url = ADVANCEDSEARCH_CONTROLLER;
             }else if (UPDATEACCOUNT.equals(action)) {
                 url = UPDATEACCOUNT_CONTROLLER;
             }else if (VIEWBORROWDETAIL.equals(action)) {

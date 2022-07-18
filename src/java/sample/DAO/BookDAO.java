@@ -16,6 +16,7 @@ import sample.DTO.BookDTO;
 import sample.DTO.BookItemDTO;
 import sample.DTO.NewsDTO;
 import sample.DTO.PackageDTO;
+import sample.DTO.Paging.Paging;
 import sample.Utils.DBUtils;
 
 /**
@@ -41,7 +42,8 @@ public class BookDAO {
             + "ON b.languageID = l.languageID JOIN tblAuthors a "
             + "ON b.authorID = a.authorID JOIN tblPublishers p "
             + "ON b.publisherID = p.publisherID "
-            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? "
+            + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
     public int createBook(BookDTO book) throws SQLException {
         int id = 0;
@@ -487,7 +489,7 @@ public class BookDAO {
         return null;
     }
 
-    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage) throws SQLException {
+    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage, int searchPage, int searchLimit) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -500,6 +502,8 @@ public class BookDAO {
                 ptm.setString(2, "%" + bAuthor + "%");
                 ptm.setString(3, "%" + bPublisher + "%");
                 ptm.setString(4, "%" + bLanguage + "%");
+                ptm.setInt(5, searchPage);
+                ptm.setInt(6, searchLimit);
                 rs = ptm.executeQuery();
                 System.out.print(ADVANCE_SEARCH);
                 while (rs.next()) {
@@ -517,10 +521,12 @@ public class BookDAO {
                     book.setBookID(bookID);
                     list.add(book);
                 }
+                
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            
             if (rs != null) {
                 rs.close();
             }
@@ -531,7 +537,57 @@ public class BookDAO {
                 conn.close();
             }
         }
-
+        
         return list;
     }
+    
+    private static final String COUNT_ADVANCE_SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], "
+            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
+            + "ON b.languageID = l.languageID JOIN tblAuthors a "
+            + "ON b.authorID = a.authorID JOIN tblPublishers p "
+            + "ON b.publisherID = p.publisherID "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? ";
+            
+
+    public int countGetListBook_TotalPage(String bBookName, String bAuthor, String bPublisher, String bLanguage, int searchLimit) throws SQLException {
+        int count = 0, totalPage = 0, extraPage=0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(COUNT_ADVANCE_SEARCH);
+                ptm.setString(1, "%" + bBookName + "%");
+                ptm.setString(2, "%" + bAuthor + "%");
+                ptm.setString(3, "%" + bPublisher + "%");
+                ptm.setString(4, "%" + bLanguage + "%");
+
+                rs = ptm.executeQuery();
+                
+                while (rs.next()) {
+                    count++;
+                }
+                 if(count % searchLimit != 0){extraPage = 1;};
+                totalPage = (count / searchLimit) + extraPage;
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        
+        return totalPage;
+    }
+    
 }

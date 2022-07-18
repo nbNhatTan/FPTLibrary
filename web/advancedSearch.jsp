@@ -6,6 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@page import="sample.DTO.BookDTO"%>
+<%@page import="sample.DTO.Paging.Paging" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -23,6 +24,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
+        <script src="./Paging/jquery.twbsPagination.js" type="text/javascript"></script>
+
         <link rel="stylesheet" href="CSS/style1.css" />
         <link rel="stylesheet" href="CSS/advanceSearch.css" />
 
@@ -33,39 +36,46 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-        <div class="main">
+        <div class="main ">
+            
             <div class="row contents">
                 <div class="col-md-1"></div>
                 <div class="col-md-10 contents">
                     <div class="content">
-
+                        <%
+                                BookDTO searchData = (BookDTO) session.getAttribute("ADVANCED_SEARCH_DATA");
+                            if(searchData==null){
+                                searchData = new BookDTO("","","",""); 
+                            }
+                        %>  
                         <form action="MainController" method="POST">
+                            <div class="">
+                                <table class="my-table container-fluid">
+                                    <tr>
+                                        <td><label for="">Book Name:</label></td>
+                                        <td><input type="text" name="bookName" placeholder="can be blank..."  value="<%= searchData.getBookName() %>"></td>
+                                    </tr>
 
-                            <table class="my-table container-fluid">
-                                <tr>
-                                    <td><label for="">Book Name:</label></td>
-                                    <td><input type="text" name="bookName" placeholder="can be blank..."></td>
-                                </tr>
-
-                                <tr>
-                                    <td><label for="">Publisher</label></td>
-                                    <td><input type="text" name="publisher" placeholder="can be blank..."></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Author</label></td>
-                                    <td><input type="text" name="author" placeholder="can be blank..."></td>
-                                </tr>
-                                <tr>
-                                    <td><label for="">Language</label></td>
-                                    <td><input type="text" name="language" placeholder="can be blank..."></td>
-                                </tr>
+                                    <tr>
+                                        <td><label for="">Publisher</label></td>
+                                        <td><input type="text" name="publisher" placeholder="can be blank..." value="<%= searchData.getPublisher() %>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">Author</label></td>
+                                        <td><input type="text" name="author" placeholder="can be blank..."  value="<%= searchData.getAuthor() %>" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label for="">Language</label></td>
+                                        <td><input type="text" name="language" placeholder="can be blank..."  value="<%= searchData.getLanguage() %>" ></td>
+                                    </tr>
 
 
-                            </table>
+                                </table>
+                            </div>
                             <div class="">
                                 <div class="padding">
 
-                                    <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvanceSearch" />
+                                    <input class="btn btn-warning btn-sm" type="submit" name="action" value="AdvancedSearch"  />
 
                                     <button class="btn btn-warning btn-sm" type="reset">reset</button>
                                 </div>
@@ -73,6 +83,18 @@
                             </div>
                         </form>
                     </div>
+                <%
+                    
+                    
+                    List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
+                    if (list != null) {
+                    Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
+                    if (Advancedpage == null) {
+                        Advancedpage = new Paging();
+                    }
+                        
+                %>
+                <form action="MainController" id="pagingSubmit" method="post">
                     <div class="table-container content">
                         <h1 class="heading"> Danh sách kết quả</h1>
                         <table class="tableStyle book">
@@ -84,56 +106,88 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <%
-                                List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
-                                if (list != null) {
+                                <%
                                     if (!list.isEmpty()) {
                                         int count = 0;
                                         for (BookDTO book : list) {
                                             count++;
-                            %>
-                            <tr class="tb">
-                                <td class="tb" data-lable="Số thứ tự"><%= count%></td>
-                                <td class="tb" data-lable="Bìa sách"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
-                                <td class="tb" data-lable="Nội dung">
-                                    <div class="noBorder">
-                                        <table>
-                                            <tr>
-                                                <td>Tên sách:</td>
-                                                <td>
-                                                    <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                                        <%= book.getBookName()%>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Tác giả:</td>
-                                                <td>
-                                                    <%= book.getPublisher()%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nhà xuất bản:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                <td><%= book.getPublishYear()%></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ngôn ngữ:</td>
-                                                <td><%= book.getLanguage()%></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-
-
-                            </tr>
-                            <%
+                                %> <!-- Check list isEmpty? -> false -> show Result -->
+                                <tr class="tb">  <!-- Search collumn -->
+                                    <td class="tb" data-lable="Số thứ tự"><%= count%></td>
+                                    <td class="tb" data-lable="Bìa sách"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
+                                    <td class="tb" data-lable="Nội dung">
+                                        <div class="noBorder">
+                                            <table>
+                                                <tr>
+                                                    <td>Tên sách:</td>
+                                                    <td>
+                                                        <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                                            <%= book.getBookName()%>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tác giả:</td>
+                                                    <td>
+                                                        <%= book.getPublisher()%>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nhà xuất bản:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                    <td><%= book.getPublishYear()%></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ngôn ngữ:</td>
+                                                    <td><%= book.getLanguage()%></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>  <!-- Book  Information -->
+                                </tr>
+                                <%  
                                         }
                                     }
+
+                                %> <!-- End Check List -->
+                            </tbody>
+                        </table>
+                         <ul class="pagination" id="pagination"></ul> 
+                        
+                        <input type="hidden" value="" id="currentPage" name="currentPage"/>
+                        <input type="hidden" value="" id="searchLimit" name="searchLimit"/>
+                        <input type="hidden" value="AdvancedSearch" id="AdvancedSearch" name="action" />
+                    </div>  
+                </form>
+                        
+                <script>  
+                    
+                    var totalPages =  <%= Advancedpage.getTotalPages() %>;
+                    var currentPage = <%= Advancedpage.getPage()%> ;
+                    var visiblePages = 7;
+                    var limit = 20;
+                    
+                    $(function () {
+                        window.pagObj = $('#pagination').twbsPagination({
+                            totalPages: totalPages,
+                            visiblePages: visiblePages,
+                            startPage: currentPage,
+                            onPageClick: function (event, page) {
+                                
+                                if(currentPage !== page){ 
+                                    $('#searchLimit').val(limit);
+                                    $('#currentPage').val(page);
+                                    $('#pagingSubmit').submit();
                                 }
-                            %>
-                        </tbody>
-                    </table>
-                </div>
+                                
+                                
+                            }
+                        });
+                    });
+                </script>
+                <%                    
+                    
+                    }
+                %>
             </div>
             <div class="col-md-1"></div>
         </div>
