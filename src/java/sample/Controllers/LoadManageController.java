@@ -24,6 +24,7 @@ public class LoadManageController extends HttpServlet {
 
     private static final String ERROR = "ViewAccountController";
     private static final String SUCCESS = "editAccount.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
