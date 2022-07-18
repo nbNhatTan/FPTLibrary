@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import sample.DTO.GoogleDTO;
 import sample.Utils.Constants;
+
 /**
  *
  * @author Admin
@@ -40,16 +41,20 @@ public class LoginGoogleController extends HttpServlet {
         try {
             String code = request.getParameter("code");
             String accessToken = getToken(code);
-            GoogleDTO userGoogle= getUserInfo(accessToken);
-            
-            String accID = userGoogle.getGiven_name().replaceAll("\\s","").trim();
+            GoogleDTO userGoogle = getUserInfo(accessToken);
+
+            String[] words = userGoogle.getEmail().split("@");
+            String accID = words[0];
             String password = userGoogle.getId();
             String fullName = userGoogle.getName();
+            if (fullName.length()>20) {
+                fullName = fullName.substring(0, 19);
+            }
             String email = userGoogle.getEmail();
             AccountDAO dao = new AccountDAO();
             AccountDTO loginAccount = dao.checkLogin(accID, password);
             if (loginAccount == null) {
-               AccountDTO account = new  AccountDTO(accID, fullName, password, 3, email, "", "", true);
+                AccountDTO account = new AccountDTO(accID, fullName, password, 3, email, "", "", true);
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     HttpSession session = request.getSession();
@@ -61,7 +66,7 @@ public class LoginGoogleController extends HttpServlet {
                 if (status) {
                     HttpSession session = request.getSession();
                     session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                        url = SUCCESS;
+                    url = SUCCESS;
                 } else {
                     request.setAttribute("ERROR", "Account have been deleted!!!");
                 }
@@ -73,7 +78,8 @@ public class LoginGoogleController extends HttpServlet {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
-     public static String getToken(final String code) throws ClientProtocolException, IOException {
+
+    public static String getToken(final String code) throws ClientProtocolException, IOException {
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
                 .bodyForm(Form.form().add("client_id", Constants.GOOGLE_CLIENT_ID)
                         .add("client_secret", Constants.GOOGLE_CLIENT_SECRET)

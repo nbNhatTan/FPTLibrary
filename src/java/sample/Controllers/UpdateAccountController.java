@@ -70,6 +70,7 @@ public class UpdateAccountController extends HttpServlet {
                 boolean checkUpdate = dao.update(account);
                 if (checkUpdate) {
                     url = SUCCESS;
+                request.setAttribute("message", "Update");
                 }
             } else {
                 request.setAttribute("ACCOUNT_ERROR", accountError);
