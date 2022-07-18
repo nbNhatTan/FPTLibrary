@@ -5,6 +5,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,38 +14,42 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
-public class ViewBorrowDetailController extends HttpServlet {
+@WebServlet(name = "ViewOrCreateVLTController", urlPatterns = {"/ViewOrCreateVLTController"})
+public class ViewOrCreateVLTController extends HttpServlet {
 
-    private static final String ERROR = "ViewborrowStaffController";
-    private static final String ERROR2 = "ViewborrowController";
-    private static final String SUCCESS = "detailBorrow.jsp";
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR2;
+        String url = "ViolationDetailController";
         try {
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount.getRoleID() == 2) {
-                url = ERROR;
-            }
-            String bookingTicketID = request.getParameter("bookingTicketID");
+            int bookingTicketID = Integer.parseInt(request.getParameter("bookingTicketID"));
             TicketDAO dao = new TicketDAO();
-            BorrowDTO borrow = dao.getBorrowDetail(Integer.parseInt(bookingTicketID));
-            if (borrow != null) {
-                request.setAttribute("DETAIL_BORROW", borrow);
-                url = SUCCESS;
+            if (dao.GetViolationTicket_BookingTicketID(bookingTicketID) == null) {
+                HttpSession session = request.getSession();
+                AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+                if (loginAccount.getRoleID() == 2) {
+                    url = "createViolationTicket.jsp";
+                } else {
+                    url = "ViewborrowController";
+                    request.setAttribute("MESSAGE", "Don't have any Staff create the ViolationTicket for this violation!");
+                }
             }
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at ViewOrCreateVLTController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

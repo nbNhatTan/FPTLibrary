@@ -29,7 +29,7 @@ public class RegisterController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID");
+            String accountID = request.getParameter("accountID").replaceAll("\\s","").trim();
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
@@ -55,8 +55,8 @@ public class RegisterController extends HttpServlet {
             }if (!password.equals(confirm)) {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
-            }if (!Pattern.matches("[012]", roleID)) {
-                accountError.setRoleIDError("RoleID must be in [0,2]");
+            }if (!Pattern.matches("[123]", roleID)) {
+                accountError.setRoleIDError("RoleID must be in [1,3]");
                 checkValidation = false;
             }if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
                 accountError.setEmailError("Email not correct!");
@@ -81,7 +81,7 @@ public class RegisterController extends HttpServlet {
                 }
 
         } catch (Exception e) {
-            log("Error at CreateController: " + e.toString());
+            log("Error at RegisterController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

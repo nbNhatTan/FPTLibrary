@@ -1,9 +1,3 @@
-<%-- 
-    Document   : register
-    Created on : Jun 15, 2022, 9:59:49 PM
-    Author     : Admin
---%>
-
 <%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,7 +6,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Update</title>
+        <title>Edit Account</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -28,12 +22,12 @@
     <body>
        <jsp:include page="header.jsp"></jsp:include>
 <%
-            AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (accLogin == null) {
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (accLogin.getRoleID() == 1) {
+            if (acc.getRoleID() != 1) {
                 response.sendRedirect("error.jsp");
                 return;
             }
@@ -45,7 +39,7 @@
             <div>
 
             </div>
-            <h3 class="title-text">UPDATE ACCOUNT</h3>
+            <h3 class="title-text">EDIT ACCOUNT</h3>
             <%
                 AccountError accountError = (AccountError) request.getAttribute("ACCOUNT_ERROR");
                 if (accountError == null) {
@@ -54,8 +48,8 @@
                 
                 AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
             %>
-            <form action="MainController" method="POST" onsubmit="return create(this);">
-                <input name="action" value="UpdateAccount" type="hidden"/>
+            <form action="MainController" method="POST">
+
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
@@ -64,7 +58,7 @@
 
                     <tr>
                         <td><label for="">Role ID:</label></td>
-                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" readonly=""></td>                            
+                        <td><input name="roleID"type="text" class="form-control" value="<%= acc.getRoleID()%>" ><%= accountError.getRoleIDError()%></td>                            
                     </tr>
                     
                     <tr>
@@ -104,35 +98,18 @@
                     <tr>
                         <td></td>
                         <td class="a">
-                            <button class="btn btn-warning btn-sm">UPDATE</button>
-                            <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
-                        </td>
+                            <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
+                            <button class="btn btn-warning btn-sm" type="submit" name="action" value="EditAccount">UPDATE</button></td>
+
                     </tr>
 
                 </table>
             </form>
 
         </div>
+
+
+
     <jsp:include page="footer.jsp"></jsp:include>
-    
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function create(form) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to update your information.",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#F5D98F',
-                cancelButtonColor: '#F7E5D7',
-                confirmButtonText: 'Yes, I want!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-            return false;
-        }
-    </script>
 </body>
 </html>

@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="CSS/searchList.css">
         <link rel="stylesheet" href="CSS/style1.css">
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thư viện FPTU HCM</title>
+        <title>Search</title>
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css"
@@ -38,10 +38,13 @@
        <jsp:include page="header.jsp"></jsp:include>
 
 
-        <div class="main">
-            <div class="body-page row">
+        <div class="main row">
                 <div class="col-md-1"></div>
                 <div class="container col-md-10 content">
+                    <%
+                        List<BookDTO> list = (List<BookDTO>) request.getAttribute("LIST_BOOK");
+                        if (list != null) {
+                    %>
                     <div class="title-result">
                         <h3>
                             Result
@@ -51,50 +54,54 @@
                     <div class="wrapper">
 
                         <div class="wrapper-column-1">
-                            <%
-                                List<BookDTO> list = (List<BookDTO>) request.getAttribute("LIST_BOOK");
-                                if (list != null) {
-                                    if (list.size() > 0) {
-                            %>
-                            <form action="MainController">
-                                <div class="all-books"> 
-                                    <%
-                                        for (BookDTO book : list) {
-                                    %>
-
-                                    <div class="book">
-                                        <figure>
-                                            <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                                <img src="<%= book.getImage()%>" width="180" height="260"> 
-                                                <figcaption>
-                                                    <h3>
-                                                    <%= book.getBookName()%> 
-                                                     </h3>
-                                                </figcaption>
-                                            </a>
-                                        </figure>
-                                    </div>
-
-                                    <%
-                                        }
-                                    %>
-
+                            <div class="all-books"> 
+                                <%
+                                    for (BookDTO book : list) {
+                                %>
+                                <div class="book">
+                                    <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                        <img src="<%= book.getImage()%>" width="180" height="260"> 
+                                        <h3>
+                                            <%= book.getBookName()%>
+                                        </h3>
+                                    </a>
                                 </div>
-                            </form>
-                            <%
+                                <%
                                     }
-                                }
-                            %>
-                        </div>
-
-                        
-
+                                %>
+                            </div>
                         </div>
                     </div>
-                <div class="col-md-1"></div>   
-           </div>
-                
-            </div>
+                    <div class="all-button-pages">
+                        <button>
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </button>
+                        <button>1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>4</button>
+                        <button>...</button>
+                        <button>7</button>
+                        <button>8</button>
+                        <button>9</button>
+                        <button>10</button>
+                        <button>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <%
+                        }else{
+                    %>
+                    <div class="title-result">
+                        <h3>
+                            No Result!
+                        </h3>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
+                <div class="col-md-1"></div>
         </div>
 
 

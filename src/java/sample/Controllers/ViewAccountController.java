@@ -1,50 +1,44 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
+import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
 
 /**
  *
- * @author NhatTan
+ * @author Admin
  */
-@WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
-public class ViewBorrowDetailController extends HttpServlet {
+@WebServlet(name = "ViewAccountController", urlPatterns = {"/ViewAccountController"})
+public class ViewAccountController extends HttpServlet {
 
-    private static final String ERROR = "ViewborrowStaffController";
-    private static final String ERROR2 = "ViewborrowController";
-    private static final String SUCCESS = "detailBorrow.jsp";
+    private static final String ERROR = "HomeController";
+    private static final String SUCCESS = "manageAccount.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR2;
+        String url = ERROR;
         try {
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount.getRoleID() == 2) {
-                url = ERROR;
-            }
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            BorrowDTO borrow = dao.getBorrowDetail(Integer.parseInt(bookingTicketID));
-            if (borrow != null) {
-                request.setAttribute("DETAIL_BORROW", borrow);
-                url = SUCCESS;
-            }
+
+            AccountDAO dao = new AccountDAO();
+            List<AccountDTO> list = dao.getAllAccount();
+            request.setAttribute("listA", list);
+            url = SUCCESS;
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at LoginController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

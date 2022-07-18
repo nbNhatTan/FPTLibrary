@@ -5,42 +5,35 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BorrowDTO;
+import sample.DTO.ViolationTicketDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ViewBorrowDetailController", urlPatterns = {"/ViewBorrowDetailController"})
-public class ViewBorrowDetailController extends HttpServlet {
+@WebServlet(name = "ViolationDetailController", urlPatterns = {"/ViolationDetailController"})
+public class ViolationDetailController extends HttpServlet {
 
-    private static final String ERROR = "ViewborrowStaffController";
-    private static final String ERROR2 = "ViewborrowController";
-    private static final String SUCCESS = "detailBorrow.jsp";
+    private static final String ERROR = "ViewViolationController";
+    private static final String SUCCESS = "violationDetail.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR2;
+        String url = ERROR;
         try {
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount.getRoleID() == 2) {
-                url = ERROR;
-            }
-            String bookingTicketID = request.getParameter("bookingTicketID");
+            String violationTicketID = request.getParameter("bookingTicketID");
             TicketDAO dao = new TicketDAO();
-            BorrowDTO borrow = dao.getBorrowDetail(Integer.parseInt(bookingTicketID));
-            if (borrow != null) {
-                request.setAttribute("DETAIL_BORROW", borrow);
+            ViolationTicketDTO violation = dao.getViolationDetail(Integer.parseInt(violationTicketID));
+            if (violation != null) {
+                request.setAttribute("DETAIL_VIOLATION", violation);
                 url = SUCCESS;
             }
         } catch (Exception e) {

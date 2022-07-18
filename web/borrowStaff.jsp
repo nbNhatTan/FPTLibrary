@@ -14,7 +14,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Thông tin mượn sách</title>
+        <title>Borrow Staff</title>
         <link
             rel="stylesheet"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -34,7 +34,18 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
+        <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 2) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
 
+        %>
             <div>
 
                 <div class="table-container">
@@ -63,7 +74,7 @@
                             <tr>
                                 <th>Image</th>
                                 <th>ID</th>
-                                <th>UserID</th>
+                                <th>Borrower</th>
                                 <th>BookItemID</th>
                                 <th>Borrow Date</th>
                                 <th>Expiry Date</th>
@@ -84,7 +95,7 @@
                                 <img src="<%= p.getImage() %>" width="100" height="150"/>
                             </td>
                             <td><%= p.getBookingTicketID()%></td>
-                            <td><%= p.getUserID()%></td>
+                            <td><%= p.getUserID().getFullName()%></td>
                             <td><%= p.getBookItemID()%></td>
                             <td><%= p.getBorrowDate()%></td>
                             <td><%= p.getExpiredDate()%></td>
@@ -117,9 +128,9 @@
                                     %>
                                 </form>
                                     <%
-                                        if(p.getBorrowStatus().equals("Expired")){
+                                        if(p.getBorrowStatus().equals("Expired")||p.getBorrowStatus().equals("HandleViolation")){
                                     %>
-                                    <a href="createViolationTicket.jsp?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Create Violation</button></a>
+                                    <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%
                                         }
                                     %>

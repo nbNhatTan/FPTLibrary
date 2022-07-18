@@ -1,9 +1,4 @@
-<%-- 
-    Document   : register
-    Created on : Jun 15, 2022, 7:43:12 AM
-    Author     : NhatTan
---%>
-
+<%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,7 +6,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" , initial-scale="1" />
-        <title>Register</title>
+        <title>Add Account</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,18 +21,36 @@
 
     <body>
        <jsp:include page="header.jsp"></jsp:include>
+<%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
+            if (acc.getRoleID() != 1) {
+                response.sendRedirect("error.jsp");
+                return;
+            }
+
+        %>
+       
         <div>
+
+
             <div>
+
+
+
             </div>
-            <h3 class="title-text">REGISTER</h3>
+            <h3 class="title-text">ADD ACCOUNT</h3>
             <%
                 AccountError accountError = (AccountError) request.getAttribute("ACCOUNT_ERROR");
                 if (accountError == null) {
                     accountError = new AccountError();
                 }
             %>
-            <form action="MainController" method="POST" onsubmit="return create(this);">
-                <input name="action" value="Register" type="hidden"/>
+            <form action="MainController" method="POST">
+
                 <table class="my-table">
                     <tr>
                         <td><label for="">Account ID:</label></td>
@@ -51,12 +64,12 @@
 
                     <tr>
                         <td><label for="">Password:</label></td>
-                        <td><input name="password" type="text" placeholder="Enter Password" required=""></td>
+                        <td><input name="password" type="password" placeholder="Enter Password" required=""></td>
                     </tr>
 
                     <tr>
                         <td><label for="">Confirm:</label></td>
-                        <td><input name="confirm" type="text" placeholder="Enter Password" required=""><%= accountError.getConfirmError()%></td>                            
+                        <td><input name="confirm" type="password" placeholder="Enter Password" required=""><%= accountError.getPasswordError()%></td>                            
                     </tr>
 
                     <tr>
@@ -81,33 +94,18 @@
 
                     <tr>
                         <td></td>
-                        <td class="a"><a href="login.jsp"><button type="button" class="btn btn-light btn-sm">Cancel</button></a>
-                            <button class="btn btn-warning btn-sm">Register</button></td>
+                        <td class="a">
+                            <button onclick="history.back()" type="button" class="btn btn-light btn-sm">Cancel</button>
+                            <button  class="btn btn-warning btn-sm" type="submit" name="action" value="AddAccount">Add Account</button></td>
                     </tr>
 
                 </table>
             </form>
+
         </div>
+
+
+
     <jsp:include page="footer.jsp"></jsp:include>
-    
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function create(form) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to register a new account",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#F5D98F',
-                cancelButtonColor: '#F7E5D7',
-                confirmButtonText: 'Yes, I want!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
-            return false;
-        }
-    </script>
 </body>
 </html>
