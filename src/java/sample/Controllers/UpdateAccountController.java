@@ -24,33 +24,25 @@ import sample.DTO.AccountError;
 public class UpdateAccountController extends HttpServlet {
 
     private static final String ERROR = "updateAccount.jsp";
-    private static final String UPDATE = "HomeController";
-    private static final String EDIT = "ViewAccountController";
+    private static final String SUCCESS = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         String url = ERROR;
+        String url = ERROR;
         try {
-            AccountDAO dao = new AccountDAO();
-            HttpSession session = request.getSession();
-            AccountDTO login = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            
             String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
             String roleID = request.getParameter("roleID");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
-            if(password == null){
-                password = dao.getAccountByID(accountID).getPassword();
-                confirm = password;
-            }
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
 
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
+            AccountDAO dao = new AccountDAO();
 
             if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
@@ -77,17 +69,13 @@ public class UpdateAccountController extends HttpServlet {
                 AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
                 boolean checkUpdate = dao.update(account);
                 if (checkUpdate) {
-                    if(login.getRoleID()==1){
-                        url = EDIT;
-                    }else{
-                        url = UPDATE;
-                    }
+                    url = SUCCESS;
                 }
             } else {
                 request.setAttribute("ACCOUNT_ERROR", accountError);
             }
         } catch (Exception e) {
-            log("Error at UpdateAccountController: " + e.toString());
+            log("Error at UpdateController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

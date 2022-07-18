@@ -19,16 +19,16 @@ import sample.DTO.AccountDTO;
  *
  * @author Admin
  */
-@WebServlet(name = "LoadManageController", urlPatterns = {"/LoadManageController"})
-public class LoadManageController extends HttpServlet {
+@WebServlet(name = "LoadAccountController", urlPatterns = {"/LoadAccountController"})
+public class LoadAccountController extends HttpServlet {
 
-    private static final String ERROR = "ViewAccountController";
-    private static final String SUCCESS = "editAccount.jsp";
+    private static final String ERROR = "HomeController";
+    private static final String SUCCESS = "updateAccount.jsp";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = ERROR;
         try {
             String accountID = request.getParameter("accountID");
             AccountDAO dao = new AccountDAO();
