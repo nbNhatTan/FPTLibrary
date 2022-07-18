@@ -12,36 +12,53 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.DAO.AccountDAO;
+import javax.servlet.http.HttpSession;
+import sample.DAO.FeedbackDAO;
 import sample.DTO.AccountDTO;
+import sample.DTO.FeedBackDTO;
 
 /**
  *
- * @author Admin
+ * @author anhkhoa
  */
-@WebServlet(name = "LoadManageController", urlPatterns = {"/LoadManageController"})
-public class LoadManageController extends HttpServlet {
+@WebServlet(name = "CreateFeedBackController", urlPatterns = {"/CreateFeedBackController"})
+public class CreateFeedBackController extends HttpServlet {
 
-    private static final String ERROR = "ViewAccountController";
-    private static final String SUCCESS = "editAccount.jsp";
-    
+    private static final String ERROR = "bookDetail.jsp";
+    private static final String SUCCESS = "BookDetailController";
+    private static final String RETURN = "login.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = ERROR;
+
         try {
-            String accountID = request.getParameter("accountID");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO account = dao.getAccountByID(accountID);
-            if (account != null) {
-                request.setAttribute("ACCOUNT_DETAIL", account);
-                url = SUCCESS;
+            HttpSession session = request.getSession();
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (loginAccount != null) {
+                FeedbackDAO dao = new FeedbackDAO();
+                String userID = request.getParameter("userID");
+                int bookID = Integer.parseInt(request.getParameter("bookID"));
+                String comment = request.getParameter("comment");
+                int star = Integer.parseInt(request.getParameter("star"));
+
+                FeedBackDTO feedback = new FeedBackDTO(userID, bookID, comment, star);
+                boolean checkCreate = dao.createFeedback(feedback);
+
+                if (checkCreate) {
+                    url = SUCCESS;
+                    request.setAttribute("bookID", bookID);
+                }
+            } else {
+                url = RETURN;
             }
         } catch (Exception e) {
-            log("Error at LoadAccountController: " + e.toString());
+            log("ERROR at CreateFeedBackController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

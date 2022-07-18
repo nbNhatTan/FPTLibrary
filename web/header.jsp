@@ -37,7 +37,7 @@
             <div class="col-md-2 col">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <h5><a class="nav-link" href="LoadAccountController">Hello <%=acc.getFullName()%></a></h5>
+                        <h5><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <%=acc.getFullName()%></a></h5>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutController">Logout</a>
