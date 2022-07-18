@@ -117,22 +117,13 @@
                         </div>
                         <div >
                             <form action="MainController">
-                                <input type ="hidden" name="userID" value="<%=userID%>" />
-                                <input type="hidden" name="bookID" value="<%=book.getBookID()%>"  />
-
-                                <div>
-                                    <h5>Your comment </h5>
-                                </div>
-
-                                <textarea type="text"   name="comment" required="" /></textarea>
-
-
-                                <div >
-
-
-                                    <label class="col-md-12 mb-0">YOUR REVIEW</label>
+                                <input type ="hidden" name="userID" value="<%=userID%>"/>
+                                <input type="hidden" name="bookID" value="<%=book.getBookID()%>"/>
+                                <div> <br></div>
+                                <div class="comment_heading" style="background: #FFFFFF; color: #000">
+                                    <label class="col-md-12 text-center">- - - - - - - Your Comment - - - - - - -</label>
+                                    <textarea class="form-control box_comment" type="text" name="comment" required="" placeholder="What do you think about this book?"/></textarea>
                                     <div class="stars">
-
                                         <input class="star star-5" id="star-5" type="radio" name="star" value="5" required=""/>
                                         <label class="star star-5" for="star-5"></label>
                                         <input class="star star-4" id="star-4" type="radio" name="star" value="4" required=""/>
@@ -143,22 +134,17 @@
                                         <label class="star star-2" for="star-2"></label>
                                         <input class="star star-1" id="star-1" type="radio" name="star" value="1" required=""/>
                                         <label class="star star-1" for="star-1"></label>
-
-
                                     </div>
                                 </div>
-
-
                                 <div class="feedbackButton">
-                                    <button type="submit"  class="btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>               
+                                    <button type="submit"  class="btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>
                                 </div>
-
-
+                                <div><br></div>
                             </form>
 
                         </div>
                         <div style=" text-align: center"> 
-                            <h2 class="comment_heading"> COMMENT BY OTHER USER</h2>
+                            <h2 class="comment_heading" style="background: #FFFFFF; color: #000"> COMMENT BY OTHER USER</h2>
                         </div> 
                         <%
                             FeedbackDAO dao = new FeedbackDAO();
@@ -173,16 +159,11 @@
                                     for (FeedBackDTO feedback : listFeedback) {
                                 %>                
                                 <div class="box_comment">
-
                                     <div >
                                         <div >
-
                                             <div class="user_name">
-                                                <strong> User </strong>
-                                                <%= feedback.getUserID()%>
-
+                                                <strong><%= feedback.getUserID()%></strong>
                                             </div>
-
                                             <div >                                           
                                                 <%
                                                     int star;
@@ -193,14 +174,9 @@
                                                     }
                                                 %>
                                             </div>    
-
-
-                                            <div class = "client_comment">  
-                                                <strong>  Comment </strong>
+                                            <div class = "client_comment"> 
                                                 <div><%= feedback.getComment()%></div>
-
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -227,8 +203,8 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10 contents">
                     <div class="new">
-                        <h6 class="text-center">More like This</h6>
-
+                        <h2 class="comment_heading text-center" style="background: #FFFFFF; color: #000">More like This</h2>
+                        <div><br></div>
                         <div class="new2 row" >
                             <div class="col-md-1"></div>
                             <%
