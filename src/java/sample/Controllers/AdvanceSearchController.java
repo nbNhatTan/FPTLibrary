@@ -21,8 +21,8 @@ import sample.DTO.Paging.Paging;
  *
  * @author NhatTan
  */
-@WebServlet(name = "AdvancedSearchController", urlPatterns = {"/AdvancedSearchController"})
-public class AdvancedSearchController extends HttpServlet {
+@WebServlet(name = "AdvanceSearchController", urlPatterns = {"/AdvanceSearchController"})
+public class AdvanceSearchController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
