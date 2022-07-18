@@ -105,17 +105,9 @@
                             }
                         %>
                     </tbody>
-
                 </table>
-
             </div>
-
-
-
-
         </div>
-
-
         <div class="pagination">
             <ul>
                 <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
@@ -128,15 +120,25 @@
                 <li class="dots"><span>...</span></li>
                 <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
             </ul>
-
-
         </div>
-
-
-
-
-
-
         <jsp:include page="footer.jsp"></jsp:include>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <%
+            String message = (String) request.getAttribute("message");
+            if(message != null){
+        %>
+            <script>
+                Swal.fire({
+                            title: 'Success!',
+                            text: '<%=message%> success.',
+                            confirmButtonColor: '#F5D98F',
+                            timer: 1000,
+                            timerProgressBar: true,
+                            icon: 'success'
+                        });
+            </script>
+        <%
+            }
+        %>
     </body>
 </html>
