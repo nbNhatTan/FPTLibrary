@@ -25,7 +25,7 @@ import sample.DTO.FeedBackDTO;
 public class CreateFeedBackController extends HttpServlet {
 
     private static final String ERROR = "bookDetail.jsp";
-    private static final String SUCCESS = "MainController?action=Detail&bookID";
+    private static final String SUCCESS = "bookDetail.jsp";
     private static final String RETURN = "login.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -57,8 +57,9 @@ public class CreateFeedBackController extends HttpServlet {
             String userID = request.getParameter("userID");
             int bookID = Integer.parseInt(request.getParameter("bookID"));           
             String comment = request.getParameter("comment");
+            int star = Integer.parseInt(request.getParameter("star"));
            
-            FeedBackDTO feedback = new FeedBackDTO(feedbackID, userID, bookID, comment);        
+            FeedBackDTO feedback = new FeedBackDTO(feedbackID, userID, bookID, comment, star);        
             boolean checkCreate = dao.createFeedback(feedback);
             
             if (checkCreate) {

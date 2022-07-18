@@ -25,10 +25,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="CSS/style1.css" />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 
     </head>
 </head>
@@ -41,14 +42,14 @@
                     <div class="content">
                     <%
                         AccountDTO Users = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-                        String UsersID ="";
-                     if(Users != null)  {  
+                        String UsersID = "";
+                        if (Users != null) {
                             UsersID = Users.getAccountID();
-                     }
+                        }
                         BookDTO book = (BookDTO) request.getAttribute("DETAIL_BOOK");
-                       
+
                         if (book != null) {
-                             
+
                     %>
                     <div class="row">
                         <div class="col-md-6">
@@ -97,7 +98,7 @@
                                             for (CategoryDTO c : listCategory) {
                                     %>
                                     <a href="" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8; 
-                                               display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                       display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
                                     <%
                                             }
                                         }
@@ -107,141 +108,184 @@
                                 </tr>
                             </table>                            
                             <a href="BookDetailController?action=BkConfirm&bookID=<%= book.getBookID()%>"><button type="button" class="bookingButton btn btn-light btn-sm">Book</button></a>
-                            
+
                             <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
 
                         </div>
                     </div>
-                            
-                        <div>      
 
-                        <div>
-                            <form action="MainController">
-                               <input type ="hidden" name="userID" value="<%= UsersID %>" />
-                                <input type="hidden" name="bookID" value="<%=book.getBookID() %>"  />
-                                
-                                <div>
-                                    <h5>Your comment </h5>
-                                </div>
-                                
-                                <textarea type="text" name="comment" required="" /></textarea>
+
+
+                    <div >
+                        <form action="MainController">
+                            <input type ="hidden" name="userID" value="<%= UsersID%>" />
+                            <input type="hidden" name="bookID" value="<%=book.getBookID()%>"  />
+
                             <div>
-                                <button type="submit"  class="feedbackButton  btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>               
+                                <h5>Your comment </h5>
                             </div>
-                            
+
+                            <textarea type="text"   name="comment" required="" /></textarea>
+
+
+                            <div >
                                 
-                            </form>
 
-                        </div>
-                        </div>       
-                         
+                                <label class="col-md-12 mb-0">YOUR REVIEW</label>
+                                <div class="stars">
+
+                                    <input class="star star-5" id="star-5" type="radio" name="star" value="5" required=""/>
+                                    <label class="star star-5" for="star-5"></label>
+                                    <input class="star star-4" id="star-4" type="radio" name="star" value="4" required=""/>
+                                    <label class="star star-4" for="star-4"></label>
+                                    <input class="star star-3" id="star-3" type="radio" name="star" value="3" required=""/>
+                                    <label class="star star-3" for="star-3"></label>
+                                    <input class="star star-2" id="star-2" type="radio" name="star" value="2" required=""/>
+                                    <label class="star star-2" for="star-2"></label>
+                                    <input class="star star-1" id="star-1" type="radio" name="star" value="1" required=""/>
+                                    <label class="star star-1" for="star-1"></label>
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="feedbackButton">
+                                <button type="submit"  class="btn btn-light btn-sm"  name="action" value="CreateFeedback">Feedback</button>               
+                            </div>
+
+
+                        </form>
+
+                    </div>
 
 
 
-                        <div>
-                            <div class="col-md-6 container-fluid"> 
-                                <h5>COMMENT BY OTHER USER</h5>
-                            </div> 
+                    <div style=" text-align: center"> 
+                        <h2 class="comment_heading"> COMMENT BY OTHER USER</h2>
+                    </div> 
+
+
+
+                    <%
+                        FeedbackDAO dao = new FeedbackDAO();
+                        List<FeedBackDTO> listFeedback = dao.getFeedbackList(book.getBookID());
+
+                        if (listFeedback != null) {
+                            if (listFeedback.size() > 0) {
+                    %>
+
+
+                    <div>
+
+                        <div>                    
                             <%
-                                FeedbackDAO dao = new FeedbackDAO();
-                                List<FeedBackDTO> listFeedback = dao.getFeedbackList(book.getBookID());
+                                for (FeedBackDTO feedback : listFeedback) {
+                            %>                
+                            <div class="box_comment">
 
-                                if (listFeedback != null) {
-                                    if (listFeedback.size() > 0) {
+                                <div >
+                                    <div >
+
+                                        <div class="user_name">
+                                            <strong> User </strong>
+                                            <%= feedback.getUserID()%>
+
+                                        </div>
+                                            
+                                        <div >                                           
+                                                <%
+                                                    int star;
+                                                    for (star = 1; star <= feedback.getStar(); star++) {
+                                                %>
+                                                <i class="fas fa-star " style="color : #ffcc00 " ></i>
+                                                <%
+                                                    }
+                                                %>
+                                        </div>    
+
+
+                                        <div class = "client_comment">  
+                                            <strong>  Comment </strong>
+                                            <div><%= feedback.getComment()%></div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <%
+                                }
                             %>
 
-
-                    <table border = "1">
-                        <thead>
-                            <tr>
-                                <th> User </th>
-                                <th> Comment </th>
-                            </tr>
-                        </thead>                        
-                       <tbody>                    
-                    <%
-                    for (FeedBackDTO feedback : listFeedback) {
-                %>                
-                <div>
-                    <td>
-                        <%= feedback.getUserID()%>
-                        
-                    </td>
-
-                    <td>  
-                        <%= feedback.getComment()%>
-                        
-                    </td>
-                </div>
-                    
-                 </tbody>
-                    <%
-                                }
-                             %>
-                    
-                    </table>
-                        <%   
-                            }
-            }
-                        }
-                    %>
-                     
-                    </div> 
-                            
-                    </div>
-
-
-
- 
-                 
-
-                    
-                    
-                    
-                    <div class="col-md-1"></div>
-                </div>
-                <div class="contents row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 contents">
-                        <div class="content">
-                            <hr>
-                        </div>
-
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-                <div class="introduce row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 contents">
-                        <div class="new">
-                            <h6 class="text-center">More like This</h6>
-
-                    <div class="new2 row" >
-                        <div class="col-md-1"></div>
-                        <%
-                            List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
-                            if (list != null) {
-                                if (!list.isEmpty()) {
-                                    for (BookDTO b : list) {
-                        %>
-                        <div class="col-md-2 new-item text-center">
-                            <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><img src="<%= b.getImage()%>" width="188" height="230"/></a>
-                            <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><p><%= b.getBookName()%></p></a>
                         </div>
                         <%
                                     }
                                 }
                             }
                         %>
-                        <div class="col-md-1"></div>
-                    </div>
+
+                    </div> 
+
+
+
                 </div>
 
+
+
+
+
+
+
+
+
+                <div class="col-md-1"></div>
             </div>
-            <div class="col-md-1"></div>
+            <div class="contents row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="content">
+                        <hr>
+                    </div>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="introduce row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="new">
+                        <h6 class="text-center">More like This</h6>
+
+                        <div class="new2 row" >
+                            <div class="col-md-1"></div>
+                            <%
+                                List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                                if (list != null) {
+                                    if (!list.isEmpty()) {
+                                        for (BookDTO b : list) {
+                            %>
+                            <div class="col-md-2 new-item text-center">
+                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><img src="<%= b.getImage()%>" width="188" height="230"/></a>
+                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><p><%= b.getBookName()%></p></a>
+                            </div>
+                            <%
+                                        }
+                                    }
+                                }
+                            %>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
         </div>
-    </div>
+    </div>           
     <jsp:include page="footer.jsp"></jsp:include>
+
+
 
 
 

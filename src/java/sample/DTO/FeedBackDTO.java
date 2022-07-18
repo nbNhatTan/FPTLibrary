@@ -12,16 +12,19 @@ import sample.DAO.*;
  * @author anhkhoa
  */
 public class FeedBackDTO {
+
     private String feedbackID;
     private String userID;
     private int bookID;
     private String comment;
+    private int star;
 
-    public FeedBackDTO(String feedbackID, String userID, int bookID, String comment) {
+    public FeedBackDTO(String feedbackID, String userID, int bookID, String comment, int star) {
         this.feedbackID = feedbackID;
         this.userID = userID;
         this.bookID = bookID;
         this.comment = comment;
+        this.star = star;
     }
 
     public String getFeedbackID() {
@@ -55,8 +58,13 @@ public class FeedBackDTO {
     public void setComment(String comment) {
         this.comment = comment;
     }
-    
-    
-    
-    
+
+    public int getStar() {
+        return star;
+    }
+
+    public void setStar(int star) {
+        this.star = star;
+    }
+
 }

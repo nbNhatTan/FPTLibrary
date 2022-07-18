@@ -23,8 +23,8 @@ import sample.Utils.DBUtils;
 public class FeedbackDAO {
             
     
-        private static final String CREATE_FEEDBACK = "INSERT INTO tblFeedback(feedbackID, userID, bookID , comment) VALUES (?,?,?,?)";
-        private static final String VIEW_FEEDBACK = "SELECT FeedbackID , bookID, userID, comment  FROM tblFeedback WHERE bookID = ?  ";
+        private static final String CREATE_FEEDBACK = "INSERT INTO tblFeedback(feedbackID, userID, bookID , comment, star) VALUES (?,?,?,?,?)";
+        private static final String VIEW_FEEDBACK = "SELECT FeedbackID , bookID, userID, comment , star FROM tblFeedback WHERE bookID = ?  ";
         private static final String CHECK_DUPLICATE = "SELECT userID from tblFeedback WHERE feedbackID = ?" ;
     
         public boolean createFeedback(FeedBackDTO feedback) throws SQLException {
@@ -40,6 +40,7 @@ public class FeedbackDAO {
                 ptm.setString(2, feedback.getUserID());
                 ptm.setInt(3, feedback.getBookID());
                 ptm.setString(4, feedback.getComment());
+                ptm.setInt(5, feedback.getStar());
                     
                 check = ptm.executeUpdate() > 0 ? true : false;
            
@@ -72,7 +73,8 @@ public class FeedbackDAO {
                     String feedbackID = rs.getString("feedbackID");                                       
                     String userID = rs.getString("userID");
                     String comment = rs.getString("comment");
-                    list.add(new FeedBackDTO(feedbackID,userID, bookID,comment));
+                    int star = rs.getInt("star");
+                    list.add(new FeedBackDTO(feedbackID,userID, bookID,comment,star));
                 }
             }
         } catch (Exception e) {
