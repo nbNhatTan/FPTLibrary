@@ -50,13 +50,15 @@ public class TicketDAO {
             + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
             + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
             + "WHERE t.bookingTicketID like ?";
-    private static final String GETVIOLATIONDETAIL = "SELECT violationTicketID, staffID, createDate, description, ticketStatus FROM tblViolationTicket WHERE bookingTicketID like ?";
+    private static final String GETVIOLATIONDETAIL = "SELECT violationTicketID, staffID, createDate, description, ticketStatus FROM tblViolationTicket WHERE bookingTicketID = ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKINGTICKET_STATUS = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKSTATUS = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID = ?";
+    private static final String UPDATEBOOKSTATUS_TICKETID = "UPDATE i SET i.bookStatus=? FROM tblBookItem i INNER JOIN tblBookingTicket t ON i.bookItemID =t.bookItemID WHERE bookingTicketID = ?";
     private static final String UPDATEVIOLATIONSTATUS = "UPDATE tblViolationTicket SET ticketStatus=? WHERE violationTicketID=?";
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
+    private static final String GETBOOKINGTICKETID_VIOLATIONID = "SELECT bookingTicketID FROM tblViolationTicket WHERE violationTicketID=?";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -440,7 +442,7 @@ public class TicketDAO {
                 ptm.setString(2, "Returned");
                 ptm.setInt(3, bookingTicketID);
                 check1 = ptm.executeUpdate() > 0;
-                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
                 ptm.setString(1, "On Bookshelf");
                 ptm.setInt(2, bookingTicketID);
                 check2 = ptm.executeUpdate() > 0;
@@ -472,7 +474,7 @@ public class TicketDAO {
                 ptm.setString(1, "Borrowing");
                 ptm.setInt(2, bookingTicketID);
                 check1 = ptm.executeUpdate() > 0;
-                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
                 ptm.setString(1, "Borrowing");
                 ptm.setInt(2, bookingTicketID);
                 check2 = ptm.executeUpdate() > 0;
@@ -491,7 +493,7 @@ public class TicketDAO {
         return check;
     }
 
-    public boolean updateViolationStatus(String ticketStatus, String violationTicketID) throws SQLException {
+    public boolean updateViolationStatus(int ticketStatus, int violationTicketID) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -499,8 +501,8 @@ public class TicketDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(UPDATEVIOLATIONSTATUS);
-                ptm.setString(1, ticketStatus);
-                ptm.setString(2, violationTicketID);
+                ptm.setInt(1, ticketStatus);
+                ptm.setInt(2, violationTicketID);
                 check = ptm.executeUpdate() > 0;
             }
         } catch (Exception e) {
@@ -636,6 +638,38 @@ public class TicketDAO {
                     violation = new ViolationTicketDTO(bookingTicketID, createDate, description, ticketStatus, staffID);
                     violation.setViolationTicketID(violationTicketID);
                     return violation;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
+
+    public Integer getBookingTicketID_ViolationID(int violationID) throws SQLException {
+        ViolationTicketDTO violation;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETBOOKINGTICKETID_VIOLATIONID);
+                ptm.setInt(1, violationID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int bookingTicketID = rs.getInt("bookingTicketID");
+                    return bookingTicketID;
                 }
             }
         } catch (Exception e) {
