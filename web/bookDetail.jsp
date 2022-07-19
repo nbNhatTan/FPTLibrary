@@ -51,68 +51,68 @@
                             if (book != null) {
                         %>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="bookDetailImage text-center container-fluid">
-                                    <img src="<%= book.getImage()%>"/>
+                                    <img style="width: 80%;height: 80%;" src="<%= book.getImage()%>"/>
                                 </div>
                             </div>
-                            <div class="col-md-6 container-fluid">
-                                <h5><%= book.getBookName()%></h5>
+                            <div class="col-md-8 container-fluid">
+                                <h3><strong><%= book.getBookName()%></strong></h3>
                                 <table width="100%">
-                                    <tr>
-                                        <td><h6>Authors: </h6></td>
-                                        <td><%= book.getAuthor()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Publisher: </h6></td>
-                                        <td><%= book.getPublisher()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Publication Year: </h6></td>
-                                        <td><%= book.getPublishYear()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Language: </h6></td>
-                                        <td><%= book.getLanguage()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>DDC: </h6></td>
-                                        <td><%= book.getDDC()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Bookshelf: </h6></td>
-                                        <td><%= book.getBookshelf()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Description: </h6></td>
-                                        <td><%= book.getDescription()%></td>
-                                    </tr>
-                                    <tr>
-                                        <td><h6>Book Tag: </h6></td>
-                                        <td class="list-unstyled">
-                                    <li>
-                                        <%
-                                            List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                            if (listCategory != null) {
-                                                for (CategoryDTO c : listCategory) {
-                                        %>
-                                        <a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
-                                           display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
-                                        <%
-                                                }
-                                            }
-                                        %>
-                                    </li>
-                                    </td>
-                                    </tr>
-                                </table>                            
-
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Authors </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getAuthor()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Publisher </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getPublisher()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Publication Year </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getPublishYear()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Language </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getLanguage()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;DDC </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getDDC()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Bookshelf </strong></dt>
+                                        <dd>&emsp;&emsp;<%= book.getBookshelf()%></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt><strong>&emsp;&emsp;Book Tag </strong></dt>
+                                        <dd class="list-unstyled">
+                                            <li>
+                                                <%
+                                                    List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
+                                                    if (listCategory != null) {
+                                                        for (CategoryDTO c : listCategory) {
+                                                %>
+                                                &emsp;&emsp;<a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
+                                                   display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+                                            </li>
+                                        </dd>
+                                    </dl>
+                                </table>
+                            </div>
+                            <dl style="margin-left: 50px;margin-right: 50px;">
+                                <dt><strong>Description </strong></dt>
+                                <dd><%= book.getDescription()%></dd>
+                            </dl>
+                            <%
+                                }
+                            %>
+                            <div style="margin: auto;">
                                 <button type="button" onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
-                                <%
-                                    }
-                                %>
                                 <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
-
                             </div>
                         </div>
                         <div >
