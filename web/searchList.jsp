@@ -71,6 +71,9 @@
                                 %>
                             </div>
                         </div>
+                        <div class="wrapper-column-2">
+                            ashdjhavxcz
+                        </div>
                     </div>
                     <div class="all-button-pages">
                         <button>
