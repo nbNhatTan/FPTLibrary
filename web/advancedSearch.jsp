@@ -38,12 +38,7 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <%
-        Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
-        if (Advancedpage == null) {
-            Advancedpage = new Paging();
-        }
-    %>
+    
     <div class="main">
         <div class="row contents">
             <div class="col-md-1"></div>
@@ -53,7 +48,8 @@
                     <form action="MainController" method="POST">
                         
                         <table class="my-table">
-                            <%                                BookDTO searchData = (BookDTO) request.getAttribute("ADVANCED_SEARCH_DATA");
+                        <%                              
+                            BookDTO searchData = (BookDTO) request.getAttribute("ADVANCED_SEARCH_DATA");
                                 if (searchData == null) {
                                     searchData = new BookDTO("", "", "", "");
                                 }
@@ -102,7 +98,7 @@
                                     if (listCategory != null) {
                                         for (CategoryDTO c : listCategory) {
                                 %>
-                                <a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
+                                <a href="MainController?action=AdvancedSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
                                    display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%>
                                 </a>
                                 <%
@@ -131,7 +127,12 @@
                         <%
                             List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
                             if (list != null) {
-
+                            
+                            Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
+                            if (Advancedpage == null) {
+                                Advancedpage = new Paging();
+                            }
+    
 
                         %>
                         <h1 class="heading"> List result</h1>
@@ -205,18 +206,23 @@
                         <input type="hidden" name="categoryId" id="categoryId"  value="<%=categoryId%>"/>
                         <input type="hidden" value="AdvancedSearch" id="AdvancedSearch" name="action" />
                     </form>
-                    <script>
+                    <script>    
 
                         var totalPages = <%= Advancedpage.getTotalPages()%>;
                         var currentPage = <%= Advancedpage.getPage()%>;
                         var visiblePages = 7;
                         var limit = 10;
+                        
 
                         $(function () {
                             window.pagObj = $('#pagination').twbsPagination({
                                 totalPages: totalPages,
                                 visiblePages: visiblePages,
                                 startPage: currentPage,
+                                first:'<<<',
+                                prev:'<-',
+                                next:'->',
+                                last:'>>>',
                                 onPageClick: function (event, page) {
                                     if (currentPage !== page) {
                                         $('#searchLimit').val(limit);

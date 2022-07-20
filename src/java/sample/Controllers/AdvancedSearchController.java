@@ -32,48 +32,17 @@ public class AdvancedSearchController extends HttpServlet {
             BookDTO searchData = new BookDTO("", "", "", "");
             BookDAO dao = new BookDAO();
             int categoryId = 0;
-            //--------------------------------------------------------------------------------------------
-            String bBookName = request.getParameter("bookName");
-            String bAuthor = request.getParameter("author");
-            String bPublisher = request.getParameter("publisher");
-            String bLanguage = request.getParameter("language");
-            String categoryId_txt = request.getParameter("categoryId"); 
-            
-            //--------------------------------------------------------------------------------------------    
-            List<CategoryDTO> listCategory = dao.getAllBookTag();
-            if (!listCategory.isEmpty()) {
-                request.setAttribute("LIST_CATEGORY", listCategory);
-            }
-            //--------------------------------------------------------------------------------------------
             int currentBook = 0;
             int searchLimit = 10;
-            int currentPage = 1;
+            int currentPage = 1; 
+          
             //--------------------------------------------------------------------------------------------
-            String currentPage_txt = request.getParameter("currentPage");
-            if (currentPage_txt != null) {
-                currentPage = Integer.parseInt(currentPage_txt);
-            }
-            String searchLimit_txt = request.getParameter("searchLimit");
-            if (searchLimit_txt != null) {
-                searchLimit = Integer.parseInt(searchLimit_txt);
-            }    
-            
-            //--------------------------------------AdvanceListPage---------------------------------------
-            int totalPage = dao.countGetListBook_TotalPage(bBookName, bAuthor, bPublisher, bLanguage, categoryId, searchLimit);
-            
-            currentBook = searchLimit * currentPage - searchLimit;
-            Paging page = new Paging(currentPage, totalPage);
-            
-            //--------------------------------------------------------------------------------------------
-            List<BookDTO> listBook;
-            if(bBookName != null && bAuthor ==null && bLanguage==null && bPublisher ==null && categoryId_txt ==null){
-                bAuthor = ""; bLanguage = ""; bPublisher =""; categoryId=0;
-                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
-            } else {
-                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
-            }
-             
-            //-------------------------------------------------------------------------------------------- 
+            String bBookName = request.getParameter("bookName"); if(bBookName==null){bBookName = "";}
+            String bAuthor = request.getParameter("author"); if(bAuthor==null){bAuthor = "";}
+            String bPublisher = request.getParameter("publisher"); if(bPublisher==null){bPublisher = "";}
+            String bLanguage = request.getParameter("language"); if(bLanguage==null){bLanguage = "";}
+            String categoryId_txt = request.getParameter("categoryId");  
+             //-------------- Ép kiểu CategoryID -> không phải -> trả về giá trị mặc định ---------------- 
             try{
                 categoryId = Integer.parseInt(categoryId_txt);
                 searchCate = new CategoryDTO(categoryId);       
@@ -87,7 +56,38 @@ public class AdvancedSearchController extends HttpServlet {
             } catch (Exception e) {
             } finally { 
                 request.setAttribute("ADVANCED_SEARCH_DATA", searchData);
-            }  
+            }   
+            //--------------------------------------------------------------------------------------------    
+            List<CategoryDTO> listCategory = dao.getAllBookTag();
+            if (!listCategory.isEmpty()) {
+                request.setAttribute("LIST_CATEGORY", listCategory);
+            }
+           
+            //--------------------------------------------------------------------------------------------
+            String currentPage_txt = request.getParameter("currentPage");
+            if (currentPage_txt != null) {
+                currentPage = Integer.parseInt(currentPage_txt);
+            }
+            String searchLimit_txt = request.getParameter("searchLimit");
+            if (searchLimit_txt != null) {
+                searchLimit = Integer.parseInt(searchLimit_txt);
+            }    
+             
+            
+            //--------------------------------------AdvanceListPage---------------------------------------
+            
+            
+            int totalPage = dao.countGetListBook_TotalPage(bBookName, bAuthor, bPublisher, bLanguage, categoryId, searchLimit);
+            
+            currentBook = searchLimit * currentPage - searchLimit;
+            Paging page = new Paging(currentPage, totalPage);
+            
+            //--------------------------------------------------------------------------------------------
+            List<BookDTO> 
+                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
+            
+             
+            
             
                     
 //            if (categoryId==0) {
