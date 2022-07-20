@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package sample.Controllers;
 
@@ -12,33 +11,42 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.DAO.AccountDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.TicketDAO;
 
 /**
  *
- * @author Admin
+ * @author NhatTan
  */
-@WebServlet(name = "LoadManageController", urlPatterns = {"/LoadManageController"})
-public class LoadManageController extends HttpServlet {
+@WebServlet(name = "PayViolationController", urlPatterns = {"/PayViolationController"})
+public class PayViolationController extends HttpServlet {
 
-    private static final String ERROR = "ViewAccountController";
-    private static final String SUCCESS = "editAccount.jsp";
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = "ViolationDetailController";
         try {
-            String accountID = request.getParameter("accountID");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO account = dao.getAccountByID(accountID);
-            if (account != null) {
-                request.setAttribute("ACCOUNT_DETAIL", account);
-                url = SUCCESS;
+            String violationID = request.getParameter("violationTicketID");
+            TicketDAO dao = new TicketDAO();
+            if (violationID != null) {
+                dao.updateViolationStatus(0, Integer.parseInt(violationID));
+                int bookingTicketID = dao.getBookingTicketID_ViolationID(Integer.parseInt(violationID));
+                request.setAttribute("message", "Pay violation");
+                url = "ReturnController?bookingTicketID="+bookingTicketID;
+            } else {
+                request.setAttribute("violationTicketID", violationID);
+                request.setAttribute("message", "Pay violation fail!");
             }
         } catch (Exception e) {
-            log("Error at LoadAccountController: " + e.toString());
+            log("Error at PayViolationController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -7,42 +7,44 @@ package sample.Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import sample.DAO.AccountDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.FeedbackDAO;
+import sample.DTO.FeedBackDTO;
 
 /**
  *
- * @author Admin
+ * @author anhkhoa
  */
-@WebServlet(name = "LoadManageController", urlPatterns = {"/LoadManageController"})
-public class LoadManageController extends HttpServlet {
+@WebServlet(name = "ViewFeedBackController", urlPatterns = {"/ViewFeedBackController"})
+public class ViewFeedBackController extends HttpServlet {
 
-    private static final String ERROR = "ViewAccountController";
-    private static final String SUCCESS = "editAccount.jsp";
-    
+     private static final String ERROR = "feedback.jsp";
+    private static final String SUCCESS = "feedback.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       String url = ERROR;
+        String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO account = dao.getAccountByID(accountID);
-            if (account != null) {
-                request.setAttribute("ACCOUNT_DETAIL", account);
+            String search = request.getParameter("search");
+            FeedbackDAO dao = new FeedbackDAO();
+            List<FeedBackDTO> listFeedback = dao.getFeedbackList(Integer.parseInt(search));
+            if (listFeedback.size() > 0) {
+                request.setAttribute("LIST_FEEDBACK", listFeedback);
                 url = SUCCESS;
             }
         } catch (Exception e) {
-            log("Error at LoadAccountController: " + e.toString());
+            log("Error at ViewFeedBackController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
+            
+        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

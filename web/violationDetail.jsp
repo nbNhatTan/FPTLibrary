@@ -38,7 +38,7 @@
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (acc.getRoleID() != 2) {
+            if (acc.getRoleID() == 1) {
                 response.sendRedirect("error.jsp");
                 return;
             }
@@ -86,7 +86,7 @@
                                     <%
                                         } else {
                                     %>
-                                    <td><span style="color: #00b050"</span> </td>
+                                    <td><span style="color: #00b050">[Paid]</span> </td>
                                     <%
                                         }
                                     %>

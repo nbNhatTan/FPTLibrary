@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
 import sample.DTO.AccountError;
@@ -22,13 +23,13 @@ import sample.DTO.AccountError;
 @WebServlet(name = "UpdateAccountController", urlPatterns = {"/UpdateAccountController"})
 public class UpdateAccountController extends HttpServlet {
 
-    private static final String ERROR = "LoadAccountController";
+    private static final String ERROR = "updateAccount.jsp";
     private static final String SUCCESS = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         String url = ERROR;
+        String url = ERROR;
         try {
             String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
@@ -69,13 +70,15 @@ public class UpdateAccountController extends HttpServlet {
                 boolean checkUpdate = dao.update(account);
                 if (checkUpdate) {
                     url = SUCCESS;
-                request.setAttribute("message", "Update");
+                    request.setAttribute("message", "Update");
+                    HttpSession session = request.getSession();
+                    session.setAttribute("LOGIN_ACCOUNT", account);
                 }
             } else {
                 request.setAttribute("ACCOUNT_ERROR", accountError);
             }
         } catch (Exception e) {
-            log("Error at UpdateAccountController: " + e.toString());
+            log("Error at UpdateController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

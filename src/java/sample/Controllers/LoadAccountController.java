@@ -1,39 +1,41 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import sample.DAO.AccountDAO;
 import sample.DTO.AccountDTO;
 
+/**
+ *
+ * @author Admin
+ */
 @WebServlet(name = "LoadAccountController", urlPatterns = {"/LoadAccountController"})
 public class LoadAccountController extends HttpServlet {
 
     private static final String ERROR = "HomeController";
     private static final String SUCCESS = "updateAccount.jsp";
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            String accountID = request.getParameter("accountID");
             AccountDAO dao = new AccountDAO();
-            if (loginAccount != null) {
-                AccountDTO account = dao.getAccountByID(loginAccount.getAccountID());
-                if (account != null) {
-                    request.setAttribute("ACCOUNT_DETAIL", account);
-                    url = SUCCESS;
-                }
+            AccountDTO account = dao.getAccountByID(accountID);
+            if (account != null) {
+                request.setAttribute("ACCOUNT_DETAIL", account);
+                url = SUCCESS;
             }
         } catch (Exception e) {
             log("Error at LoadAccountController: " + e.toString());

@@ -51,7 +51,7 @@ public class BorrowController extends HttpServlet {
                 BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Pending");
                 dao.createBookingTicket(ticket);
 
-                request.setAttribute("MESSAGE", "Borrow successfully");
+                request.setAttribute("message", "Request borrow book");
             } else {
                 url = "login.jsp";
             }
