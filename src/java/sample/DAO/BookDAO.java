@@ -49,8 +49,23 @@ public class BookDAO {
             + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
             + "ON b.languageID = l.languageID JOIN tblAuthors a "
             + "ON b.authorID = a.authorID JOIN tblPublishers p "
+            + "ON b.publisherID = p.publisherID "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? "
+            + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    private static final String ADVANCE_SEARCH_2 = "SELECT b.bookID, bookName, bookshelf, [image], [description], "
+            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
+            + "ON b.languageID = l.languageID JOIN tblAuthors a "
+            + "ON b.authorID = a.authorID JOIN tblPublishers p "
             + "ON b.publisherID = p.publisherID JOIN tblBookTag t "
             + "ON b.bookID = t.bookID "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?  AND t.categoryID = ? "
+            + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    private static final String COUNT_ADVANCE_SEARCH = "SELECT Count(*) 'count' "
+            + "FROM tblBook b "
+            + "JOIN tblLanguages l ON b.languageID = l.languageID "
+            + "JOIN tblAuthors a ON b.authorID = a.authorID "
+            + "JOIN tblPublishers p ON b.publisherID = p.publisherID "
+            + "JOIN tblBookTag t ON b.bookID = t.bookID "
             + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
 
     public int createBook(BookDTO book) throws SQLException {
@@ -497,7 +512,7 @@ public class BookDAO {
         return null;
     }
 
-    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage, int categoryId) throws SQLException {
+    public List<BookDTO> getListBook(String bBookName, String bAuthor, String bPublisher, String bLanguage, int categoryId, int searchPage, int searchLimit) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -511,14 +526,17 @@ public class BookDAO {
                     ptm.setString(2, "%" + bAuthor + "%");
                     ptm.setString(3, "%" + bPublisher + "%");
                     ptm.setString(4, "%" + bLanguage + "%");
+                    ptm.setInt(5, searchPage);
+                    ptm.setInt(6, searchLimit);
                 } else {
-                    String sql = ADVANCE_SEARCH + " AND t.categoryID = ?";
-                    ptm = conn.prepareStatement(sql);
+                    ptm = conn.prepareStatement(ADVANCE_SEARCH_2);
                     ptm.setString(1, "%" + bBookName + "%");
                     ptm.setString(2, "%" + bAuthor + "%");
                     ptm.setString(3, "%" + bPublisher + "%");
                     ptm.setString(4, "%" + bLanguage + "%");
                     ptm.setInt(5, categoryId);
+                    ptm.setInt(6, searchPage);
+                    ptm.setInt(7, searchLimit);
                 }
                 rs = ptm.executeQuery();
                 while (rs.next()) {
@@ -553,7 +571,7 @@ public class BookDAO {
 
         return list;
     }
-
+    
     public List<BookDTO> getListBookByBookTag(int categoryId) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -665,5 +683,57 @@ public class BookDAO {
             }
         }
         return list;
+    }
+    public int countGetListBook_TotalPage(String bBookName, String bAuthor, String bPublisher, String bLanguage,int categoryId, int searchLimit) throws SQLException {
+        int count = 0, totalPage = 0, extraPage = 0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+                conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (categoryId == 0) {
+                    ptm = conn.prepareStatement(COUNT_ADVANCE_SEARCH);
+                    ptm.setString(1, "%" + bBookName + "%");
+                    ptm.setString(2, "%" + bAuthor + "%");
+                    ptm.setString(3, "%" + bPublisher + "%");
+                    ptm.setString(4, "%" + bLanguage + "%");  
+
+                } else {                   
+                    ptm = conn.prepareStatement(COUNT_ADVANCE_SEARCH + "  AND t.categoryID = ?");
+                    ptm.setString(1, "%" + bBookName + "%");
+                    ptm.setString(2, "%" + bAuthor + "%");
+                    ptm.setString(3, "%" + bPublisher + "%");
+                    ptm.setString(4, "%" + bLanguage + "%");
+                    ptm.setInt(5, categoryId);
+
+                }
+                rs = ptm.executeQuery();
+
+                while (rs.next()) {
+                    count=rs.getInt("count");
+                }
+                if (count % searchLimit != 0) {
+                    extraPage = 1;
+                }
+                totalPage = (count / searchLimit) + extraPage;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return totalPage;
     }
 }
