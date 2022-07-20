@@ -40,7 +40,6 @@ html, body {
 .main{
     position: relative;
     min-height: 51%;
-    padding: 10px;
     background-color: #f8f9fa;
 }
 .new{

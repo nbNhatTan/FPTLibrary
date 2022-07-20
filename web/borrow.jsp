@@ -41,7 +41,7 @@
                 return;
             }
             if (acc.getRoleID() != 3) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 
@@ -132,7 +132,7 @@
                             title: 'Success!',
                             text: '<%=message%> success.',
                             confirmButtonColor: '#F5D98F',
-                            timer: 1000,
+                            timer: 2000,
                             timerProgressBar: true,
                             icon: 'success'
                         });

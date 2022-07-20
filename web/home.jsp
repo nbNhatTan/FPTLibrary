@@ -33,19 +33,25 @@
 
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
+        <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc != null && acc.getRoleID() == 1) {
+                response.sendRedirect("javascript:history.back()");
+                return;
+            }
+        %>
+        <section class="section-name padding-y-sm">
+            <div class="container">
 
-            <section class="section-name padding-y-sm">
-                <div class="container">
+                <header class="section-heading">
 
-                    <header class="section-heading">
-
-                        <h3 class="section-title">New Arrival</h3>
-                    </header><!-- sect-heading -->
+                    <h3 class="section-title">New Arrival</h3>
+                </header><!-- sect-heading -->
 
 
-                    <div class="row">
-                        <div class="col-md-1"></div>
+                <div class="row">
+                    <div class="col-md-1"></div>
                     <%
                         List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
                         if (list != null) {
@@ -60,59 +66,59 @@
                             </figcaption>
                         </div>
                     </div> <!-- col.// -->
-<%
-                                            }
-                                        }
-                                    }
-                                %>
-                                <div class="col-md-1"></div>
+                    <%
+                                }
+                            }
+                        }
+                    %>
+                    <div class="col-md-1"></div>
                 </div> <!-- row.// -->
 
             </div><!-- container // -->
         </section>
         <hr height="10">
         <section class="section-main bg padding-y">
-    <div class="container">
-    
-    <div class="row">
-        <div class="col-md-9">
-           <%
-                                NewsDTO news = (NewsDTO) request.getAttribute("NEWS");
-                                if (news != null) {
-                            %>
-                            <div>
-                                <h1><%=news.getTitle()%></h1>                                    
-                                <h4><i>&nbsp;&nbsp;&nbsp;Writer: <%=news.getWriterName()%></i></h4>                                    
-                                <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post by: <%=news.getAccountID()%></i></h6>                                    
-                                <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: <%=news.getUploadDate()%></i></h6>
-                                <br>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getHead()%></p>
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getBody()%></p>
-                            </div>
-                            <%
-                                }
-                            %> 
-        </div> <!-- col.// -->
-        <div class="col-md-3">
-            <%
-                                List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
-                                if (listN != null) {
-                                    if (listN.size() > 0) {
-                                        for (NewsDTO n : listN) {
-                            %>
-                            <div >
-                                <h6><a href=""><%= n.getTitle()%></a></h6>
-                            </div>
-                            <%
-                                        }
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-9">
+                       <%
+                            NewsDTO news = (NewsDTO) request.getAttribute("NEWS");
+                            if (news != null) {
+                        %>
+                        <div>
+                            <h1><%=news.getTitle()%></h1>                                    
+                            <h4><i>&nbsp;&nbsp;&nbsp;Writer: <%=news.getWriterName()%></i></h4>                                    
+                            <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Post by: <%=news.getAccountID()%></i></h6>                                    
+                            <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: <%=news.getUploadDate()%></i></h6>
+                            <br>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getHead()%></p>
+                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getBody()%></p>
+                        </div>
+                        <%
+                            }
+                        %> 
+                    </div> <!-- col.// -->
+                    <div class="col-md-3">
+                        <%
+                            List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
+                            if (listN != null) {
+                                if (listN.size() > 0) {
+                                    for (NewsDTO n : listN) {
+                        %>
+                        <div >
+                            <h6><a href=""><%= n.getTitle()%></a></h6>
+                        </div>
+                        <%
                                     }
                                 }
-                            %>
-        </div> <!-- col.// -->
-        
-    </div> <!-- row.// -->
-    </div> <!-- container //  -->
-    </section>
+                            }
+                        %>
+                    </div> <!-- col.// -->
+
+                </div> <!-- row.// -->
+            </div> <!-- container //  -->
+        </section>
     <jsp:include page="footer.jsp"></jsp:include>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <%
@@ -122,9 +128,9 @@
         <script>
             Swal.fire({
                         title: 'Success!',
-                        text: '<%=message%> success.',
+                        text: '<%=message%> successful.',
                         confirmButtonColor: '#F5D98F',
-                        timer: 1000,
+                        timer: 2000,
                         timerProgressBar: true,
                         icon: 'success'
                     });

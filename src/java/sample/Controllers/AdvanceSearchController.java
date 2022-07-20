@@ -32,10 +32,10 @@ public class AdvanceSearchController extends HttpServlet {
             String bPublisher = request.getParameter("publisher");
             String bLanguage = request.getParameter("language");
             String categoryId = request.getParameter("categoryId");
-            request.setAttribute("bookName", bBookName != null ? bBookName : "");
-            request.setAttribute("author", bAuthor != null ? bAuthor : "");
-            request.setAttribute("publisher", bPublisher != null ? bPublisher : "");
-            request.setAttribute("language", bLanguage != null ? bLanguage : "");
+            request.setAttribute("bookName", bBookName);
+            request.setAttribute("author", bAuthor);
+            request.setAttribute("publisher", bPublisher);
+            request.setAttribute("language", bLanguage);
             request.setAttribute("categoryId", categoryId);
             BookDAO dao = new BookDAO();
             List<CategoryDTO> listCategory = dao.getAllBookTag();

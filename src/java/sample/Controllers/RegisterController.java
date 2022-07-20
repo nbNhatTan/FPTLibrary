@@ -29,14 +29,20 @@ public class RegisterController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID").replaceAll("\\s","").trim();
+            String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
-            
+            request.setAttribute("accountID", fullName);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("password", password);
+            request.setAttribute("confirm", confirm);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("phone", phone);
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
@@ -71,6 +77,7 @@ public class RegisterController extends HttpServlet {
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     url = SUCCESS;
+                    request.setAttribute("message", "Register");
                 }
             }else {
                     request.setAttribute("ACCOUNT_ERROR", accountError);
