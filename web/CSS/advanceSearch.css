@@ -161,7 +161,12 @@ html, body {
     width: 115.36px;
     height: 153.35px;
 }
-.pagination .page-item{
-     color: orange;
-}  
-  
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: orange;
+    border-color: orange;
+}
+.page-link{
+    color: orange;
+}
