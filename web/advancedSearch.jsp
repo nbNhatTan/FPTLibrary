@@ -4,6 +4,7 @@
     Author     : bachds
 --%>
 
+<%@page import="sample.DTO.Paging"%>
 <%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.CategoryDTO"%>
 <%@page import="java.util.List"%>
@@ -48,91 +49,137 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10 content row">
                     <div class="table-container content col-md-9">
-                    <%
-                        List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
-                        if (list != null) {
-                            if (!list.isEmpty()) {
-                    %>
-                    <h1 class="heading"> List result</h1>
-                    <table class="tableStyle book">
-                        <thead>
-                            <tr>
-                                <th>Image</th>
-                                <th>Book</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <%
-                                for (BookDTO book : list) {
-                            %>
-                            <tr class="tb">
-                                <td class="tb"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
-                                <td class="tb">
-                                    <div class="noBorder">
-                                        <table>
-                                            <tr>
-                                                <td>Name:</td>
-                                                <td>
-                                                    <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                                        <%= book.getBookName()%>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Author:</td>
-                                                <td>
-                                                    <%= book.getAuthor()%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Publisher:</td>
-                                                <td>
-                                                    <%= book.getPublisher()%>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Publish Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                                <td><%= book.getPublishYear()%></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Language:</td>
-                                                <td><%= book.getLanguage()%></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
-                            </tr>
+                        <form action="MainController" id="pagingSubmit" method="post">
+                        <%
+                            String bookName = (String) request.getAttribute("bookName");
+                            String publisher = (String) request.getAttribute("publisher");
+                            String author = (String) request.getAttribute("author");
+                            String language = (String) request.getAttribute("language");
+                            String categoryId = (String) request.getAttribute("categoryId");
+                            if(bookName == null) bookName = "";
+                            if(publisher == null) publisher = "";
+                            if(author == null) author = "";
+                            if(language == null) language = "";
+                            if(categoryId == null) categoryId = "";
+                            
+                            List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
+                            if (list != null) {
+                                Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
+                                if (Advancedpage == null) {
+                                    Advancedpage = new Paging();
+                                }
+                                if (!list.isEmpty()) {
+                        %>
+                            <h1 class="heading"> List result</h1>
+                            <table class="tableStyle book">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Book</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        for (BookDTO book : list) {
+                                    %>
+                                    <tr class="tb">
+                                        <td class="tb"><a href="MainController?action=Detail&bookID=<%=book.getBookID()%>"><img src="<%= book.getImage()%>" /></a></td>
+                                        <td class="tb">
+                                            <div class="noBorder">
+                                                <table>
+                                                    <tr>
+                                                        <td>Name:</td>
+                                                        <td>
+                                                            <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
+                                                                <%= book.getBookName()%>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Author:</td>
+                                                        <td>
+                                                            <%= book.getAuthor()%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Publisher:</td>
+                                                        <td>
+                                                            <%= book.getPublisher()%>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Publish Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                        <td><%= book.getPublishYear()%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Language:</td>
+                                                        <td><%= book.getLanguage()%></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
                             <%
                                 }
                             %>
-                        </tbody>
-                    </table>
-                    <%
+                            <ul class="pagination" id="pagination"></ul> 
+                            <input type="hidden" value="" id="currentPage" name="currentPage"/>
+                            <input type="hidden" value="" id="searchLimit" name="searchLimit"/>
+                            <input type="hidden" name="bookName" id="bookName" value="<%=bookName%>"/>
+                            <input type="hidden" name="publisher" id="publisher" value="<%=publisher%>"/>
+                            <input type="hidden" name="author" id="author" value="<%=author%>"/>
+                            <input type="hidden" name="language" id="language"  value="<%=language%>"/>
+                            <input type="hidden" name="categoryId" id="categoryId"  value="<%=categoryId%>"/>
+                            <input type="hidden" value="AdvanceSearch" id="AdvanceSearch" name="action" />
+                        </form>
+                        <script>    
+                            var totalPages = <%= Advancedpage.getTotalPages()%>;
+                            var currentPage = <%= Advancedpage.getPage()%>;
+                            var visiblePages = 7;
+                            var limit = 10;
+
+                            $(function () {
+                                window.pagObj = $('#pagination').twbsPagination({
+                                    totalPages: totalPages,
+                                    visiblePages: visiblePages,
+                                    startPage: currentPage,
+                                    first:'<<<',
+                                    prev:'<-',
+                                    next:'->',
+                                    last:'>>>',
+                                    onPageClick: function (event, page) {
+                                        if (currentPage !== page) {
+                                            $('#searchLimit').val(limit);
+                                            $('#currentPage').val(page);
+                                            $('#bookName').val();
+                                            $('#publisher').val();
+                                            $('#author').val();
+                                            $('#language').val();
+                                            $('#categoryId').val();
+                                            $('#pagingSubmit').submit();
+                                        }
+                                    }
+                                });
+                            });
+                        </script> 
+                        <%
                             }
-                        }
-                        String message = (String) request.getAttribute("message");
-                        if(message != null){
-                    %>
+                            String message = (String) request.getAttribute("message");
+                            if(message != null){
+                        %>
                         <h1 class="heading"><%=message%></h1>
                     <%
                         }
                     %>
-                </div>
+                    </div>
                     <div class="content col-md-3 table-container content"  style="">
 
                         <form action="MainController" method="POST">
-                            <%
-                                String bookName = (String) request.getAttribute("bookName");
-                                String publisher = (String) request.getAttribute("publisher");
-                                String author = (String) request.getAttribute("author");
-                                String language = (String) request.getAttribute("language");
-                                String categoryId = (String) request.getAttribute("categoryId");
-                                if(bookName == null) bookName = "";
-                                if(publisher == null) publisher = "";
-                                if(author == null) author = "";
-                                if(language == null) language = "";
-                                if(categoryId == null) categoryId = "";
-                            %>
                             <dl>
                                 <dt><h1 class="heading">Advanced Search</h1></dt>
                             </dl>

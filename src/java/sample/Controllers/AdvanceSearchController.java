@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import sample.DAO.BookDAO;
 import sample.DTO.BookDTO;
 import sample.DTO.CategoryDTO;
+import sample.DTO.Paging;
 
 /**
  *
@@ -37,24 +38,40 @@ public class AdvanceSearchController extends HttpServlet {
             request.setAttribute("publisher", bPublisher);
             request.setAttribute("language", bLanguage);
             request.setAttribute("categoryId", categoryId);
+
+            int currentBook = 0;
+            int searchLimit = 10;
+            int currentPage = 1;
+
             BookDAO dao = new BookDAO();
             List<CategoryDTO> listCategory = dao.getAllBookTag();
             if (!listCategory.isEmpty()) {
                 request.setAttribute("LIST_CATEGORY", listCategory);
             }
-            List<BookDTO> listBook;
-//            if (!categoryId.isEmpty()) {
-//                listBook = dao.getListBookByBookTag(Integer.parseInt(categoryId));
-//            } else {
-//                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage);
-//            }
-            if (!(categoryId != null) || categoryId.equals("")) {
-                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, 0);
-            } else {
-                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, Integer.parseInt(categoryId));
+
+            String searchLimit_txt = request.getParameter("searchLimit");
+            if (searchLimit_txt != null) {
+                searchLimit = Integer.parseInt(searchLimit_txt);
             }
+            int totalPage;
+            if (!(categoryId != null) || categoryId.equals("")) {
+                totalPage = dao.countGetListBook_TotalPage(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, 0, searchLimit);
+            } else {
+                totalPage = dao.countGetListBook_TotalPage(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, Integer.parseInt(categoryId), searchLimit);
+            }
+            currentBook = searchLimit * currentPage - searchLimit;
+            Paging page = new Paging(currentPage, totalPage);
+
+            List<BookDTO> listBook;
+            if (!(categoryId != null) || categoryId.equals("")) {
+                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, 0, currentBook, searchLimit);
+            } else {
+                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, Integer.parseInt(categoryId), currentBook, searchLimit);
+            }
+
             if (!listBook.isEmpty()) {
                 request.setAttribute("ADVANCE_LIST_BOOK", listBook);
+                request.setAttribute("ADVANCE_LIST_BOOK_PAGE", page);
             } else {
                 request.setAttribute("message", "No result!");
             }
