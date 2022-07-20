@@ -20,20 +20,7 @@ html, body {
     width: 10px;
     height: 10px;
   }
-  footer {
-    position: absolute;
-    font-size: 16px;
-    background-color: #F7E5D7 !important;
-    padding: 40px;
-    bottom: 0px;
-    height: 10%;
-    width: 100%;
-    color: #222222;
-      
-  }
-  footer a {
-      color: #222222 !important;
-  }
+
   .main{
       padding: 10px;
       background-color: #f8f9fa;
@@ -65,7 +52,7 @@ html, body {
 }
   
 
-.a{
+main.a{
   text-align: center;
  
  
@@ -121,7 +108,7 @@ table input{
   opacity: 1;
   padding:12px;
   vertical-align: top;
-  border: 1px solid #00000085;
+  border: 1px solid #000085;
 
 }
 

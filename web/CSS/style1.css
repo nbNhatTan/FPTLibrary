@@ -29,14 +29,7 @@ html, body {
     top: 0;
 }
 
-.footer {
-    position: relative;
-    font-size: 16px;
-    background-color: #F7E5D7 !important;
-    padding: 40px;
-    width: 100%;
-    color: #222222;
-}
+
 .main{
     position: relative;
     min-height: 51%;
