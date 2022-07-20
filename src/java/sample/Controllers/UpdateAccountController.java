@@ -64,9 +64,8 @@ public class UpdateAccountController extends HttpServlet {
                 accountError.setPhoneError("Phone must be number and in [10, 12]");
                 checkValidation = false;
             }
-
-            if (checkValidation) {
-                AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
+            AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
+            if (checkValidation) {                
                 boolean checkUpdate = dao.update(account);
                 if (checkUpdate) {
                     url = SUCCESS;
@@ -75,6 +74,8 @@ public class UpdateAccountController extends HttpServlet {
                     session.setAttribute("LOGIN_ACCOUNT", account);
                 }
             } else {
+                HttpSession session = request.getSession();
+                request.setAttribute("ACCOUNT_DETAIL", account);
                 request.setAttribute("ACCOUNT_ERROR", accountError);
             }
         } catch (Exception e) {

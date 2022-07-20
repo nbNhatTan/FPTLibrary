@@ -49,6 +49,7 @@ public class CreateFeedBackController extends HttpServlet {
                 if (checkCreate) {
                     url = SUCCESS;
                     request.setAttribute("bookID", bookID);
+                    request.setAttribute("message", "Your feedback");
                 }
             } else {
                 url = RETURN;

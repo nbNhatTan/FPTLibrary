@@ -33,38 +33,44 @@
 
     </head>
     <body>
-        <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
+        <%
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (acc != null && acc.getRoleID() == 1) {
+                response.sendRedirect("javascript:history.back()");
+                return;
+            }
+        %>
+        <div class="main">
+            <div class="row news">
+                <div class="col-md-1"></div>
+                    <div class="col-md-10 contents">
 
-            <div class="main">
-                <div class="row news">
-                    <div class="col-md-1"></div>
-                        <div class="col-md-10 contents">
-
-                            <div class="new row">
-                                <div class="col-md-1"></div>
-                                <%
-                                    List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
-                                    if (list != null) {
-                                        if (list.size() > 0) {
-                                            for (BookDTO p : list) {
-                                %>
-                                    <div class="col-md-2 new-item text-center">
-                                        <img src="<%=p.getImage()%>"
-                                             width="180"
-                                             height="260" />
-                                        <p><a href="MainController?action=Detail&bookID=<%=p.getBookID()%>"><%=p.getBookName()%></a></p>
-                                    </div>                            
-                                <%
-                                            }
+                        <div class="new row">
+                            <div class="col-md-1"></div>
+                            <%
+                                List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                                if (list != null) {
+                                    if (list.size() > 0) {
+                                        for (BookDTO p : list) {
+                            %>
+                                <div class="col-md-2 new-item text-center">
+                                    <img src="<%=p.getImage()%>"
+                                         width="180"
+                                         height="260" />
+                                    <p><a href="MainController?action=Detail&bookID=<%=p.getBookID()%>"><%=p.getBookName()%></a></p>
+                                </div>                            
+                            <%
                                         }
                                     }
-                                %>
-                                <div class="col-md-1"></div>
-                            </div>
-
+                                }
+                            %>
+                            <div class="col-md-1"></div>
                         </div>
-                    <div class="col-md-1"></div>
-                </div>
+
+                    </div>
+                <div class="col-md-1"></div>
+            </div>
             <hr height="100">
             <div class="contents row">
                 <div class="col-md-1"></div>
@@ -118,9 +124,9 @@
         <script>
             Swal.fire({
                         title: 'Success!',
-                        text: '<%=message%> success.',
+                        text: '<%=message%> successful.',
                         confirmButtonColor: '#F5D98F',
-                        timer: 1000,
+                        timer: 2000,
                         timerProgressBar: true,
                         icon: 'success'
                     });

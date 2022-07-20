@@ -32,7 +32,7 @@
                 background-image: url('./image/background.jpg');
                 background-repeat: no-repeat;
                 background-size: cover;
-                background-attachment: fixed; 
+                background-attachment: fixed;
                 background-size: 100% 100%;
             }
         </style>
@@ -51,36 +51,43 @@
                                 if (accountError == null) {
                                     accountError = new AccountError();
                                 }
+                                String accountID = request.getParameter("accountID");
+                                String fullName = request.getParameter("fullName");
+                                String password = request.getParameter("password");
+                                String confirm = request.getParameter("confirm");
+                                String email = request.getParameter("email");
+                                String address = request.getParameter("address");
+                                String phone = request.getParameter("phone");
                             %>
                             <form action="MainController" method="POST">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
-                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" required="" ><%= accountError.getAccountIDError()%>
+                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" required="" value="<%=accountID!=null?accountID:""%>"><%= accountError.getAccountIDError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Full Name:</label>
-                                    <input name="fullName" type="text" placeholder="Enter Full Name"  class="form-control" required="" ><%= accountError.getFullNameError()%>
+                                    <input name="fullName" type="text" placeholder="Enter Full Name"  class="form-control" required="" value="<%=fullName!=null?fullName:""%>"><%= accountError.getFullNameError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Password:</label>
-                                    <input name="password" type="password" placeholder="Enter Password"  class="form-control" required="" >
+                                    <input name="password" type="password" placeholder="Enter Password"  class="form-control" required="" value="<%=password!=null?password:""%>">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Confirm:</label>
-                                    <input name="confirm" type="password" placeholder="Enter Password" class="form-control" required="" ><%= accountError.getConfirmError()%>
+                                    <input name="confirm" type="password" placeholder="Enter Password" class="form-control" required="" value="<%=confirm!=null?confirm:""%>"><%= accountError.getConfirmError()%>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mail:</label>
-                                    <input name="email" type="text" placeholder="Enter Mail"  class="form-control" required="" ><%= accountError.getEmailError()%>
+                                    <input name="email" type="text" placeholder="Enter Mail"  class="form-control" required="" value="<%=email!=null?email:""%>"><%= accountError.getEmailError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Address:</label>
-                                    <input name="address"type="text" placeholder="Enter Address"   class="form-control" required="" ><%= accountError.getAddressError()%>
+                                    <input name="address"type="text" placeholder="Enter Address"   class="form-control" required="" value="<%=address!=null?address:""%>"><%= accountError.getAddressError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Phone:</label>
-                                    <input  name="phone" type="text" placeholder="Enter Phone"  class="form-control" required="" ><%= accountError.getPhoneError()%>
+                                    <input  name="phone" type="text" placeholder="Enter Phone"  class="form-control" required="" value="<%=phone!=null?phone:""%>"><%= accountError.getPhoneError()%>
                                 </div>
 
 
@@ -98,7 +105,7 @@
                 </div>
             </div>
         </div>
-                                
+
     </body>
 
 </html>
