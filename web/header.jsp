@@ -25,8 +25,8 @@
         </div>
         <div class="col-md-5">
             <form action="MainController">
-                <input type="text" name="search" placeholder="Search" value=<%=search%>>
-                <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
+                <input type="text" name="bookName" placeholder="Search" value=<%=search%>>
+                <button class="btn btn btn-warning" type="submit" name="action" value="SearchBook">Search</button>
             </form>
         </div>
         <%
