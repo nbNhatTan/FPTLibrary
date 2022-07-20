@@ -11,7 +11,7 @@
 <div class="header">
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container-fluid padding row">
-        <div class="col-md-5">
+       <div class="col-md-4">
             <div class="p-2">
                 <a class="navbar-branch" href="HomeController">
                     <img
@@ -24,9 +24,15 @@
             </div>
         </div>
         <div class="col-md-5">
-            <form action="MainController">
-                <input type="text" name="bookName" placeholder="Search" value=<%=search%>>
-                <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
+                <form action="MainController" class="search">
+                <div class="input-group w-100">
+                    <input type="text" name="bookName" value=""<%=search%>" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                      <button class="btn btn-warning" type="submit" name="action" value="SearchBook">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                </div>
             </form>
         </div>
         <%
@@ -34,10 +40,10 @@
             if (acc != null) {
                 if (acc.getRoleID() == 2 || acc.getRoleID() == 3) {
         %>
-            <div class="col-md-2 col">
+            <div class="col-md-4">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <h5><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <%=acc.getFullName()%></a></h5>
+                    <li class="nav-item" style="width: 300px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">
+                        <strong><a class="nav-link" title="<%=acc.getFullName()%>" href="LoadAccountController">Hello <%=acc.getFullName()%></a></strong>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutController">Logout</a>
@@ -47,10 +53,10 @@
         <%
                 } else {
         %>
-        <div class="col-md-2 col">
+        <div class="col-md-4">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <h5><a class="nav-link">Hello <%=acc.getFullName()%></a></h5>
+                    <strong><a class="nav-link" href="">Hello <%=acc.getFullName()%></a></strong>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="LogoutController">Logout</a>
@@ -61,9 +67,9 @@
                 }
             } else {
         %>
-        <div class="col-md-1 col"></div>
+        <div class="col-md-2 col"></div>
         <div class="col-md-1 col">
-            <a class="btn btn-warning btn-sm user" href="login.jsp"> LOGIN </a>
+            <a  href="login.jsp"><button class="btn btn-warning" type="submit">Login</button> </a>
         </div>
         <%
             }

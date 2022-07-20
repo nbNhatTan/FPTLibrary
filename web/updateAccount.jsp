@@ -74,7 +74,7 @@
                                 </div>
                                  <div class="form-group">
                                     <label for="exampleInputEmail1">Role ID:</label>
-                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" value="<%= acc.getRoleID()%>" readonly="">
+                                    <input  name="roleID"type="text"  class="form-control" value="<%= acc.getRoleID()%>" readonly="">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Full Name:</label>
                                     <input name="fullName" type="text" placeholder="Enter Full Name" value="<%= acc.getFullName()%>" class="form-control" required="" ><%= accountError.getFullNameError()%>
