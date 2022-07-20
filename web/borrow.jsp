@@ -108,19 +108,13 @@
                 </table>
             </div>
         </div>
-        <div class="pagination">
-            <ul>
-                <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
-                <li class="numb"><span>1</span></li>
-                <li class="numb"><span>2</span></li>
-                <li class="numb"><span>3</span></li>
-                <li class="numb"><span>4</span></li>
-                <li class="numb"><span>5</span></li>
-                <li class="numb"><span>6</span></li>
-                <li class="dots"><span>...</span></li>
-                <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
-            </ul>
-        </div>
+        <ul class="pagination" id="pagination">
+            <li class="page-item first disabled"><a href="#" class="page-link">&lt;&lt;&lt;</a></li>
+            <li class="page-item prev disabled"><a href="#" class="page-link">&lt;-</a></li>
+            <li class="page-item active"><a href="#" class="page-link">1</a></li>
+            <li class="page-item next disabled"><a href="#" class="page-link">-&gt;</a></li>
+            <li class="page-item last disabled"><a href="#" class="page-link">&gt;&gt;&gt;</a></li>
+        </ul>   
         <jsp:include page="footer.jsp"></jsp:include>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <%

@@ -1,3 +1,4 @@
+<%@page import="sample.DTO.AccountDTO"%>
 <%@page import="sample.DTO.AccountError"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -27,6 +28,13 @@
     </head>
 
     <body>
+    <%
+        AccountDTO accLog = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+        if (accLog != null) {
+            response.sendRedirect("javascript:history.back()");
+            return;
+        }
+    %>
         <style>
             body {
                 background-image: url('./image/background.jpg');
