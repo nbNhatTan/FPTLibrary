@@ -19,7 +19,7 @@ public class MainController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String LOGIN_CONTROLLER = "LoginController";
     private static final String LOGIN = "Login";
-    private static final String SEARCHBOOK_CONTROLLER = "SearchBookController";
+    private static final String SEARCHBOOK_CONTROLLER = "AdvancedSearchController";
     private static final String SEARCHBOOK = "SearchBook";
     private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";

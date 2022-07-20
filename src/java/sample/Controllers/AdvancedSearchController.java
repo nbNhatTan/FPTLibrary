@@ -38,22 +38,6 @@ public class AdvancedSearchController extends HttpServlet {
             String bPublisher = request.getParameter("publisher");
             String bLanguage = request.getParameter("language");
             String categoryId_txt = request.getParameter("categoryId"); 
-            //-------------------------------------------------------------------------------------------- 
-            try{
-                categoryId = Integer.parseInt(categoryId_txt);
-                searchCate = new CategoryDTO(categoryId);       
-            }catch(NumberFormatException e){
-            } finally{
-                request.setAttribute("ADVANCED_SEARCH_CATE_DATA", searchCate);
-            }
-            //--------------------------------------------------------------------------------------------
-            
-            try {                   
-                searchData = new BookDTO(bBookName,bAuthor,bPublisher,bLanguage);
-            } catch (Exception e) {
-            } finally { // Khởi tạo request chứa dữ liệu từ advancedSearch.jsp
-                request.setAttribute("ADVANCED_SEARCH_DATA", searchData);
-            }
             
             //--------------------------------------------------------------------------------------------    
             List<CategoryDTO> listCategory = dao.getAllBookTag();
@@ -61,10 +45,10 @@ public class AdvancedSearchController extends HttpServlet {
                 request.setAttribute("LIST_CATEGORY", listCategory);
             }
             //--------------------------------------------------------------------------------------------
-
             int currentBook = 0;
             int searchLimit = 10;
             int currentPage = 1;
+            //--------------------------------------------------------------------------------------------
             String currentPage_txt = request.getParameter("currentPage");
             if (currentPage_txt != null) {
                 currentPage = Integer.parseInt(currentPage_txt);
@@ -81,9 +65,29 @@ public class AdvancedSearchController extends HttpServlet {
             Paging page = new Paging(currentPage, totalPage);
             
             //--------------------------------------------------------------------------------------------
-            //ListBook
-            List<BookDTO> listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
-            
+            List<BookDTO> listBook;
+            if(bBookName != null && bAuthor ==null && bLanguage==null && bPublisher ==null && categoryId_txt ==null){
+                bAuthor = ""; bLanguage = ""; bPublisher =""; categoryId=0;
+                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
+            } else {
+                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
+            }
+             
+            //-------------------------------------------------------------------------------------------- 
+            try{
+                categoryId = Integer.parseInt(categoryId_txt);
+                searchCate = new CategoryDTO(categoryId);       
+            }catch(NumberFormatException e){
+            } finally{
+                request.setAttribute("ADVANCED_SEARCH_CATE_DATA", searchCate);
+            }
+            //--------------------------------------------------------------------------------------------
+            try {                   
+                searchData = new BookDTO(bBookName,bAuthor,bPublisher,bLanguage);
+            } catch (Exception e) {
+            } finally { 
+                request.setAttribute("ADVANCED_SEARCH_DATA", searchData);
+            }  
             
                     
 //            if (categoryId==0) {

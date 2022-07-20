@@ -38,16 +38,21 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
+    <%
+        Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
+        if (Advancedpage == null) {
+            Advancedpage = new Paging();
+        }
+    %>
+    <div class="main">
+        <div class="row contents">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 content">
+                <div class="content"  style="padding-left: 35%;">
 
-        <div class="main">
-            <div class="row contents">
-                <div class="col-md-1"></div>
-                <div class="col-md-10 content">
-                    <div class="content"  style="padding-left: 35%;">
-
-                        <form action="MainController" method="POST">
-
-                            <table class="my-table">
+                    <form action="MainController" method="POST">
+                        
+                        <table class="my-table">
                             <%                                BookDTO searchData = (BookDTO) request.getAttribute("ADVANCED_SEARCH_DATA");
                                 if (searchData == null) {
                                     searchData = new BookDTO("", "", "", "");
@@ -126,10 +131,6 @@
                         <%
                             List<BookDTO> list = (List<BookDTO>) request.getAttribute("ADVANCE_LIST_BOOK");
                             if (list != null) {
-                                Paging Advancedpage = (Paging) request.getAttribute("ADVANCE_LIST_BOOK_PAGE");
-                                if (Advancedpage == null) {
-                                    Advancedpage = new Paging();
-                                }
 
 
                         %>
