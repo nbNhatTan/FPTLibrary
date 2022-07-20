@@ -20,6 +20,10 @@ public class CategoryDTO {
         this.description = description;
     }
 
+    public CategoryDTO(int categoryID) {
+        this.categoryID = categoryID;
+    }
+
     public int getCategoryID() {
         return categoryID;
     }
