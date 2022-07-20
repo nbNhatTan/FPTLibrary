@@ -87,7 +87,7 @@ html, body {
     }
 
     .tableStyle tbody .tb{
-        font-size: 14px;
+        font-size: 18px;
         letter-spacing: 0.35px;
         font-weight: normal;
         color: #000000;
@@ -158,8 +158,8 @@ html, body {
 }
 
 .book img {
-    width: 115.36px;
-    height: 153.35px;
+    width: 150px;
+    height: 220px;
 }
   
   

@@ -1,65 +1,64 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
+import sample.DAO.FeedbackDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BookingTicketDTO;
+import sample.DTO.FeedBackDTO;
 
 /**
  *
- * @author NhatTan
+ * @author anhkhoa
  */
-@WebServlet(name = "BorrowController", urlPatterns = {"/BorrowController"})
-public class BorrowController extends HttpServlet {
+@WebServlet(name = "CreateFeedBackController", urlPatterns = {"/CreateFeedBackController"})
+public class CreateFeedBackController extends HttpServlet {
+
+    private static final String ERROR = "bookDetail.jsp";
+    private static final String SUCCESS = "BookDetailController";
+    private static final String RETURN = "login.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "ViewborrowController";
-        try {
-            String bookID = request.getParameter("bookID");
+        String url = ERROR;
 
+        try {
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (loginAccount != null) {
-                TicketDAO dao = new TicketDAO();
-                String bookItemID = dao.GetBookItemID(Integer.parseInt(bookID));
+                FeedbackDAO dao = new FeedbackDAO();
+                String userID = request.getParameter("userID");
+                int bookID = Integer.parseInt(request.getParameter("bookID"));
+                String comment = request.getParameter("comment");
+                int star = Integer.parseInt(request.getParameter("star"));
 
-                long millis = System.currentTimeMillis();
-                java.sql.Date borrowDate = new java.sql.Date(millis);
+                FeedBackDTO feedback = new FeedBackDTO(userID, bookID, comment, star);
+                boolean checkCreate = dao.createFeedback(feedback);
 
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                df.setLenient(false);
-                java.util.Date dat = df.parse("2022-6-14");
-                java.util.Date dat1 = df.parse("2022-10-14");
-                long date = dat.getTime();
-                long date1 = dat1.getTime();
-                long fourMonth = date1 - date;
-
-                java.sql.Date expiredDate = new java.sql.Date(millis + fourMonth);
-                BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Pending");
-                dao.createBookingTicket(ticket);
-
-                request.setAttribute("message", "Request borrow book");
+                if (checkCreate) {
+                    url = SUCCESS;
+                    request.setAttribute("bookID", bookID);
+                }
             } else {
-                url = "login.jsp";
+                url = RETURN;
             }
         } catch (Exception e) {
-            log("Error at BorrowController: " + e.toString());
+            log("ERROR at CreateFeedBackController:" + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

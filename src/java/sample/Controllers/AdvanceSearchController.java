@@ -27,15 +27,15 @@ public class AdvanceSearchController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String bBookName = (String) request.getParameter("bookName");
-            String bAuthor = (String) request.getParameter("author");
-            String bPublisher = (String) request.getParameter("publisher");
-            String bLanguage = (String) request.getParameter("language");
-            String categoryId = (String) request.getParameter("categoryId");
-            request.setAttribute("bookName", bBookName);
-            request.setAttribute("author", bAuthor);
-            request.setAttribute("publisher", bPublisher);
-            request.setAttribute("language", bLanguage);
+            String bBookName = request.getParameter("bookName");
+            String bAuthor = request.getParameter("author");
+            String bPublisher = request.getParameter("publisher");
+            String bLanguage = request.getParameter("language");
+            String categoryId = request.getParameter("categoryId");
+            request.setAttribute("bookName", bBookName != null ? bBookName : "");
+            request.setAttribute("author", bAuthor != null ? bAuthor : "");
+            request.setAttribute("publisher", bPublisher != null ? bPublisher : "");
+            request.setAttribute("language", bLanguage != null ? bLanguage : "");
             request.setAttribute("categoryId", categoryId);
             BookDAO dao = new BookDAO();
             List<CategoryDTO> listCategory = dao.getAllBookTag();
@@ -48,10 +48,10 @@ public class AdvanceSearchController extends HttpServlet {
 //            } else {
 //                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage);
 //            }
-            if (!(categoryId!=null)) {
+            if (!(categoryId != null) || categoryId.equals("")) {
                 listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, 0);
             } else {
-                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, 0);
+                listBook = dao.getListBook(bBookName == null ? "" : bBookName, bAuthor == null ? "" : bAuthor, bPublisher == null ? "" : bPublisher, bLanguage == null ? "" : bLanguage, Integer.parseInt(categoryId));
             }
             if (!listBook.isEmpty()) {
                 request.setAttribute("ADVANCE_LIST_BOOK", listBook);

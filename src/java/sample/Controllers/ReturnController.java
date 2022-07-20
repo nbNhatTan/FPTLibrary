@@ -39,9 +39,9 @@ public class ReturnController extends HttpServlet {
             java.sql.Date returnDate = new java.sql.Date(millis);
             dao.returnBook(returnDate, Integer.parseInt(bookingTicketID));
 
-            request.setAttribute("MESSAGE", "Returned!");
+            request.setAttribute("message", "Returned");
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("Error at ReturnController: " + e.toString());
         } finally {
             request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
         }

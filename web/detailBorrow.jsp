@@ -38,7 +38,7 @@
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (acc.getRoleID() != 2) {
+            if (acc.getRoleID() == 1) {
                 response.sendRedirect("error.jsp");
                 return;
             }
