@@ -50,7 +50,7 @@
         <div class="col-md-2 col">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <h5><a class="nav-link" href="">Hello <%=acc.getFullName()%></a></h5>
+                    <h5><a class="nav-link">Hello <%=acc.getFullName()%></a></h5>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="LogoutController">Logout</a>
@@ -85,6 +85,7 @@
             <ul class="navbar-nav ml-auto">
                 <%
                     String url= request.getServletPath();
+                    if (acc == null ||  acc.getRoleID() != 1) {
                 %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/home.jsp")?"active":""%>" href="HomeController">Home</a>
@@ -93,16 +94,17 @@
                     <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="about.jsp">About</a>
                 </li>
                 <%
+                    }
                     if(acc != null){
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Manager Account</a>
                 </li>
-                <%
+                    <%
                         }
                         if (acc.getRoleID() == 2) {
-                %>
+                    %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/addBook.jsp")?"active":""%>" href="addBook.jsp">Add Book</a>
                 </li>
@@ -115,10 +117,10 @@
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">News List</a>
                 </li>
-                <%
+                    <%
                         }
                         if (acc.getRoleID() == 3) {
-                %>
+                    %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="LoadAdvancedSearchController">Advanced Search</a>
                 </li>

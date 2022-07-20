@@ -47,21 +47,21 @@
                                 </div>
                             </div>
                             <form action="MainController" method="post" name="login">
+                                <div class="form-group">
+                                    <label>User ID</label>
+                                    <input type="text" name="accountID" id="inputEmail" class="form-control" placeholder="User ID" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+                                </div>
                                 <%
                                     String message = (String) request.getAttribute("ERROR");
                                     if (message == null) {
                                         message = "";
                                     }
-                                    out.print(message);
+                                    out.print("<p style='color: #dc3545;'>"+message+"</p>");
                                 %>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">User ID</label>
-                                    <input type="text" name="accountID" id="inputEmail" class="form-control" placeholder="User ID" required="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Password</label>
-                                    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-                                </div>
                                 <div class="col-md-12 text-center ">
                                     <button type="submit" class=" btn btn-block mybtn btn-warning tx-tfm" name="action" value="Login">Login</button>
                                 </div>
@@ -90,7 +90,25 @@
 
                 </div>
             </div>
-        </div>   
+        </div> 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <%
+        String mess = (String) request.getAttribute("message");
+        if(mess != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Success!',
+                        text: '<%=mess%> successful.',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'success'
+                    });
+        </script>
+    <%
+        }
+    %>
     </body>
 
 </html>

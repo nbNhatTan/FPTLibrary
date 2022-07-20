@@ -22,7 +22,7 @@ import sample.DTO.AccountDTO;
 public class LoginController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "about.jsp";
+    private static final String ADMIN_PAGE = "ViewAccountController";
     private static final String PAGE = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
