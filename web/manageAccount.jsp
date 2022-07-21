@@ -31,7 +31,7 @@
                 return;
             }
         %>
-            <div class="table-container">
+            <div class="table-container main">
                 <div>
                     <div class="table-title">
                         <div class="row">

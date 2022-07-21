@@ -49,6 +49,10 @@ public class AdvanceSearchController extends HttpServlet {
                 request.setAttribute("LIST_CATEGORY", listCategory);
             }
 
+            String currentPage_txt = request.getParameter("currentPage");
+            if (currentPage_txt != null) {
+                currentPage = Integer.parseInt(currentPage_txt);
+            }
             String searchLimit_txt = request.getParameter("searchLimit");
             if (searchLimit_txt != null) {
                 searchLimit = Integer.parseInt(searchLimit_txt);

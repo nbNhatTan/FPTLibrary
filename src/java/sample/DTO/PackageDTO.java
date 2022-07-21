@@ -23,6 +23,9 @@ public class PackageDTO {
         this.importDate = importDate;
     }
 
+    public PackageDTO() {
+    }
+
     public int getPackageID() {
         return packageID;
     }

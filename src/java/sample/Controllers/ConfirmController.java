@@ -5,7 +5,6 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BookingTicketDTO;
 
 /**
  *
