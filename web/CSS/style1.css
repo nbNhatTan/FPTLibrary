@@ -222,6 +222,11 @@ textarea {
 a{
     color: #2570c2;
 }
+.fon31 {
+    font: 700 24px /23px "Times New Roman";
+    color: #004175;
+}
+
 li a{
       color: #343a40;
   }
