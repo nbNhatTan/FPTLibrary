@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import sample.DAO.AccountDAO;
 import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
 import sample.DTO.BookingTicketDTO;
@@ -44,7 +45,24 @@ public class ConfirmController extends HttpServlet {
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
             
-            request.setAttribute("MESSAGE", "Confirmed!");
+            AccountDAO accdao = new AccountDAO();
+            String email = accdao.GetMailBorrow(bookingTicketID);
+            String subject = "Borrowed confirmation";
+            String message = "<!DOCTYPE html>\n"
+                + "<html lang=\"en\">\n"
+                + "\n"
+                + "<head>\n"
+                + "</head>\n"
+                + "\n"
+                + "<body>\n"
+                + "    <div>You have successfully borrowed.</div>\n"
+                + "    <div>Note: take good care of books and return them on time.</div>\n"
+                + "\n"
+                + "</body>\n"
+                + "\n"
+                + "</html>";
+            accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
+            request.setAttribute("message", "Confirmed");
         } catch (Exception e) {
             log("Error at ConfirmController: " + e.toString());
         } finally {
