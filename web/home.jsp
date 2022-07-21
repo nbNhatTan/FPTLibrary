@@ -33,7 +33,7 @@
 
     </head>
     <body>
-    <jsp:include page="header.jsp"></jsp:include>
+        <jsp:include page="header.jsp"></jsp:include>
         <%
             AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (acc != null && acc.getRoleID() == 1) {
@@ -82,7 +82,8 @@
 
                 <div class="row">
                     <div class="col-md-9">
-                       <%
+
+                        <%
                             NewsDTO news = (NewsDTO) request.getAttribute("NEWS");
                             if (news != null) {
                         %>
@@ -95,48 +96,74 @@
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getHead()%></p>
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getBody()%></p>
                         </div>
+
+
                         <%
                             }
                         %> 
+
                     </div> <!-- col.// -->
                     <div class="col-md-3">
-                        <%
-                            List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
-                            if (listN != null) {
-                                if (listN.size() > 0) {
-                                    for (NewsDTO n : listN) {
-                        %>
-                        <div >
-                            <h6><a href=""><%= n.getTitle()%></a></h6>
-                        </div>
-                        <%
+                        <table>
+                            <tbody>
+                                <tr>
+                            <ul style="font-size: 13px">
+
+
+
+
+                                <%
+                                    List<NewsDTO> listN = (List<NewsDTO>) request.getAttribute("TOP_NEWS");
+                                    if (listN != null) {
+                                        if (listN.size() > 0) {
+                                            for (NewsDTO n : listN) {
+                                %>
+                                <li>
+                                    <div>
+                                        <h6 style="margin-bottom: 4px"><a href="MainController?action=LoadNews&newsID=<%=n.getNewsID()%>"><%= n.getTitle()%></a></h6>
+                                    </div>
+                                </li>
+                                <%
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                        %>
+                                %>
+
+                            </ul>
+
+                            </tr>
+                            <tr>
+                            <div>
+                                <ul>
+                                <a href="MainController?action=ListNews"><h6>All News...</h6></a>
+                                </ul>
+                            </div>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div> <!-- col.// -->
 
                 </div> <!-- row.// -->
             </div> <!-- container //  -->
         </section>
-    <jsp:include page="footer.jsp"></jsp:include>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <%
-        String message = (String) request.getAttribute("message");
-        if(message != null){
-    %>
+        <jsp:include page="footer.jsp"></jsp:include>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <%
+            String message = (String) request.getAttribute("message");
+            if (message != null) {
+        %>
         <script>
             Swal.fire({
-                        title: 'Success!',
-                        text: '<%=message%> successful.',
-                        confirmButtonColor: '#F5D98F',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        icon: 'success'
-                    });
+                title: 'Success!',
+                text: '<%=message%> successful.',
+                confirmButtonColor: '#F5D98F',
+                timer: 2000,
+                timerProgressBar: true,
+                icon: 'success'
+            });
         </script>
-    <%
-        }
-    %>
+        <%
+            }
+        %>
     </body>
 </html>
