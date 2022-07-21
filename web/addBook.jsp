@@ -115,7 +115,6 @@
                                     <input  name="price" type="text" placeholder="Enter price"  class="form-control" required="" value="<%=String.valueOf(pack.getPrice())!=null?String.valueOf(pack.getPrice()):""%>"><%= bookError.getPriceError()%>
                                 </div>
 
-
                                 <div class="col-md-12 text-center mb-3">
                                     <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="AddBook" >Add</button>
                                 </div>
@@ -130,6 +129,6 @@
                 </div>
             </div>
         </div>
-    <jsp:include page="footer.jsp"></jsp:include>
-</body>
+        <jsp:include page="footer.jsp"></jsp:include>
+    </body>
 </html>

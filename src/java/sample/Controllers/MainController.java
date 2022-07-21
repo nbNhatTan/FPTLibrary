@@ -59,6 +59,8 @@ public class MainController extends HttpServlet {
     private static final String ADDACOUNT_CONTROLLER = "AddAccountController";
     private static final String EDITACCOUNT = "EditAccount";
     private static final String EDITACCOUNT_CONTROLLER = "EditAccountController";
+    private static final String ADDNEWS = "AddNews";
+    private static final String ADDNEWS_CONTROLLER ="AddNewsController";
     private static final String LOADNEWS = "LoadNews";
     private static final String LOADNEWSCONTROLLER = "LoadNewsController";
     private static final String NEWS = "ListNews";
@@ -112,6 +114,8 @@ public class MainController extends HttpServlet {
                 url = ADDACOUNT_CONTROLLER;
             }else if (EDITACCOUNT.equals(action)) {
                 url = EDITACCOUNT_CONTROLLER;
+            }else if (ADDNEWS.equals(action)) {
+                url = ADDNEWS_CONTROLLER;
             }else if (LOADNEWS.equals(action)) {
                 url = LOADNEWSCONTROLLER;
             }else if (NEWS.equals(action)) {

@@ -14,12 +14,10 @@ import java.util.List;
 import sample.DTO.NewsDTO;
 import sample.Utils.DBUtils;
 
-/**
- *
- * @author admin
- */
-public class NewsDAO {
 
+
+
+public class NewsDAO {
     private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
     private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
     private static final String GET_LIST_NEWS = "SELECT newsID, title, uploadDate FROM tblNews";
@@ -29,6 +27,113 @@ public class NewsDAO {
     private static final String ADDNEWS = "";
     private static final String UPDATE_NEWS = "UPDATE tblNews SET writerName=?, title=?, head=?, body=?, staffID=?, uploadDate=? WHERE newsID=? ";
     private static final String DELETE_NEWS = "UPDATE tblNews SET status='false' WHERE newsID=? ";
+    private static final String ADD_NEWS = "INSERT INTO tblNews( writerName , title, head, body, staffID , uploadDate) VALUES (?,?,?,?,?,?)";
+    private static final String VIEW_NEWS = "SELECT newsID, writerName , title, head, body, uploadDate FROM tblNews WHERE newsID = ?";
+    private static final String CHECK_DUPLICATE_NEWSID = "SELECT writerName  from tblNews WHERE newsID = ?";
+
+    public boolean addNews(NewsDTO news) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(ADD_NEWS);
+
+                ptm.setString(1, news.getWriterName());
+                ptm.setString(2, news.getTitle());
+                ptm.setString(3, news.getHead());
+                ptm.setString(4, news.getBody());
+                ptm.setString(5, news.getAccountID());
+                ptm.setDate(6, news.getUploadDate());
+
+                check = ptm.executeUpdate() > 0 ? true : false;
+
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public List<NewsDTO> getFeedbackList(int bookID) throws SQLException, ClassNotFoundException {
+        List<NewsDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(VIEW_NEWS);
+                ptm.setInt(1, bookID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int newsID = rs.getInt("newsID");
+                    String writerName = rs.getString("writerName");
+                    String title = rs.getString("title");
+                    String head = rs.getString("head");
+                    String body = rs.getString("body");
+                    String AccountID = rs.getString("AccountID");
+                    Date uploadDate = rs.getDate("uploadDate");
+                    NewsDTO news = new NewsDTO(newsID, writerName, title, head, body, AccountID, uploadDate);
+
+                    list.add(news);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public boolean checkDuplicateNewsID(int newsID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATE_NEWSID);
+                ptm.setInt(1, newsID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
 
     public int getTotalPagesNews(int limit) throws SQLException {
         int count = 0, totalPages = 0, extraPage = 0;
@@ -41,7 +146,7 @@ public class NewsDAO {
                 ptm = conn.prepareStatement(GET_COUNT_NEWS);
                 rs = ptm.executeQuery();
                 if (rs.next()) {
-                    count=rs.getInt("count");
+                    count = rs.getInt("count");
                 }
                 if (count % limit != 0) {
                     extraPage = 1;
@@ -63,6 +168,7 @@ public class NewsDAO {
         }
         return totalPages;
     }
+
     public List<NewsDTO> getListNews() throws SQLException {
         List<NewsDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -97,6 +203,7 @@ public class NewsDAO {
         }
         return list;
     }
+
     public List<NewsDTO> getListNews_withPage(int currentNews, int limit) throws SQLException {
         List<NewsDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -108,7 +215,7 @@ public class NewsDAO {
                 ptm = conn.prepareStatement(GET_LIST_NEWS_WITHPAGE);
                 ptm.setInt(1, currentNews);
                 ptm.setInt(2, limit);
-                
+
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int newsID = rs.getInt("newsID");
@@ -134,6 +241,7 @@ public class NewsDAO {
         }
         return list;
     }
+
     public NewsDTO getNewsInformation(int newsID) throws SQLException {
         NewsDTO news;
         Connection conn = null;
@@ -152,9 +260,9 @@ public class NewsDAO {
                     String body = rs.getString("body");
                     String staffID = rs.getString("staffID");
                     Date uploadDate = rs.getDate("uploadDate");
-                    
+
                     news = new NewsDTO(newsID, writer, title, head, body, staffID, uploadDate);
-                    
+
                     return news;
                 }
             }
@@ -173,6 +281,7 @@ public class NewsDAO {
         }
         return null;
     }
+
     public boolean deleteAccount(int newID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -196,21 +305,22 @@ public class NewsDAO {
         }
         return check;
     }
+
     public boolean updateNews(NewsDTO news) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
         try {
             conn = DBUtils.getConnection();
-            if (conn != null) {    
-                    ptm = conn.prepareStatement(UPDATE_NEWS);
-                    ptm.setString(1, news.getWriterName());
-                    ptm.setString(2, news.getTitle());
-                    ptm.setString(3, news.getHead());
-                    ptm.setString(4, news.getBody());
-                    ptm.setString(5, news.getAccountID());
-                    ptm.setDate(6, news.getUploadDate());
-                    ptm.setInt(7, news.getNewsID());  
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATE_NEWS);
+                ptm.setString(1, news.getWriterName());
+                ptm.setString(2, news.getTitle());
+                ptm.setString(3, news.getHead());
+                ptm.setString(4, news.getBody());
+                ptm.setString(5, news.getAccountID());
+                ptm.setDate(6, news.getUploadDate());
+                ptm.setInt(7, news.getNewsID());
                 check = ptm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
