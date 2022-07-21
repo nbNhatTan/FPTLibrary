@@ -21,6 +21,7 @@ import sample.DAO.AccountDAO;
 @WebServlet(name = "DeleteAccountController", urlPatterns = {"/DeleteAccountController"})
 public class DeleteAccountController extends HttpServlet {
 
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -28,9 +29,6 @@ public class DeleteAccountController extends HttpServlet {
             String accountID = request.getParameter("accountID");
             AccountDAO dao = new AccountDAO();
             boolean check = dao.deleteAccount(accountID);
-            if (check) {
-                request.setAttribute("message", "Delete");
-            }
         } catch (Exception e) {
             log("Error at DeleteAccountController: " + e.toString());
         } finally {

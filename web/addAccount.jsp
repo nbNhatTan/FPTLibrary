@@ -19,7 +19,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="CSS/login.css" />
-        <link rel="stylesheet" href="CSS/style1.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="CSS/footer.css" />
         
@@ -28,8 +27,7 @@
     </head>
 
     <body>
-    <jsp:include page="header.jsp"></jsp:include>
-        <style>
+           <style>
             body {
                 background-image: url('./image/background.jpg');
                 background-repeat: no-repeat;
@@ -38,14 +36,14 @@
                 background-size: 100% 100%;
             }
         </style>
-        <%
+<%
             AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (acc == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
             if (acc.getRoleID() != 1) {
-                response.sendRedirect("javascript:history.back()");
+                response.sendRedirect("error.jsp");
                 return;
             }
 
@@ -103,7 +101,7 @@
 
 
                                 <div class="col-md-12 text-center mb-3">
-                                    <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="Register" >Add new account</button>
+                                    <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="Register" >Register</button>
                                 </div>
                                 <div class="col-md-12 ">
                                     <div class="form-group">
@@ -116,6 +114,8 @@
                 </div>
             </div>
         </div>
-    <jsp:include page="footer.jsp"></jsp:include>
+
+
+
 </body>
 </html>

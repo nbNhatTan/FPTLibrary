@@ -33,12 +33,11 @@ public class LogoutController extends HttpServlet {
                 session.removeAttribute("LOGIN_ACCOUNT");
                 session.invalidate();
                 url = SUCCESS;
-                request.setAttribute("message", "Logout");
             }
         } catch (Exception e) {
             log("Error at LogoutController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            response.sendRedirect(url);
         }
     }
 

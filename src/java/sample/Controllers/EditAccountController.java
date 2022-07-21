@@ -34,6 +34,8 @@ public class EditAccountController extends HttpServlet {
             String accountID = request.getParameter("accountID");
             String fullName = request.getParameter("fullName");
             String roleID = request.getParameter("roleID");
+            String password = request.getParameter("password");
+            String confirm = request.getParameter("confirm");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
@@ -44,6 +46,10 @@ public class EditAccountController extends HttpServlet {
 
             if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
+                checkValidation = false;
+            }
+            if (!password.equals(confirm)) {
+                accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
             }
             if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
@@ -60,7 +66,7 @@ public class EditAccountController extends HttpServlet {
             }
 
             if (checkValidation) {
-                AccountDTO account = new AccountDTO(accountID, fullName, "***", Integer.parseInt(roleID), email, address, phone, true);
+                AccountDTO account = new AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
                 boolean checkUpdate = dao.update(account);
                 if (checkUpdate) {
                     url = SUCCESS;

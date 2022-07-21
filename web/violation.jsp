@@ -46,13 +46,14 @@ and open the template in the editor.
                 return;
             }
             if (acc.getRoleID() != 2) {
-                response.sendRedirect("javascript:history.back()");
+                response.sendRedirect("error.jsp");
                 return;
             }
 
         %>
-            <div class="table-container">
-                <div>
+            <div>
+
+                <div class="table-container">
                     <%
                         String staffID = (String) request.getAttribute("StaffID");
                     %>
@@ -115,10 +116,13 @@ and open the template in the editor.
                                 } else {
                                 %>
                                 <td><span class="Borrowing">[Paid]</span> </td>
-                                <td></td>
+                                <td>
+                                    
+                                </td>
                                 <%
                                     }
                                 %>
+                                
                             </tr>
                             <%
                                         }
@@ -128,13 +132,22 @@ and open the template in the editor.
                         </tbody>
                     </table>
                 </div>
-                <ul class="pagination" id="pagination">
-                    <li class="page-item first disabled"><a href="#" class="page-link">&lt;&lt;&lt;</a></li>
-                    <li class="page-item prev disabled"><a href="#" class="page-link">&lt;-</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item next disabled"><a href="#" class="page-link">-&gt;</a></li>
-                    <li class="page-item last disabled"><a href="#" class="page-link">&gt;&gt;&gt;</a></li>
-                </ul>
+                <div class="pagination">
+                    <ul>
+                        <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
+                        <li class="numb"><span>1</span></li>
+                        <li class="numb"><span>2</span></li>
+                        <li class="numb"><span>3</span></li>
+                        <li class="numb"><span>4</span></li>
+                        <li class="numb"><span>5</span></li>
+                        <li class="numb"><span>6</span></li>
+                        <li class="dots"><span>...</span></li>
+                        <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
+                    </ul>
+
+
+                </div>          
+
             </div>
         <jsp:include page="footer.jsp"></jsp:include>
     </body>

@@ -34,13 +34,6 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
-    <%
-        AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-        if (acc != null && acc.getRoleID() == 1) {
-            response.sendRedirect("javascript:history.back()");
-            return;
-        }
-    %>
         <div class="main">
             <div class="row news">
                 <div class="col-md-1"></div>
@@ -241,47 +234,28 @@
     </div>           
     <jsp:include page="footer.jsp"></jsp:include>
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function book() {
-            if (<%=check%>) {
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You want to borrow this book",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#F5D98F',
-                    cancelButtonColor: '#F7E5D7',
-                    confirmButtonText: 'Yes, borrow it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
-                    }
-                })
-            } else {
-                location.href = "login.jsp";
-            }
-        }
-    </script>
-    
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <%
-        String mess = (String) request.getAttribute("message");
-        if(mess != null){
-    %>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            Swal.fire({
-                        title: 'Success!',
-                        text: '<%=mess%> successful.',
-                        confirmButtonColor: '#F5D98F',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        icon: 'success'
-                    });
-        </script>
-    <%
-        }
-    %>
+                                function book() {
+                                    if (<%=check%>) {
+                                        Swal.fire({
+                                            title: 'Are you sure?',
+                                            text: "You want to borrow this book",
+                                            icon: 'question',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#F5D98F',
+                                            cancelButtonColor: '#F7E5D7',
+                                            confirmButtonText: 'Yes, borrow it!'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
+                                            }
+                                        })
+                                    } else {
+                                        location.href = "login.jsp";
+                                    }
+                                }
+    </script>
 </body>
 </html>
 
