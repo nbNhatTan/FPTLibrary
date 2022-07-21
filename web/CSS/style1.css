@@ -76,7 +76,7 @@ footer a {
 }
 .main{
     position: relative;
-    min-height: 51%;
+    min-height: 61%;
     background-color: #f8f9fa;
 }
 .new{
@@ -222,3 +222,6 @@ textarea {
 a{
     color: #2570c2;
 }
+li a{
+      color: #343a40;
+  }

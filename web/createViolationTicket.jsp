@@ -72,11 +72,40 @@
 
                     </table>
                 </form>
-
             </div>
-
-
-
         <jsp:include page="footer.jsp"></jsp:include>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                        title: 'Success!',
+                        text: 'Don`t have violation ticket.',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'warning'
+                    });
+        </script>
+        <%
+            }
+        %>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function confirm(form) {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Keep taking action with this ticket",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#F5D98F',
+                    cancelButtonColor: '#F7E5D7',
+                    confirmButtonText: 'Yes, I`m sure!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+                return false;
+            }
+        </script>        
     </body>
 </html>

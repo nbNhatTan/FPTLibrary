@@ -25,10 +25,12 @@ import sample.Utils.DBUtils;
  */
 public class BookDAO {
 
-    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image]) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image], status) VALUES (?,?,?,?,?,?,?,?,?,?,1)";
+    private static final String EDIT_BOOK = "UPDATE tblBook SET quantity = ?, bookshelf = ?,[description] = ?, [image] = ? WHERE bookID = ?";
+    private static final String DELETE = "UPDATE tblBook SET status='false' WHERE bookID=?";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
-    private static final String SEARCH = "SELECT bookID, bookName, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE bookName like ?";
+    private static final String GETLIST = "SELECT bookID, bookName, quantity, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID WHERE b.status = 1";
     private static final String GETLIST_PACKAGE = "SELECT packageName, price, importDate FROM tblPackage";
     private static final String GETLIST_BOOKITEM = "SELECT bookItemID, bookID, bookStatus, packageID FROM tblBookItem";
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
@@ -106,6 +108,59 @@ public class BookDAO {
         return id;
     }
 
+    public boolean editBook(BookDTO book) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(EDIT_BOOK);
+                ptm.setInt(1, book.getQuantity());
+                ptm.setString(2, book.getBookshelf());
+                ptm.setString(3, book.getDescription());
+                ptm.setString(4, book.getImage());
+                ptm.setInt(5, book.getBookID());
+                check = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public boolean deleteBook(String bookID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(DELETE);
+                ptm.setString(1, bookID);
+                check = ptm.executeUpdate() > 0 ? true : false;
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
     public int createPackage(PackageDTO pack) throws SQLException {
         int id = 0;
         Connection conn = null;
@@ -178,7 +233,7 @@ public class BookDAO {
         return total;
     }
 
-    public List<BookDTO> getListBook(String search) throws SQLException {
+    public List<BookDTO> getListBook() throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -186,12 +241,12 @@ public class BookDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(SEARCH);
-                ptm.setString(1, "%" + search + "%");
+                ptm = conn.prepareStatement(GETLIST);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int bookID = rs.getInt("bookID");
                     String bookName = rs.getString("bookName");
+                    int quantity = rs.getInt("quantity");
                     String bookshelf = rs.getString("bookshelf");
                     String image = rs.getString("image");
                     String description = rs.getString("description");
@@ -200,7 +255,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -571,7 +626,7 @@ public class BookDAO {
 
         return list;
     }
-    
+
     public List<BookDTO> getListBookByBookTag(int categoryId) throws SQLException {
         List<BookDTO> list = new ArrayList<>();
         Connection conn = null;
@@ -684,22 +739,23 @@ public class BookDAO {
         }
         return list;
     }
-    public int countGetListBook_TotalPage(String bBookName, String bAuthor, String bPublisher, String bLanguage,int categoryId, int searchLimit) throws SQLException {
+
+    public int countGetListBook_TotalPage(String bBookName, String bAuthor, String bPublisher, String bLanguage, int categoryId, int searchLimit) throws SQLException {
         int count = 0, totalPage = 0, extraPage = 0;
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
-                conn = DBUtils.getConnection();
+            conn = DBUtils.getConnection();
             if (conn != null) {
                 if (categoryId == 0) {
                     ptm = conn.prepareStatement(COUNT_ADVANCE_SEARCH);
                     ptm.setString(1, "%" + bBookName + "%");
                     ptm.setString(2, "%" + bAuthor + "%");
                     ptm.setString(3, "%" + bPublisher + "%");
-                    ptm.setString(4, "%" + bLanguage + "%");  
+                    ptm.setString(4, "%" + bLanguage + "%");
 
-                } else {                   
+                } else {
                     ptm = conn.prepareStatement(COUNT_ADVANCE_SEARCH + "  AND t.categoryID = ?");
                     ptm.setString(1, "%" + bBookName + "%");
                     ptm.setString(2, "%" + bAuthor + "%");
@@ -711,7 +767,7 @@ public class BookDAO {
                 rs = ptm.executeQuery();
 
                 while (rs.next()) {
-                    count=rs.getInt("count");
+                    count = rs.getInt("count");
                 }
                 if (count % searchLimit != 0) {
                     extraPage = 1;
