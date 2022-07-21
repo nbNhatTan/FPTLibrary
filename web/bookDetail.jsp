@@ -33,6 +33,13 @@
 </head>
 <body>
     <jsp:include page="header.jsp"></jsp:include>
+    <%
+        AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+        if (acc != null && acc.getRoleID() == 1) {
+            response.sendRedirect("javascript:history.back()");
+            return;
+        }
+    %>
         <div class="main">
             <div class="row news">
                 <div class="col-md-1"></div>

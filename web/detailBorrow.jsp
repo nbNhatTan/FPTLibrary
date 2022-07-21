@@ -34,12 +34,8 @@
     <jsp:include page="header.jsp"></jsp:include>
     <%
         AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-        if (acc == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        if (acc.getRoleID() == 1) {
-            response.sendRedirect("error.jsp");
+        if (acc != null && acc.getRoleID() == 1) {
+            response.sendRedirect("javascript:history.back()");
             return;
         }
     %>

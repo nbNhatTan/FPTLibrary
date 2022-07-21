@@ -3,38 +3,25 @@
 
 <footer class="footer">
     <div class="container">
-        <div class="row" style="width: 1140px">
-            <div class="col-md-6 col-lg-6 col-xl-5">
-                <h5>About</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-                <p class="mb-0">Project SWP391 SU2022</p>
-            </div>
-
-            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto">
-                <h5>Informations</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-                <ul class="list-unstyled">
-                    <li><i href="">Facebook</i></li>
-                    <li><i href="" style="color: black">Instagram</i></li>
-                    <li><i href="" style="color: black"href="">GiHub</i></li>
-                    <li><i href="" style="color: #343a40">Youtube</i></li>
-                </ul>
-            </div>
-
-            <div class="col-md-3 col-lg-3 col-xl-3">
-                <h5>Contact</h5>
-                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25" />
-                <ul class="list-unstyled">
-                    <li><i class="mr-2"></i> FPT Uni</li>
-                    <li><i class="mr-2"></i>Github</li>
-                    <li><i class="mr-2"></i></li>
-                    <li><i class="mr-2"></i></li>
-                </ul>
-            </div>
-            <div class="col-12 copyright mt-3">
-                <p class="float-left">
-                    <a href="#"><img src="https://cdn.pixabay.com/photo/2013/07/12/19/20/arrow-154593_960_720.png" height="30px" width="30px" alt="" /></a>
-                </p>
+        <a href="#"><div class="gotop">Back to Top</div></a>
+        <div class="clearfix">
+            <div class="custom">
+                <table>
+                    <tbody class="row">
+                        <tr>
+                            <td class="col-md-6">Copyright&nbsp;©&nbsp;<a href="http://www.fpt.edu.vn" target="_blank">FPT University</a><br>
+                                <p><strong>FSE Ho Chi Minh Library</strong></p>
+                                <p>Add : SWP391, Team 1, Ho Chi Minh campus, District 9 - High-tech Park</p>
+                                <p>Office tel: + 844.66805912&nbsp; / Email :&nbsp;&nbsp;<a href="mailto:thuvien_fu_hcm@fpt.edu.vn">thuvien_fu_hcm@fpt.edu.vn</a></p>
+                            </td>
+                            <td class="col-md-5">&nbsp;
+                                <p><strong>FSE Detech Library<br></strong></p>
+                                <p>Add: No. 8 Ton That Thuyet str., Cau Giay, Hanoi</p>
+                                <p class="long">Office tel: + 844.37958641&nbsp; / Email: <a href="mailto:Thu_vien_hn@fpt.edu.vn">Thu_vien_hn@fpt.edu.vn</a></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

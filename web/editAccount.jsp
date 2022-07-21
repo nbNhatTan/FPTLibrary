@@ -36,19 +36,14 @@
                 background-size: 100% 100%;
             }
         </style>
-        <%
-            AccountDTO accLogin = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (accLogin == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-            if (accLogin.getRoleID() != 1) {
-                response.sendRedirect("error.jsp");
-                return;
-            }
-
-        %>
     <jsp:include page="header.jsp"></jsp:include>
+    <%
+        AccountDTO accLog = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+        if (accLog == null || accLog.getRoleID() != 1) {
+            response.sendRedirect("javascript:history.back()");
+            return;
+        }
+    %>
         <div class="container">
             <div class="row">
                 <div class="col-md-5 mx-auto">
@@ -79,15 +74,6 @@
                                         <label for="exampleInputEmail1">Full Name:</label>
                                         <input name="fullName" type="text" placeholder="Enter Full Name" value="<%= acc.getFullName()%>" class="form-control" required="" ><%= accountError.getFullNameError()%>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Password:</label>
-                                        <input name="password" type="text" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" >
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Confirm:</label>
-                                        <input name="confirm" type="password" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" ><%= accountError.getConfirmError()%>
-                                    </div>
-
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Mail:</label>
                                         <input name="email" type="text" placeholder="Enter Mail" value="<%= acc.getEmail()%>" class="form-control" required="" ><%= accountError.getEmailError()%>

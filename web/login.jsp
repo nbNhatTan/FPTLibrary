@@ -1,3 +1,4 @@
+<%@page import="sample.DTO.AccountDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +27,13 @@
     </head>
 
     <body>
+    <%
+        AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+        if (acc != null) {
+            response.sendRedirect("error.jsp");
+            return;
+        }
+    %>
         <style>
             body {
                 background-image: url('./image/background.jpg');
