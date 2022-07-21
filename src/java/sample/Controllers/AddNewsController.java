@@ -1,71 +1,71 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
-import sample.DAO.TicketDAO;
+import sample.DAO.NewsDAO;
 import sample.DTO.AccountDTO;
+import sample.DTO.NewsDTO;
 
 /**
  *
- * @author NhatTan
+ * @author anhkhoa
  */
-@WebServlet(name = "ConfirmController", urlPatterns = {"/ConfirmController"})
-public class ConfirmController extends HttpServlet {
+@WebServlet(name = "AddNewsController", urlPatterns = {"/AddNewsController"})
+public class AddNewsController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String ERROR = "addnews.jsp";
+    private static final String SUCCESS = "home.jsp";
+    private static final String RETURN = "addnews.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try {
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            dao.confirmBookingTicket(Integer.parseInt(bookingTicketID));
+        String url = ERROR;
 
+        try {
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
+            if (loginAccount != null) {
+                
+                
+           NewsDAO dao = new NewsDAO();
             
-            AccountDAO accdao = new AccountDAO();
-            String email = accdao.GetMailBorrow(bookingTicketID);
-            String subject = "Borrowed confirmation";
-            String message = "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "\n"
-                + "<head>\n"
-                + "</head>\n"
-                + "\n"
-                + "<body>\n"
-                + "    <div>You have successfully borrowed.</div>\n"
-                + "    <div>Note: take good care of books and return them on time.</div>\n"
-                + "\n"
-                + "</body>\n"
-                + "\n"
-                + "</html>";
-            accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
-            request.setAttribute("message", "Confirmed");
+                String staffID = loginAccount.getAccountID();
+                String writerName = request.getParameter("writerName");
+                String title = request.getParameter("title");
+                String head = request.getParameter("head");
+                String body = request.getParameter("body");
+                Date uploadDate = Date.valueOf(request.getParameter("uploadDate"));
+
+
+                NewsDTO news = new NewsDTO( writerName, title, head, body, staffID, uploadDate);
+                boolean checkAdd = dao.addNews(news);
+
+                if (checkAdd) {
+                    url = SUCCESS;
+                    
+                }
+            } else {
+                url = RETURN;
+            }
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("ERROR at AddNewsController:" + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

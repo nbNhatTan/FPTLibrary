@@ -106,14 +106,14 @@
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Manager Account</a>
+                    <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Account Management</a>
                 </li>
                     <%
                         }
                         if (acc.getRoleID() == 2) {
                     %>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/addBook.jsp")?"active":""%>" href="addBook.jsp">Add Book</a>
+                    <a class="nav-link <%= url.equals("/manageBook.jsp")?"active":""%>" href="LoadListBookController">Book Management</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/borrowStaff.jsp")?"active":""%>" href="ViewborrowStaffController">Staff Borrow List</a>
@@ -122,7 +122,7 @@
                     <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">News List</a>
+                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="addnews.jsp">News List</a>
                 </li>
                     <%
                         }

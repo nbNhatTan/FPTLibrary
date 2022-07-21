@@ -5,66 +5,40 @@
 package sample.Controllers;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.NewsDAO;
+import sample.DTO.NewsDTO;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "ConfirmController", urlPatterns = {"/ConfirmController"})
-public class ConfirmController extends HttpServlet {
+@WebServlet(name = "LoadNewsController", urlPatterns = {"/LoadNewsController"})
+public class LoadNewsController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            dao.confirmBookingTicket(Integer.parseInt(bookingTicketID));
+            NewsDAO dao = new NewsDAO();
+            int newsID = Integer.parseInt(request.getParameter("newsID"));
 
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
-            
-            AccountDAO accdao = new AccountDAO();
-            String email = accdao.GetMailBorrow(bookingTicketID);
-            String subject = "Borrowed confirmation";
-            String message = "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "\n"
-                + "<head>\n"
-                + "</head>\n"
-                + "\n"
-                + "<body>\n"
-                + "    <div>You have successfully borrowed.</div>\n"
-                + "    <div>Note: take good care of books and return them on time.</div>\n"
-                + "\n"
-                + "</body>\n"
-                + "\n"
-                + "</html>";
-            accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
-            request.setAttribute("message", "Confirmed");
+            NewsDTO news = dao.getNewsInformation(newsID);
+            if (news != null) {
+                request.setAttribute("news", news);
+            } else {
+                request.setAttribute("message", "No result!");
+            }
+
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("Error at LoadNewsController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
+            request.getRequestDispatcher("newsInformation.jsp").forward(request, response);
         }
     }
 

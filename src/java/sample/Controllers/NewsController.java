@@ -5,68 +5,60 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.NewsDAO;
+import sample.DTO.NewsDTO;
+import sample.DTO.Paging;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "ConfirmController", urlPatterns = {"/ConfirmController"})
-public class ConfirmController extends HttpServlet {
+@WebServlet(name = "NewsController", urlPatterns = {"/NewsController"})
+public class NewsController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            dao.confirmBookingTicket(Integer.parseInt(bookingTicketID));
-
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
+            int currentNews = 1;
+            int searchLimit = 20;
+            int currentPage = 1;
+            NewsDAO dao = new NewsDAO();
+            String currentPage_txt = request.getParameter("currentPage");
+            if (currentPage_txt != null) {
+                currentPage = Integer.parseInt(currentPage_txt);
+            }
+            String searchLimit_txt = request.getParameter("searchLimit");
+            if (searchLimit_txt != null) {
+                searchLimit = Integer.parseInt(searchLimit_txt);
+            }
+            int totalPage = dao.getTotalPagesNews(searchLimit);
             
-            AccountDAO accdao = new AccountDAO();
-            String email = accdao.GetMailBorrow(bookingTicketID);
-            String subject = "Borrowed confirmation";
-            String message = "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "\n"
-                + "<head>\n"
-                + "</head>\n"
-                + "\n"
-                + "<body>\n"
-                + "    <div>You have successfully borrowed.</div>\n"
-                + "    <div>Note: take good care of books and return them on time.</div>\n"
-                + "\n"
-                + "</body>\n"
-                + "\n"
-                + "</html>";
-            accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
-            request.setAttribute("message", "Confirmed");
+            currentNews = searchLimit * currentPage - searchLimit;
+            Paging page = new Paging(currentPage, totalPage);
+
+            List<NewsDTO> listNews = dao.getListNews_withPage(currentNews, searchLimit);
+
+            if (!listNews.isEmpty()) {
+                request.setAttribute("listNews", listNews);
+                request.setAttribute("listNews_Page", page);
+            } else {
+                request.setAttribute("message", "No result!");
+            }
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("Error at NewsController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
+            request.getRequestDispatcher("newsList.jsp").forward(request, response);
         }
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

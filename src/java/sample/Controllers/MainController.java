@@ -49,14 +49,24 @@ public class MainController extends HttpServlet {
     private static final String VIEWBORROWDETAIL_CONTROLLER = "ViewBorrowDetailController";
     private static final String ADDBOOK = "AddBook";
     private static final String ADDBOOK_CONTROLLER = "AddBookController";
+    private static final String EDITBOOK = "EditBook";
+    private static final String EDITBOOK_CONTROLLER = "EditBookController";
     private static final String FEEDBACK="CreateFeedback";
     private static final String CREATEFEEDBACK_CONTROLLER="CreateFeedBackController";
-     private static final String VIEW_FEEDBACK="ViewFeedback";
+    private static final String VIEW_FEEDBACK="ViewFeedback";
     private static final String VIEWFEEDBACK_CONTROLLER="ViewFeedBackController";
     private static final String ADDACOUNT = "AddAccount";
     private static final String ADDACOUNT_CONTROLLER = "AddAccountController";
     private static final String EDITACCOUNT = "EditAccount";
     private static final String EDITACCOUNT_CONTROLLER = "EditAccountController";
+    private static final String ADDNEWS = "AddNews";
+    private static final String ADDNEWS_CONTROLLER ="AddNewsController";
+    private static final String LOADNEWS = "LoadNews";
+    private static final String LOADNEWSCONTROLLER = "LoadNewsController";
+    private static final String NEWS = "ListNews";
+    private static final String NEWSCONTROLLER = "NewsController";
+    private static final String VIEWORCREATE = "ViewOrCreate";
+    private static final String VIEWORCREATE_CONTROLLER = "ViewOrCreateVLTController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -104,6 +114,16 @@ public class MainController extends HttpServlet {
                 url = ADDACOUNT_CONTROLLER;
             }else if (EDITACCOUNT.equals(action)) {
                 url = EDITACCOUNT_CONTROLLER;
+            }else if (ADDNEWS.equals(action)) {
+                url = ADDNEWS_CONTROLLER;
+            }else if (LOADNEWS.equals(action)) {
+                url = LOADNEWSCONTROLLER;
+            }else if (NEWS.equals(action)) {
+                url = NEWSCONTROLLER;
+            }else if (VIEWORCREATE.equals(action)) {
+                url = VIEWORCREATE_CONTROLLER;
+            }else if (EDITBOOK.equals(action)) {
+                url = EDITBOOK_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());
