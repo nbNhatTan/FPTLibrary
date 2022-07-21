@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import sample.DAO.BookDAO;
 import sample.DTO.BookDTO;
 import sample.DTO.CategoryDTO;
-import sample.DTO.Paging;
+import sample.DTO.Paging.Paging;
 
 /**
  *
@@ -83,7 +83,18 @@ public class AdvancedSearchController extends HttpServlet {
             Paging page = new Paging(currentPage, totalPage);
             
             //--------------------------------------------------------------------------------------------
-            List<BookDTO> listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);                    
+            List<BookDTO> 
+                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
+            
+             
+            
+            
+                    
+//            if (categoryId==0) {
+//                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, 0, currentBook, searchLimit);
+//            } else {
+//                listBook = dao.getListBook(bBookName, bAuthor, bPublisher, bLanguage, categoryId, currentBook, searchLimit);
+//            }
 
             if (!listBook.isEmpty()) {
                 request.setAttribute("ADVANCE_LIST_BOOK", listBook);
