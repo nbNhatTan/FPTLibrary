@@ -182,7 +182,7 @@
                     </div>
                     <div class="content col-md-3 table-container content"  style="">
 
-                        <form action="MainController" >
+                        <form action="MainController">
                             <dl>
                                 <dt><h1 class="heading">Advanced Search</h1></dt>
                             </dl>
