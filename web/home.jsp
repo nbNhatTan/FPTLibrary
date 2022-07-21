@@ -93,7 +93,12 @@
                             <h6><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date: <%=news.getUploadDate()%></i></h6>
                             <br>
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getHead()%></p>
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;<%=news.getBody()%></p>
+                            <%
+                                String[] body = news.getBody().split("\\R");
+                                for (String i : body) {
+                                    out.println("<p>&nbsp;&nbsp;&nbsp;&nbsp;"+i+"</p>");
+                                }
+                            %>
                         </div>
                         <%
                             }

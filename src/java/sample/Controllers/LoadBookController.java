@@ -5,48 +5,41 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
+import sample.DAO.BookDAO;
+import sample.DTO.BookDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ConfirmController", urlPatterns = {"/ConfirmController"})
-public class ConfirmController extends HttpServlet {
+@WebServlet(name = "LoadBookController", urlPatterns = {"/LoadBookController"})
+public class LoadBookController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    private static final String ERROR = "LoadListBookController";
+    private static final String SUCCESS = "editBook.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+       String url = ERROR;
         try {
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            dao.confirmBookingTicket(Integer.parseInt(bookingTicketID));
-
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
-            
-            request.setAttribute("MESSAGE", "Confirmed!");
+            String bookID = request.getParameter("bookID");
+            BookDAO dao = new BookDAO();
+            BookDTO book = dao.getBookByID(Integer.parseInt(bookID));
+            if (book != null) {
+                request.setAttribute("BOOK_DETAIL", book);
+                url = SUCCESS;
+            }
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("Error at LoadBookController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
