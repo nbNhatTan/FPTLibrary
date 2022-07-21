@@ -522,18 +522,18 @@ public class BookDAO {
             if (conn != null) {
                 if (categoryId == 0) {
                     ptm = conn.prepareStatement(ADVANCE_SEARCH);
-                    ptm.setString(1, "%" + bBookName + "%");
-                    ptm.setString(2, "%" + bAuthor + "%");
-                    ptm.setString(3, "%" + bPublisher + "%");
-                    ptm.setString(4, "%" + bLanguage + "%");
+                    ptm.setNString(1, "%" + bBookName + "%");
+                    ptm.setNString(2, "%" + bAuthor + "%");
+                    ptm.setNString(3, "%" + bPublisher + "%");
+                    ptm.setNString(4, "%" + bLanguage + "%");
                     ptm.setInt(5, searchPage);
                     ptm.setInt(6, searchLimit);
                 } else {
                     ptm = conn.prepareStatement(ADVANCE_SEARCH_2);
-                    ptm.setString(1, "%" + bBookName + "%");
-                    ptm.setString(2, "%" + bAuthor + "%");
-                    ptm.setString(3, "%" + bPublisher + "%");
-                    ptm.setString(4, "%" + bLanguage + "%");
+                    ptm.setNString(1, "%" + bBookName + "%");
+                    ptm.setNString(2, "%" + bAuthor + "%");
+                    ptm.setNString(3, "%" + bPublisher + "%");
+                    ptm.setNString(4, "%" + bLanguage + "%");
                     ptm.setInt(5, categoryId);
                     ptm.setInt(6, searchPage);
                     ptm.setInt(7, searchLimit);

@@ -72,24 +72,7 @@
                             <td><%= p.getPhone()%></td>
                             <td>
                                 <a href="LoadManageController?accountID=<%=p.getAccountID()%>"  class="edit" ><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                                <button type="button" onclick="delacc('<%=p.getAccountID()%>')" class="delete" ><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
-                                <script>
-                                    function delacc(var id) {
-                                            Swal.fire({
-                                                title: 'Are you sure?',
-                                                text: "You want to delete this account.",
-                                                icon: 'question',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#F5D98F',
-                                                cancelButtonColor: '#F7E5D7',
-                                                confirmButtonText: 'Yes, delete it!'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    location.href = "DeleteAccountController?accountID=" + val(id);
-                                                }
-                                            })
-                                    }
-                                </script>
+                                <a onclick="delacc('<%=p.getAccountID()%>')" class="delete" href="#"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                             </td>
                         </tr>
                         <%
@@ -129,5 +112,22 @@
             }
         %>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function delacc(id) {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to delete this account.",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#F5D98F',
+                        cancelButtonColor: '#F7E5D7',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.href = "DeleteAccountController?accountID=" + id;
+                        }
+                    })
+            }
+        </script>
     </body>
 </html>
