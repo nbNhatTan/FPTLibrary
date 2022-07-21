@@ -57,6 +57,9 @@ public class MainController extends HttpServlet {
     private static final String ADDACOUNT_CONTROLLER = "AddAccountController";
     private static final String EDITACCOUNT = "EditAccount";
     private static final String EDITACCOUNT_CONTROLLER = "EditAccountController";
+    private static final String ADDNEWS = "AddNews";
+    private static final String ADDNEWS_CONTROLLER ="AddNewsController";
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -104,6 +107,8 @@ public class MainController extends HttpServlet {
                 url = ADDACOUNT_CONTROLLER;
             }else if (EDITACCOUNT.equals(action)) {
                 url = EDITACCOUNT_CONTROLLER;
+            }else if (ADDNEWS.equals(action)) {
+                url = ADDNEWS_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

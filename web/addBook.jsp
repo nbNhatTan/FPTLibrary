@@ -44,8 +44,7 @@
 
             <div></div>
             <h3 class="title-text">ADD BOOK</h3>
-            <%                
-                BookError bookError = (BookError) request.getAttribute("BOOK_ERROR");
+            <%                BookError bookError = (BookError) request.getAttribute("BOOK_ERROR");
                 if (bookError == null) {
                     bookError = new BookError();
                 }
@@ -111,6 +110,6 @@
             </form>
 
         </div>
-    <jsp:include page="footer.jsp"></jsp:include>
-</body>
+        <jsp:include page="footer.jsp"></jsp:include>
+    </body>
 </html>

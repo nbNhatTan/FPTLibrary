@@ -30,6 +30,16 @@ public class NewsDTO {
         this.uploadDate = uploadDate;
     }
 
+    public NewsDTO(String writerName, String title, String head, String body, String AccountID, Date uploadDate) {
+        this.writerName = writerName;
+        this.title = title;
+        this.head = head;
+        this.body = body;
+        this.AccountID = AccountID;
+        this.uploadDate = uploadDate;
+    }
+
+    
     public int getNewsID() {
         return newsID;
     }
