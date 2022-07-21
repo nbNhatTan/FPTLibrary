@@ -54,6 +54,7 @@ public class BorrowController extends HttpServlet {
                 request.setAttribute("message", "Request borrow book");
             } else {
                 url = "login.jsp";
+                request.setAttribute("warning", "You need to login to use this funcion!");
             }
         } catch (Exception e) {
             log("Error at BorrowController: " + e.toString());
