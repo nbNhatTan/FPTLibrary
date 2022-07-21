@@ -18,7 +18,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="CSS/style.css" />
+        <link rel="stylesheet" href="CSS/style1.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,8 +27,6 @@
 
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
-
         <%
             AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (acc == null) {
@@ -36,7 +34,7 @@
                 return;
             }
             if (acc.getRoleID() != 2) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 
@@ -44,11 +42,10 @@
         <div>
 
 
-            <div>
-
-            </div>
+            <div></div>
             <h3 class="title-text">ADD BOOK</h3>
-            <%                BookError bookError = (BookError) request.getAttribute("BOOK_ERROR");
+            <%                
+                BookError bookError = (BookError) request.getAttribute("BOOK_ERROR");
                 if (bookError == null) {
                     bookError = new BookError();
                 }
@@ -114,9 +111,6 @@
             </form>
 
         </div>
-    </div>
-
-
     <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

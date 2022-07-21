@@ -41,14 +41,13 @@
                 return;
             }
             if (acc.getRoleID() != 2) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 
         %>
-            <div>
-
-                <div class="table-container">
+            <div class="table-container">
+                <div>
                     <h3 class = "">
                     <%
                         String status = (String) request.getAttribute("Status");
@@ -133,8 +132,7 @@
                                     <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                     <%
                                         }
-                                    %>
-                               
+                                    %>                              
                             </td>
                         </tr>
                         <%
@@ -143,38 +141,16 @@
                             }
                         %>
                     </tbody>
-
                 </table>
-
             </div>
-
-
-
-
-        </div>
-
-
-        <div class="pagination">
-            <ul>
-                <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
-                <li class="numb"><span>1</span></li>
-                <li class="numb"><span>2</span></li>
-                <li class="numb"><span>3</span></li>
-                <li class="numb"><span>4</span></li>
-                <li class="numb"><span>5</span></li>
-                <li class="numb"><span>6</span></li>
-                <li class="dots"><span>...</span></li>
-                <li class="btn next"><span>Next<i class="fas fa-angle-right"></i></span></li>
+            <ul class="pagination" id="pagination">
+                <li class="page-item first disabled"><a href="#" class="page-link">&lt;&lt;&lt;</a></li>
+                <li class="page-item prev disabled"><a href="#" class="page-link">&lt;-</a></li>
+                <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                <li class="page-item next disabled"><a href="#" class="page-link">-&gt;</a></li>
+                <li class="page-item last disabled"><a href="#" class="page-link">&gt;&gt;&gt;</a></li>
             </ul>
-
-
         </div>
-
-
-
-
-
-
         <jsp:include page="footer.jsp"></jsp:include>
     </body>
 </html>

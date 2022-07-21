@@ -33,17 +33,12 @@
 <body>
     <jsp:include page="header.jsp"></jsp:include>
     <%
-            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (acc == null) {
-                response.sendRedirect("login.jsp");
-                return;
-            }
-            if (acc.getRoleID() == 1) {
-                response.sendRedirect("error.jsp");
-                return;
-            }
-
-        %>
+        AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+        if (acc != null && acc.getRoleID() == 1) {
+            response.sendRedirect("javascript:history.back()");
+            return;
+        }
+    %>
         <div class="main">
             <div class="row news">
                 <div class="col-md-1"></div>
@@ -71,6 +66,13 @@
                                     <td><%= borrow.getBookItemID()%></td>
                                 </tr>
                                 <tr>
+                                    <td><h6>Status: </h6></td>
+                                    <td><span style="color: <%=borrow.getBorrowStatus().equals("Pending")?"#ffa500":
+                                                               borrow.getBorrowStatus().equals("Borrowing")?"#00b050":
+                                                               borrow.getBorrowStatus().equals("Returned")?"#0008ff":
+                                                               borrow.getBorrowStatus().equals("Expired")?"#f00":"#ffa500"%>">[<%= borrow.getBorrowStatus()%>]</span> </td>
+                                </tr>
+                                <tr>
                                     <td><h6>Borrow Date: </h6></td>
                                     <td><%= borrow.getBorrowDate()%></td>
                                 </tr>
@@ -80,22 +82,15 @@
                                 </tr>
                                 <tr>
                                     <td><h6>Return Date: </h6></td>
-                                    <td><%= borrow.getReturnDate()%></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>Status: </h6></td>
-                                    <td><span style="color: <%=borrow.getBorrowStatus().equals("Pending")?"#ffa500":
-                                                               borrow.getBorrowStatus().equals("Borrowing")?"#00b050":
-                                                               borrow.getBorrowStatus().equals("Returned")?"#0008ff":
-                                                               borrow.getBorrowStatus().equals("Expired")?"#f00":"#ffa500"%>">[<%= borrow.getBorrowStatus()%>]</span> </td>
+                                    <td><%= borrow.getReturnDate() != null ? borrow.getReturnDate() : ""%></td>
                                 </tr>
                                 <tr>
                                     <td><h6>Borrower: </h6></td>
                                     <td><%= borrow.getUserID().getFullName()%></td>
                                 </tr>
                                 <tr>
-                                    <td><h6>Management staff: </h6></td>
-                                    <td><%= borrow.getStaffID().getFullName()%></td>
+                                    <td><h6>Ticket manager: </h6></td>
+                                    <td><%= borrow.getStaffID().getFullName() != null ? borrow.getStaffID().getFullName() : ""%></td>
                                 </tr>
                                 <tr>
                                     <td><br></td>

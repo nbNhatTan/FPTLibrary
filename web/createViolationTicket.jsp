@@ -35,7 +35,7 @@
                 return;
             }
             if (acc.getRoleID() != 2) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 

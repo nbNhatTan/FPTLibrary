@@ -3,9 +3,13 @@
 
 <footer class="footer">
     <div class="container">
+<<<<<<< HEAD
 
         <a href="#"><div class="gotop">Back to Top</div></a>
 
+=======
+        <a href="#"><div class="gotop">Back to Top</div></a>
+>>>>>>> Dev
         <div class="clearfix">
             <div class="custom">
                 <table>
