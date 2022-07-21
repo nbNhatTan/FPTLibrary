@@ -49,6 +49,8 @@ public class MainController extends HttpServlet {
     private static final String VIEWBORROWDETAIL_CONTROLLER = "ViewBorrowDetailController";
     private static final String ADDBOOK = "AddBook";
     private static final String ADDBOOK_CONTROLLER = "AddBookController";
+    private static final String EDITBOOK = "EditBook";
+    private static final String EDITBOOK_CONTROLLER = "EditBookController";
     private static final String FEEDBACK="CreateFeedback";
     private static final String CREATEFEEDBACK_CONTROLLER="CreateFeedBackController";
     private static final String VIEW_FEEDBACK="ViewFeedback";
@@ -61,6 +63,9 @@ public class MainController extends HttpServlet {
     private static final String LOADNEWSCONTROLLER = "LoadNewsController";
     private static final String NEWS = "ListNews";
     private static final String NEWSCONTROLLER = "NewsController";
+    private static final String VIEWORCREATE = "ViewOrCreate";
+    private static final String VIEWORCREATE_CONTROLLER = "ViewOrCreateVLTController";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -111,6 +116,10 @@ public class MainController extends HttpServlet {
                 url = LOADNEWSCONTROLLER;
             }else if (NEWS.equals(action)) {
                 url = NEWSCONTROLLER;
+            }else if (VIEWORCREATE.equals(action)) {
+                url = VIEWORCREATE_CONTROLLER;
+            }else if (EDITBOOK.equals(action)) {
+                url = EDITBOOK_CONTROLLER;
             }
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());

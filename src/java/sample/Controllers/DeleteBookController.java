@@ -5,36 +5,36 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sample.DAO.BookDAO;
-import sample.DTO.BookDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "SearchBookController", urlPatterns = {"/SearchBookController"})
-public class SearchBookController extends HttpServlet {
+@WebServlet(name = "DeleteBookController", urlPatterns = {"/DeleteBookController"})
+public class DeleteBookController extends HttpServlet {
 
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try {
-            String search = request.getParameter("search");
+            String bookID = request.getParameter("bookID");
             BookDAO dao = new BookDAO();
-            List<BookDTO> listBook = dao.getListBook(search);
-            if (!listBook.isEmpty()) {
-                request.setAttribute("LIST_BOOK", listBook);
-            } 
+            boolean check = dao.deleteBook(bookID);
+            if (check) {
+                request.setAttribute("message", "Delete");
+            }
         } catch (Exception e) {
-            log("Error at SearchListController: " + e.toString());
+            log("Error at DeleteBookController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("searchList.jsp").forward(request, response);
+            request.getRequestDispatcher("LoadListBookController").forward(request, response);
         }
     }
 
