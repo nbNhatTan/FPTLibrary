@@ -32,7 +32,7 @@ and open the template in the editor.
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="CSS/styleBorrow.css" />
-        <link rel="stylesheet" href="CSS/footer.css" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -46,14 +46,13 @@ and open the template in the editor.
                 return;
             }
             if (acc.getRoleID() != 2) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 
         %>
-            <div>
-
-                <div class="table-container">
+            <div class="table-container">
+                <div>
                     <%
                         String staffID = (String) request.getAttribute("StaffID");
                     %>
@@ -116,13 +115,10 @@ and open the template in the editor.
                                 } else {
                                 %>
                                 <td><span class="Borrowing">[Paid]</span> </td>
-                                <td>
-                                    
-                                </td>
+                                <td></td>
                                 <%
                                     }
                                 %>
-                                
                             </tr>
                             <%
                                         }
@@ -132,22 +128,13 @@ and open the template in the editor.
                         </tbody>
                     </table>
                 </div>
-                <div class="pagination">
-                    <ul>
-                        <li class="btn prev"><span><i class="fas fa-angle-left"></i> Prev</span></li>
-                        <li class="numb"><span>1</span></li>
-                        <li class="numb"><span>2</span></li>
-                        <li class="numb"><span>3</span></li>
-                        <li class="numb"><span>4</span></li>
-                        <li class="numb"><span>5</span></li>
-                        <li class="numb"><span>6</span></li>
-                        <li class="dots"><span>...</span></li>
-                        <li class="btn next"><span>Next <i class="fas fa-angle-right"></i></span></li>
-                    </ul>
-
-
-                </div>          
-
+                <ul class="pagination" id="pagination">
+                    <li class="page-item first disabled"><a href="#" class="page-link">&lt;&lt;&lt;</a></li>
+                    <li class="page-item prev disabled"><a href="#" class="page-link">&lt;-</a></li>
+                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                    <li class="page-item next disabled"><a href="#" class="page-link">-&gt;</a></li>
+                    <li class="page-item last disabled"><a href="#" class="page-link">&gt;&gt;&gt;</a></li>
+                </ul>
             </div>
         <jsp:include page="footer.jsp"></jsp:include>
     </body>

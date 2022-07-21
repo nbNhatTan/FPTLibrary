@@ -11,7 +11,7 @@
 <div class="header">
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container-fluid padding row">
-        <div class="col-md-5">
+       <div class="col-md-4">
             <div class="p-2">
                 <a class="navbar-branch" href="HomeController">
                     <img
@@ -23,21 +23,28 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-5">
-            <form action="MainController">
-                <input type="text" name="bookName" placeholder="Search" value=<%=search%>>
-                <button class="btn btn-warning btn-sm" type="submit" name="action" value="SearchBook">Search</button>
+        <div class="col-md-4">
+                <form action="MainController" class="search">
+                <div class="input-group w-100">
+                    <input type="text" name="bookName" value=""<%=search%>" class="form-control" placeholder="Search">
+                    <div class="input-group-append">
+                      <button class="btn btn-warning" type="submit" name="action" value="SearchBook">
+                        <i class="fa fa-search"></i>
+                      </button>
+                    </div>
+                </div>
             </form>
         </div>
+        <div class="col-md-1"></div>
         <%
             AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (acc != null) {
                 if (acc.getRoleID() == 2 || acc.getRoleID() == 3) {
         %>
-            <div class="col-md-2 col">
+            <div class="col-md-3">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <h5><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <%=acc.getFullName()%></a></h5>
+                    <li class="nav-item" style="width: 360px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">
+                        <strong><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <i><%=acc.getFullName()%></i></a></strong>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutController">Logout</a>
@@ -47,11 +54,11 @@
         <%
                 } else {
         %>
-        <div class="col-md-2 col">
+        <div class="col-md-3">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <h5><a class="nav-link" href="">Hello <%=acc.getFullName()%></a></h5>
-                </li>
+                <li class="nav-item" style="width: 360px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">
+                        <strong><a class="nav-link" href="LoadAccountController?accountID=<%=acc.getAccountID()%>">Hello <i><%=acc.getFullName()%></i></a></strong>
+                    </li>
                 <li class="nav-item">
                     <a class="nav-link" href="LogoutController">Logout</a>
                 </li>
@@ -61,9 +68,9 @@
                 }
             } else {
         %>
-        <div class="col-md-1 col"></div>
+        <div class="col-md-2 col"></div>
         <div class="col-md-1 col">
-            <a class="btn btn-warning btn-sm user" href="login.jsp"> LOGIN </a>
+            <a  href="login.jsp"><button class="btn btn-warning" type="submit">Login</button> </a>
         </div>
         <%
             }
@@ -85,6 +92,7 @@
             <ul class="navbar-nav ml-auto">
                 <%
                     String url= request.getServletPath();
+                    if (acc == null ||  acc.getRoleID() != 1) {
                 %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/home.jsp")?"active":""%>" href="HomeController">Home</a>
@@ -93,16 +101,17 @@
                     <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="about.jsp">About</a>
                 </li>
                 <%
+                    }
                     if(acc != null){
                         if (acc.getRoleID() == 1) {
                 %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/manageAccount.jsp")?"active":""%>" href="ViewAccountController">Manager Account</a>
                 </li>
-                <%
+                    <%
                         }
                         if (acc.getRoleID() == 2) {
-                %>
+                    %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/addBook.jsp")?"active":""%>" href="addBook.jsp">Add Book</a>
                 </li>
@@ -115,10 +124,10 @@
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">News List</a>
                 </li>
-                <%
+                    <%
                         }
                         if (acc.getRoleID() == 3) {
-                %>
+                    %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="LoadAdvancedSearchController">Advanced Search</a>
                 </li>

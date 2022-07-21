@@ -45,11 +45,11 @@ public class TicketDAO {
             + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
             + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
             + "WHERE s.staffID like ?";
-    private static final String GETBORROWDETAIL = "SELECT b.[image], b.bookName, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus, s.staffID \n"
+    private static final String GETBORROWDETAIL = "SELECT b.[image], b.bookName, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
             + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
             + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID\n"
-            + "JOIN tblStaffTicket s ON t.bookingTicketID = s.ticketID\n"
-            + "WHERE t.bookingTicketID like ?";
+            + "WHERE t.bookingTicketID = ?";
+    private static final String GETSTAFFBORROWDETAIL = "SELECT staffID FROM tblStaffTicket WHERE ticketID = ?";
     private static final String GETVIOLATIONDETAIL = "SELECT violationTicketID, staffID, createDate, description, ticketStatus FROM tblViolationTicket WHERE bookingTicketID = ?";
     private static final String RETURNBOOK = "UPDATE tblBookingTicket SET returnDate=?, borrowStatus=? WHERE bookingTicketID=?";
     private static final String UPDATEBOOKINGTICKET_STATUS = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
@@ -583,20 +583,26 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
+                ptm = conn.prepareStatement(GETSTAFFBORROWDETAIL);
+                ptm.setInt(1, bookingTicketID);
+                rs = ptm.executeQuery();
+                AccountDAO accDAO = new AccountDAO();
+                AccountDTO staff = new AccountDTO();
+                while (rs.next()) {
+                    staff = accDAO.getAccountByID(rs.getString("staffID"));
+                }
                 ptm = conn.prepareStatement(GETBORROWDETAIL);
                 ptm.setInt(1, bookingTicketID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String image = rs.getString("image");
                     String bookName = rs.getString("bookName");
-                    AccountDAO accDAO = new AccountDAO();
                     AccountDTO user = accDAO.getAccountByID(rs.getString("userID"));
                     String bookItemID = rs.getString("bookItemID");
                     Date borrowDate = rs.getDate("borrowDate");
                     Date expiredDate = rs.getDate("expiredDate");
                     Date returnDate = rs.getDate("returnDate");
                     String borrowStatus = rs.getString("borrowStatus");
-                    AccountDTO staff = accDAO.getAccountByID(rs.getString("staffID"));
                     borrow = new BorrowDTO(image, bookName, bookingTicketID, user, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus);
                     borrow.setStaffID(staff);
                     return borrow;

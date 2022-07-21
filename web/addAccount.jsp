@@ -19,15 +19,16 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="CSS/login.css" />
+        <link rel="stylesheet" href="CSS/style1.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="CSS/footer.css" />
-        
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     </head>
 
     <body>
-           <style>
+    <jsp:include page="header.jsp"></jsp:include>
+        <style>
             body {
                 background-image: url('./image/background.jpg');
                 background-repeat: no-repeat;
@@ -36,14 +37,14 @@
                 background-size: 100% 100%;
             }
         </style>
-<%
+        <%
             AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (acc == null) {
                 response.sendRedirect("login.jsp");
                 return;
             }
             if (acc.getRoleID() != 1) {
-                response.sendRedirect("error.jsp");
+                response.sendRedirect("javascript:history.back()");
                 return;
             }
 
@@ -101,7 +102,7 @@
 
 
                                 <div class="col-md-12 text-center mb-3">
-                                    <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="Register" >Register</button>
+                                    <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="Register" >Add new account</button>
                                 </div>
                                 <div class="col-md-12 ">
                                     <div class="form-group">
@@ -114,8 +115,6 @@
                 </div>
             </div>
         </div>
-
-
-
+    <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

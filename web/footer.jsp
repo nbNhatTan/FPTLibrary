@@ -3,9 +3,7 @@
 
 <footer class="footer">
     <div class="container">
-
         <a href="#"><div class="gotop">Back to Top</div></a>
-
         <div class="clearfix">
             <div class="custom">
                 <table>
@@ -26,8 +24,5 @@
                 </table>
             </div>
         </div>
-
-
     </div>
-
 </footer>

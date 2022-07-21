@@ -29,11 +29,54 @@ html, body {
     top: 0;
 }
 
+.footer {
+    position: relative;
+    font-size: 16px;
+    background-color: #F7E5D7 !important;
+    width: 100%;
+    color: #222222;
+}
+footer {
+    padding-bottom:  20px;
+    margin: 0 0px;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #F3CCB5 !important ;
+    
+}
+container {
+    background: none;
+    padding: 14px 0;
+}
+div.footer {
+    float: left;
+    width: 100%;
+}
+div.gotop {
+    min-width: 50px;
+    float: right;
+    margin: 0px 0 0;
+    padding: 25px 0px 0px;
+    font-style: italic;
+    cursor: pointer;
+}
+gotop{
+    float: left;
+}
+div.gotop {
+    background: url(..//..//image/top-icon.png) no-repeat scroll center top transparent;
+}
+div.clearfix{
+    float: left;
+}
 
+footer a {
+   color: #194a80 !important;
+}
 .main{
     position: relative;
     min-height: 51%;
-    padding: 10px;
     background-color: #f8f9fa;
 }
 .new{
@@ -174,4 +217,8 @@ textarea {
     position: absolute;
 
     overflow: hidden;
+}
+
+a{
+    color: #2570c2;
 }

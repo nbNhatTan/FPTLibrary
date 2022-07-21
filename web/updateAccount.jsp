@@ -21,7 +21,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="CSS/login.css" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="CSS/footer.css" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -43,11 +43,6 @@
                 response.sendRedirect("login.jsp");
                 return;
             }
-            if (accLogin.getRoleID() == 1) {
-                response.sendRedirect("error.jsp");
-                return;
-            }
-
         %>
         <div class="container">
             <div class="row">
@@ -72,20 +67,21 @@
                                     <label for="exampleInputEmail1">Account ID:</label>
                                     <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" value="<%= acc.getAccountID()%>" readonly="" >
                                 </div>
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Role ID:</label>
-                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" value="<%= acc.getRoleID()%>" readonly="">
+                                    <input  name="roleID"type="text"  class="form-control" value="<%= acc.getRoleID()%>" readonly="">
+                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Full Name:</label>
                                     <input name="fullName" type="text" placeholder="Enter Full Name" value="<%= acc.getFullName()%>" class="form-control" required="" ><%= accountError.getFullNameError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Password:</label>
-                                    <input name="password" type="password" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" >
+                                    <input name="password" type="password" placeholder="Enter Password"  value="***" class="form-control" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Confirm:</label>
-                                    <input name="confirm" type="password" placeholder="Enter Password"  value="<%= acc.getPassword()%>" class="form-control" ><%= accountError.getConfirmError()%>
+                                    <input name="confirm" type="password" placeholder="Enter Password"  value="***" class="form-control" ><%= accountError.getConfirmError()%>
                                 </div>
                                
                                 <div class="form-group">
@@ -116,7 +112,7 @@
                 </div>
             </div>
         </div>
-                       <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function create(form) {
             Swal.fire({

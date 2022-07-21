@@ -19,7 +19,7 @@ public class MainController extends HttpServlet {
     private static final String ERROR = "error.jsp";
     private static final String LOGIN_CONTROLLER = "LoginController";
     private static final String LOGIN = "Login";
-    private static final String SEARCHBOOK_CONTROLLER = "AdvancedSearchController";
+    private static final String SEARCHBOOK_CONTROLLER = "AdvanceSearchController";
     private static final String SEARCHBOOK = "SearchBook";
     private static final String DETAIL_CONTROLLER = "BookDetailController";
     private static final String DETAIL = "Detail";
@@ -41,14 +41,18 @@ public class MainController extends HttpServlet {
     private static final String VIEWVIOLATIONTICKET_CONTROLLER = "ViewFineticketController";
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
-    private static final String ADVANCEDSEARCH_CONTROLLER = "AdvancedSearchController";
-    private static final String ADVANCEDSEARCH = "AdvancedSearch";
+    private static final String ADVANCESEARCH_CONTROLLER = "AdvanceSearchController";
+    private static final String ADVANCESEARCH = "AdvanceSearch";
     private static final String UPDATEACCOUNT = "UpdateAccount";
     private static final String UPDATEACCOUNT_CONTROLLER = "UpdateAccountController";
     private static final String VIEWBORROWDETAIL = "View";
     private static final String VIEWBORROWDETAIL_CONTROLLER = "ViewBorrowDetailController";
     private static final String ADDBOOK = "AddBook";
     private static final String ADDBOOK_CONTROLLER = "AddBookController";
+    private static final String FEEDBACK="CreateFeedback";
+    private static final String CREATEFEEDBACK_CONTROLLER="CreateFeedBackController";
+     private static final String VIEW_FEEDBACK="ViewFeedback";
+    private static final String VIEWFEEDBACK_CONTROLLER="ViewFeedBackController";
     private static final String ADDACOUNT = "AddAccount";
     private static final String ADDACOUNT_CONTROLLER = "AddAccountController";
     private static final String EDITACCOUNT = "EditAccount";
@@ -84,14 +88,18 @@ public class MainController extends HttpServlet {
                 url = VIEWVIOLATIONTICKET_CONTROLLER;
             } else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
-            } else if (ADVANCEDSEARCH.equals(action)) {
-                url = ADVANCEDSEARCH_CONTROLLER;
+            } else if (ADVANCESEARCH.equals(action)) {
+                url = ADVANCESEARCH_CONTROLLER;
             }else if (UPDATEACCOUNT.equals(action)) {
                 url = UPDATEACCOUNT_CONTROLLER;
             }else if (VIEWBORROWDETAIL.equals(action)) {
                 url = VIEWBORROWDETAIL_CONTROLLER;
             }else if (ADDBOOK.equals(action)) {
                 url = ADDBOOK_CONTROLLER;
+            }else if (FEEDBACK.equals(action)) {
+                url = CREATEFEEDBACK_CONTROLLER;
+            }else if (VIEW_FEEDBACK.equals(action)) {
+                url = VIEWFEEDBACK_CONTROLLER;
             }else if (ADDACOUNT.equals(action)) {
                 url = ADDACOUNT_CONTROLLER;
             }else if (EDITACCOUNT.equals(action)) {
