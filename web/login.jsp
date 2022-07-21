@@ -44,7 +44,7 @@
             }
         </style>
         <a style="margin-left: 10%; margin-top: 2%" href="HomeController" type="button" class="btn btn-dark btn-sm material-icons">&#xe88a;</a>
-        <div class="container">
+        <div class="container login-container">
             <div class="row">
                 <div class="col-md-5 mx-auto">
                     <div id="first">
@@ -112,6 +112,23 @@
                         timer: 2000,
                         timerProgressBar: true,
                         icon: 'success'
+                    });
+        </script>
+    <%
+        }
+    %>
+    <%
+        String warning = (String) request.getAttribute("warning");
+        if(warning != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Warning!',
+                        text: '<%=warning%>',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'warning'
                     });
         </script>
     <%

@@ -29,6 +29,7 @@
         <link rel="stylesheet" href="CSS/style1.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        
     </head>
 </head>
 <body>
@@ -258,7 +259,7 @@
                     }
                 })
             } else {
-                location.href = "login.jsp";
+                location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
             }
         }
     </script>
