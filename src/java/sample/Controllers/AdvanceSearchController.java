@@ -27,6 +27,7 @@ public class AdvanceSearchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
         try {
             String bBookName = request.getParameter("bookName");
             String bAuthor = request.getParameter("author");

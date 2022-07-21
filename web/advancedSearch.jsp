@@ -10,6 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="sample.DTO.BookDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 
 <html>
@@ -28,9 +29,9 @@
 
         <script src="./Paging/jquery.twbsPagination.js" type="text/javascript"></script>
         
-        <link rel="stylesheet" href="CSS/style1.css" />
         <link rel="stylesheet" href="CSS/advanceSearch.css" />
         
+        <link rel="stylesheet" href="CSS/ui.css" />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

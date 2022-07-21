@@ -26,7 +26,7 @@
         <div class="col-md-4">
                 <form action="MainController" class="search">
                 <div class="input-group w-100">
-                    <input type="text" name="bookName" value=""<%=search%>" class="form-control" placeholder="Search">
+                    <input type="text" name="bookName" value="<%=search%>" class="form-control" placeholder="Search">
                     <div class="input-group-append">
                       <button class="btn btn-warning" type="submit" name="action" value="SearchBook">
                         <i class="fa fa-search"></i>

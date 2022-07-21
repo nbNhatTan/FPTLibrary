@@ -157,5 +157,45 @@ html, body {
     width: 150px;
     height: 220px;
 }
+.footer {
+    position: relative;
+    font-size: 16px;
+    background-color: #F7E5D7 !important;
+    width: 100%;
+    color: #222222;
+}
+footer {
+    padding-bottom:  20px;
+    margin: 0 0px;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 24px;
+    background-color: #F3CCB5 !important ;
+    
+}
+footer a {
+   color: #194a80 !important;
+}
+div.footer {
+    float: left;
+    width: 100%;
+}
+div.gotop {
+    min-width: 50px;
+    float: right;
+    margin: 0px 0 0;
+    padding: 25px 0px 0px;
+    font-style: italic;
+    cursor: pointer;
+}
+gotop{
+    float: left;
+}
+div.gotop {
+    background: url(..//..//image/top-icon.png) no-repeat scroll center top transparent;
+}
+div.clearfix{
+    float: left;
+}
   
   
