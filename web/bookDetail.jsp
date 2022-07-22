@@ -27,6 +27,8 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="CSS/style1.css" />
+                <link rel="stylesheet" href="CSS/ui.css" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         
@@ -118,9 +120,9 @@
                             <%
                                 }
                             %>
-                            <div style="margin: auto;">
-                                <button type="button" onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
-                                <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button>
+                            <div style="text-align: center;">
+                                <button type="button" style="background-color: deeppink;color: #ffffff;font-size: 20px;"onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
+                                <button onclick="history.back()" style="font-size: 20px;"type="button" class="btn btn-dark btn-sm">Back</button>
                             </div>
                         </div>
                         <div >
@@ -207,36 +209,41 @@
                 </div>
                 <div class="col-md-1"></div>
             </div>
-            <div class="introduce row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10 contents">
-                    <div class="new">
-                        <h2 class="comment_heading text-center" style="background: #FFFFFF; color: #000">More like This</h2>
-                        <div><br></div>
-                        <div class="new2 row" >
-                            <div class="col-md-1"></div>
-                            <%
-                                List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
-                                if(list != null) {
-                                    if (!list.isEmpty()) {
-                                        for (BookDTO b : list) {
-                            %>
-                            <div class="col-md-2 new-item text-center">
-                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><img src="<%= b.getImage()%>" width="188" height="230"/></a>
-                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><p><%= b.getBookName()%></p></a>
-                            </div>
-                            <%
-                                        }
-                                    }
-                                }
-                            %>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
+            <section class="section-name padding-y-sm">
+            <div class="container">
 
-                </div>
-                <div class="col-md-1"></div>
-            </div>
+                <header class="section-heading">
+
+                    <h3 style="text-align: center"class="section-title">New Arrival</h3>
+                </header><!-- sect-heading -->
+
+
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <%
+                        List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                        if (list != null) {
+                            if (list.size() > 0) {
+                                for (BookDTO p : list) {
+                    %>
+                    <div class="col-md-2">
+                        <div href="MainController?action=Detail&bookID=<%=p.getBookID()%>" class="card card-product-grid">
+                            <a href="MainController?action=Detail&bookID=<%=p.getBookID()%>" class="img-wrap"> <img src=<%=p.getImage()%>> </a>
+                            <figcaption class="info-wrap">
+                                <a href="MainController?action=Detail&bookID=<%=p.getBookID()%>" title="<%=p.getBookName()%>" class="title"><%=p.getBookName()%> </a>
+                            </figcaption>
+                        </div>
+                    </div> <!-- col.// -->
+                    <%
+                                }
+                            }
+                        }
+                    %>
+                    <div class="col-md-1"></div>
+                </div> <!-- row.// -->
+
+            </div><!-- container // -->
+        </section>
         </div>
     </div>           
     <jsp:include page="footer.jsp"></jsp:include>

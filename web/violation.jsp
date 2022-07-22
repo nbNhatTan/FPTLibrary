@@ -138,6 +138,24 @@ and open the template in the editor.
                 </ul>
             </div>
         <jsp:include page="footer.jsp"></jsp:include>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <%
+        String message = (String) request.getAttribute("message");
+        if(message != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Success!',
+                        text: '<%=message%> successful.',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'success'
+                    });
+        </script>
+    <%
+        }
+    %>
     </body>
 </html>
 
