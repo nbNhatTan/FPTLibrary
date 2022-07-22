@@ -20,6 +20,9 @@ public class NewsDTO {
     private String AccountID;
     private Date uploadDate;
 
+    public NewsDTO() {
+    }
+    
     public NewsDTO(int newsID, String writerName, String title, String head, String body, String AccountID, Date uploadDate) {
         this.newsID = newsID;
         this.writerName = writerName;
