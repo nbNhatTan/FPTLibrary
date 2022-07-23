@@ -76,7 +76,7 @@ footer a {
 }
 .main{
     position: relative;
-    min-height: 61%;
+    min-height: 62%;
     background-color: #f8f9fa;
 }
 .new{
@@ -237,7 +237,7 @@ a{
     color: #2570c2;
 }
 
-/* Khoa{*/
+/* Khoa{
 .container-news{
     margin-top:50px;
     margin-bottom: 50px;
@@ -278,7 +278,7 @@ input, textarea{
 .addNewsButton{
     text-align: center;
 }
-/*}*/
+}*/
 .fon31 {
     font: 700 24px /23px "Times New Roman";
     color: #004175;

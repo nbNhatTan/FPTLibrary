@@ -209,6 +209,32 @@
                 </div>
                 <div class="col-md-1"></div>
             </div>
+            <div class="introduce row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 contents">
+                    <div class="new">
+                        <h2 class="comment_heading text-center" style="background: #FFFFFF; color: #000">New Arrival</h2>
+                        <div><br></div>
+                        <div class="new2 row" >
+                            <div class="col-md-1"></div>
+                            <%
+                                List<BookDTO> list = (List<BookDTO>) session.getAttribute("TOP_BOOK");
+                                if(list != null) {
+                                    if (!list.isEmpty()) {
+                                        for (BookDTO b : list) {
+                            %>
+                            <div class="col-md-2 new-item text-center">
+                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><img src="<%= b.getImage()%>" width="188" height="230"/></a>
+                                <a href="MainController?action=Detail&bookID=<%= b.getBookID()%>"><p><%= b.getBookName()%></p></a>
+                            </div>
+                            <%
+                                        }
+                                    }
+                                }
+                            %>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
             <section class="section-name padding-y-sm">
             <div class="container">
 

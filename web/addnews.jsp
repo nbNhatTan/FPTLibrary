@@ -26,7 +26,7 @@
     <body>
         <jsp:include page="header.jsp"></jsp:include>
             
-        <div>
+        <div class="main container ">
 
               
                 <h3 class="title-text">ADD NEWS</h3>
@@ -37,40 +37,41 @@
                         
                         <div class="news_box">
                             <label for=""> Writer Name:</label>
-                            <input name="writerName" type="text" placeholder="Enter Writter Name" required="">
+                            <input class="form-control" name="writerName" type="text" placeholder="Enter Writter Name" required="">
                             
                         </div>
 
 
                         <div class="news_box">
                             <label for="" class="titlenews">News title:</label>
-                            <input name="title" type="text" placeholder="Enter news title" required="">
+                            <input class="form-control" name="title" type="text" placeholder="Enter news title" required="">
                             
                         </div>
 
 
                         <div class="news_box">
                             <label for="" >Head:</label>
-                            <input  name="head" type="text" placeholder="Enter news head" required="">
+                            <input class="form-control" name="head" type="text" placeholder="Enter news head" required="">
                             
                         </div> 
 
 
                         <div class="news_box">
                             <label for="" >Body:</label>
-                            <textarea row="8"  name="body" type="text" placeholder="Enter news body" required=""></textarea> 
+                            <textarea class="form-control" row="8"  name="body" type="text" placeholder="Enter news body" required=""></textarea> 
                             
                         </div>
 
                         <div class="news_box">
                             <label class="" for="">Upload date:</label>
-                            <input name="uploadDate" type="date" placeholder="Select DateTime" required="">                            
+                            <input class="form-control" name="uploadDate" type="date" placeholder="Select DateTime" required="">                            
                             
                         </div>
 
 
 
-                        <div class="addNewsButton"><button class="btn btn-warning btn-sm " type="submit" name="action" value="AddNews">Add News</button></div>
+                        <div class="addNewsButton" style="padding: 40px;margin-left: 38%;"><button class="btn btn-warning btn-sm " type="submit" name="action" value="AddNews">Add News</button>
+                        <button onclick="history.back()" type="button" class="btn btn-dark btn-sm">Back</button></div>
 
 
                     </form>
