@@ -122,7 +122,7 @@
                     <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="addnews.jsp">Post News</a>
+                    <a class="nav-link <%= url.equals("/manageNews.jsp")?"active":""%>" href="NewsController">Manage News</a>
                 </li>
                     <%
                         }

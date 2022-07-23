@@ -6,69 +6,43 @@ package sample.Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import sample.DAO.NewsDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.NewsDTO;
-import sample.DTO.Paging;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "NewsController", urlPatterns = {"/NewsController"})
-public class NewsController extends HttpServlet {
-    private static final String STAFF = "manageNews.jsp";
-    private static final String NORMAL = "newsList.jsp";
+@WebServlet(name = "DeleteNewsController", urlPatterns = {"/DeleteNewsController"})
+public class DeleteNewsController extends HttpServlet {
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = NORMAL;
         try {
-            
-            int currentNews = 1;
-            int searchLimit = 20;
-            int currentPage = 1;
-            NewsDAO dao = new NewsDAO();
-            String currentPage_txt = request.getParameter("currentPage");
-            if (currentPage_txt != null) {
-                currentPage = Integer.parseInt(currentPage_txt);
-            }
-            String searchLimit_txt = request.getParameter("searchLimit");
-            if (searchLimit_txt != null) {
-                searchLimit = Integer.parseInt(searchLimit_txt);
-            }
-            int totalPage = dao.getTotalPagesNews(searchLimit);
-            
-            currentNews = searchLimit * currentPage - searchLimit;
-            Paging page = new Paging(currentPage, totalPage);
-
-            List<NewsDTO> listNews = dao.getListNews_withPage(currentNews, searchLimit);
-            
-            if (!listNews.isEmpty()) {
-                request.setAttribute("listNews", listNews);
-                request.setAttribute("listNews_Page", page);
-            } else {
-                request.setAttribute("message", "No result!");
-            }
             HttpSession session = request.getSession();
-            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if(acc.getRoleID()==2){
-                url=STAFF;
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if (loginAccount != null && loginAccount.getRoleID()==2) {
+                NewsDAO dao = new NewsDAO();
+                int newsID = Integer.parseInt(request.getParameter("newsID"));
+                boolean check = dao.deleteNews(newsID);
+                if (check) {
+                    request.setAttribute("message", "Delete");
+                }
             }
         } catch (Exception e) {
-            log("Error at NewsController: " + e.toString());
+            log("Error at DeleteAccountController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher("NewsController").forward(request, response);
         }
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
