@@ -26,8 +26,8 @@ import sample.DTO.NewsDTO;
 public class AddNewsController extends HttpServlet {
 
     private static final String ERROR = "addnews.jsp";
-    private static final String SUCCESS = "home.jsp";
-    private static final String RETURN = "addnews.jsp";
+    private static final String SUCCESS = "HomeController";
+    private static final String RETURN = "login.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

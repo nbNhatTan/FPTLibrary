@@ -77,17 +77,14 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             Swal.fire({
-                        title: 'Success!',
-                        text: 'Don`t have violation ticket.',
+                        title: 'Warning!',
+                        text: 'Don`t have violation ticket. Create now!',
                         confirmButtonColor: '#F5D98F',
                         timer: 2000,
                         timerProgressBar: true,
                         icon: 'warning'
                     });
         </script>
-        <%
-            }
-        %>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             function confirm(form) {

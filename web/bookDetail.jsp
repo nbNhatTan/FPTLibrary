@@ -211,7 +211,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-10 contents">
                     <div class="new">
-                        <h2 class="comment_heading text-center" style="background: #FFFFFF; color: #000">More like This</h2>
+                        <h2 class="comment_heading text-center" style="background: #FFFFFF; color: #000">New Arrival</h2>
                         <div><br></div>
                         <div class="new2 row" >
                             <div class="col-md-1"></div>
