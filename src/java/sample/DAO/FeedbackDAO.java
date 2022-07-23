@@ -35,7 +35,7 @@ public class FeedbackDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATE_FEEDBACK);
                 ptm.setString(1, feedback.getUserID());
-                ptm.setInt(2, feedback.getBookID());
+                ptm.setString(2, feedback.getBookID());
                 ptm.setString(3, feedback.getComment());
                 ptm.setInt(4, feedback.getStar());
 
@@ -55,7 +55,7 @@ public class FeedbackDAO {
         return check;
     }
 
-    public List<FeedBackDTO> getFeedbackList(int bookID) throws SQLException, ClassNotFoundException {
+    public List<FeedBackDTO> getFeedbackList(String bookID) throws SQLException, ClassNotFoundException {
         List<FeedBackDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -64,7 +64,7 @@ public class FeedbackDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(VIEW_FEEDBACK);
-                ptm.setInt(1, bookID);
+                ptm.setString(1,"%"+ bookID + "%");
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int feedbackID = rs.getInt("feedbackID");

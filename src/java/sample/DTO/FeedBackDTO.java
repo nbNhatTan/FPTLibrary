@@ -15,11 +15,11 @@ public class FeedBackDTO {
 
     private int feedbackID;
     private String userID;
-    private int bookID;
+    private String bookID;
     private String comment;
     private int star;
 
-    public FeedBackDTO(String userID, int bookID, String comment, int star) {
+    public FeedBackDTO(String userID, String bookID, String comment, int star) {
         this.userID = userID;
         this.bookID = bookID;
         this.comment = comment;
@@ -42,13 +42,15 @@ public class FeedBackDTO {
         this.userID = userID;
     }
 
-    public int getBookID() {
+    public String getBookID() {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
+    public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
+   
 
     public String getComment() {
         return comment;

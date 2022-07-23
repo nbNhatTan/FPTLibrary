@@ -10,7 +10,7 @@ package sample.DTO;
  */
 public class BookDTO {
 
-    private int bookID;
+    private String bookID;
     private String bookName;
     private int quantity;
     private String bookshelf;
@@ -22,6 +22,21 @@ public class BookDTO {
     private String publishYear;
     private String image;
 
+    public BookDTO(String bookID, String bookName, int quantity, String bookshelf,  String description, String DDC, String language, String author, String publisher, String publishYear, String image) {
+        this.bookID = bookID;
+        this.bookName = bookName;
+        this.quantity = quantity;
+        this.bookshelf = bookshelf;
+        this.language = language;
+        this.description = description;
+        this.DDC = DDC;
+        this.author = author;
+        this.publisher = publisher;
+        this.publishYear = publishYear;
+        this.image = image;
+    }
+    
+    
     public BookDTO(String bookName, int Quantity, String bookshelf, String description, String DDC, String language, String author, String publisher, String publishYear, String image) {
         this.bookName = bookName;
         this.quantity = Quantity;
@@ -35,6 +50,7 @@ public class BookDTO {
         this.image = image;
     }
     public BookDTO(){
+        this.bookID = "";
         this.bookName = "";
         this.quantity = 0;
         this.bookshelf = "";
@@ -46,13 +62,15 @@ public class BookDTO {
         this.publishYear = "";
         this.image = "";
     }
-    public int getBookID() {
+
+    public String getBookID() {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
+    public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+   
 
     public String getBookName() {
         return bookName;

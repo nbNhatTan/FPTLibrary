@@ -66,6 +66,10 @@
                             %>
                             <form action="MainController" method="POST">
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Book ID:</label>
+                                    <input name="bookID" type="text" placeholder="Can be auto fill"  class="form-control" value="<%=book.getBookID()%>"><%= bookError.getBookID()%>
+                                </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Book Name:</label>
                                     <input name="bookName" type="text" placeholder="Enter book name"  class="form-control" required="" value="<%=book.getBookName()!=null?book.getBookName():""%>"><%= bookError.getBookNameError()%>
                                 </div>
@@ -92,7 +96,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Description:</label>
-                                    <textarea  style="height: 200px;" name="description" type="text" placeholder="Enter description"  class="form-control" required="" value="<%=book.getDescription()!=null?book.getDescription():""%>"></textarea><%= bookError.getDescriptionError()%>
+                                    <textarea  style="height: 200px;" name="description" type="text" placeholder="Enter description"  class="form-control" required="" ><%=book.getDescription()!=null?book.getDescription():""%></textarea><%= bookError.getDescriptionError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">DDC:</label>

@@ -9,7 +9,7 @@ package sample.DTO;
  * @author NhatTan
  */
 public class BookError {
-
+    private String bookID;
     private String bookNameError;
     private String quantityError;
     private String bookshelfError;
@@ -25,6 +25,7 @@ public class BookError {
     private String importDateError;
 
     public BookError() {
+        bookID="";
         bookNameError = "";
         quantityError = "";
         bookshelfError = "";
@@ -40,6 +41,23 @@ public class BookError {
         importDateError = "";
     }
 
+    public BookError(String bookID, String bookNameError, String quantityError, String bookshelfError, String languageError, String descriptionError, String DDCError, String authorError, String publisherError, String publishYearError, String imageError, String packageNameError, String priceError, String importDateError) {
+        this.bookID = bookID;
+        this.bookNameError = bookNameError;
+        this.quantityError = quantityError;
+        this.bookshelfError = bookshelfError;
+        this.languageError = languageError;
+        this.descriptionError = descriptionError;
+        this.DDCError = DDCError;
+        this.authorError = authorError;
+        this.publisherError = publisherError;
+        this.publishYearError = publishYearError;
+        this.imageError = imageError;
+        this.packageNameError = packageNameError;
+        this.priceError = priceError;
+        this.importDateError = importDateError;
+    }
+    
     public BookError(String bookNameError, String quantityError, String bookshelfError, String languageError, String descriptionError, String DDCError, String authorError, String publisherError, String publishYearError, String imageError, String packageNameError, String priceError, String importDateError) {
         this.bookNameError = bookNameError;
         this.quantityError = quantityError;
@@ -56,6 +74,14 @@ public class BookError {
         this.importDateError = importDateError;
     }
 
+    public String getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(String bookID) {
+        this.bookID = bookID;
+    }
+    
     public String getBookNameError() {
         return bookNameError;
     }
