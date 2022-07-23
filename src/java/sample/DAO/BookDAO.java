@@ -36,7 +36,7 @@ public class BookDAO {
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
     private static final String COUNT = "SELECT COUNT(bookItemID) FROM tblBookItem WHERE bookID = ?";
     private static final String GETBOOKBYID = "SELECT bookName, quantity, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
-    private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook ORDER BY bookID DESC";
+    private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook WHERE status =1 ORDER BY bookID DESC";
     private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
     private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
     private static final String GETBOOKTAG = "SELECT c.categoryID, categoryName FROM tblCategories c JOIN tblBookTag t ON c.categoryID = t.categoryID WHERE t.bookID = ?";
@@ -46,13 +46,13 @@ public class BookDAO {
             + "JOIN tblAuthors a ON b.authorID = a.authorID "
             + "JOIN tblPublishers p ON b.publisherID = p.publisherID "
             + "JOIN tblBookTag t ON b.bookID = t.bookID "
-            + "WHERE t.categoryID = ?";
+            + "WHERE t.categoryID = ? AND b.status = 1";
     private static final String ADVANCE_SEARCH = "SELECT b.bookID, bookName, bookshelf, [image], [description], "
             + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
             + "ON b.languageID = l.languageID JOIN tblAuthors a "
             + "ON b.authorID = a.authorID JOIN tblPublishers p "
             + "ON b.publisherID = p.publisherID "
-            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? AND b.status = 1 "
             + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final String ADVANCE_SEARCH_2 = "SELECT b.bookID, bookName, bookshelf, [image], [description], "
             + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
@@ -60,7 +60,7 @@ public class BookDAO {
             + "ON b.authorID = a.authorID JOIN tblPublishers p "
             + "ON b.publisherID = p.publisherID JOIN tblBookTag t "
             + "ON b.bookID = t.bookID "
-            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?  AND t.categoryID = ? "
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?  AND t.categoryID = ? AND b.status = 1 "
             + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
     private static final String COUNT_ADVANCE_SEARCH = "SELECT Count(*) 'count' "
             + "FROM tblBook b "
@@ -68,7 +68,7 @@ public class BookDAO {
             + "JOIN tblAuthors a ON b.authorID = a.authorID "
             + "JOIN tblPublishers p ON b.publisherID = p.publisherID "
             + "JOIN tblBookTag t ON b.bookID = t.bookID "
-            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ?";
+            + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? AND b.status = 1";
 
     public int createBook(BookDTO book) throws SQLException {
         int id = 0;
