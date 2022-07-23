@@ -40,6 +40,7 @@ public class AccountDAO {
     private static final String GET = "SELECT fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID = ?";
     private static final String GETALL = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts";
     private static final String GETMAIL = "SELECT a.email FROM tblViolationTicket v JOIN tblBookingTicket b ON v.bookingTicketID = b.bookingTicketID JOIN tblAccounts a ON a.AccountID = b.userID WHERE v.violationTicketID=?";
+    private static final String GETMAILBOROW = "SELECT a.email FROM tblBookingTicket b JOIN tblAccounts a ON b.userID = a.AccountID WHERE b.bookingTicketID=?";
 
     public AccountDTO checkLogin(String accountID, String password) throws SQLException {
         AccountDTO acc = null;
@@ -353,6 +354,37 @@ public class AccountDAO {
         return null;
     }
 
+    public String GetMailBorrow(String ViolationTicketID) throws SQLException {
+        String email;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETMAILBOROW);
+                ptm.setString(1, ViolationTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    email = rs.getString("email");
+                    return email;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return null;
+    }
     public static void SendMail(String to, String sub,
             String msg, final String user, final String pass) {
         Properties props = new Properties();

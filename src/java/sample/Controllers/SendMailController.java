@@ -32,10 +32,21 @@ public class SendMailController extends HttpServlet {
             String violationTicketID = request.getParameter("ViolationTicketID");
             AccountDAO dao = new AccountDAO();
             String email = dao.GetMail(violationTicketID);
-            String subject = "Your order .";
-            String message = "asdasdasdas";
+            String subject = "Penalty Confirmation";
+            String message = "<!DOCTYPE html>\n"
+                + "<html lang=\"en\">\n"
+                + "\n"
+                + "<head>\n"
+                + "</head>\n"
+                + "\n"
+                + "<body>\n"
+                + "    <div>You have been fined for late return or damage to thebook.</div>\n"
+                + "\n"
+                + "</body>\n"
+                + "\n"
+                + "</html>";
             dao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
-            
+            request.setAttribute("message", "Send Mail");
         } catch (Exception e) {
             log("Error at LoadAccountController: " + e.toString());
         } finally {
