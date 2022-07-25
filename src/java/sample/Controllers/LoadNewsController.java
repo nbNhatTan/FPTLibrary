@@ -11,7 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.NewsDAO;
+import sample.DTO.AccountDTO;
 import sample.DTO.NewsDTO;
 
 /**
@@ -20,11 +22,14 @@ import sample.DTO.NewsDTO;
  */
 @WebServlet(name = "LoadNewsController", urlPatterns = {"/LoadNewsController"})
 public class LoadNewsController extends HttpServlet {
-
+    private static final String STAFF = "editNews.jsp";
+    private static final String NORMAL = "newsInformation.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = NORMAL;
         try {
+            
             NewsDAO dao = new NewsDAO();
             int newsID = Integer.parseInt(request.getParameter("newsID"));
 
@@ -34,11 +39,15 @@ public class LoadNewsController extends HttpServlet {
             } else {
                 request.setAttribute("message", "No result!");
             }
-
+            HttpSession session = request.getSession();
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if(acc.getRoleID()==2){
+                url=STAFF;
+            }
         } catch (Exception e) {
             log("Error at LoadNewsController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("newsInformation.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

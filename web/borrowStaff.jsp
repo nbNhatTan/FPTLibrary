@@ -128,14 +128,21 @@
                                     <button class="btn btn-light btn-sm" name="action" value="Return">Return</button>
                                     <%
                                         }
-                                        if(p.getBorrowStatus().equals("Expired")||p.getBorrowStatus().equals("HandleViolation")){
+                                        if(p.getBorrowStatus().equals("Expired")){
                                     %>
                                     <input type="hidden" name="action" value="ViewOrCreate"/>
                                     <button class="btn btn-light btn-sm">Violation</button>
                                     <%
                                         }
                                     %>    
-                                </form>                   
+                                </form>  
+                                <%
+                                    if(p.getBorrowStatus().equals("HandleViolation")){
+                                    %>
+                                    <a href="MainController?action=ViewOrCreate&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
+                                    <%
+                                        }
+                                    %>    
                             </td>
                         </tr>
                         <%

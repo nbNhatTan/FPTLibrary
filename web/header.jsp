@@ -122,7 +122,7 @@
                     <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation List</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="addnews.jsp">News List</a>
+                    <a class="nav-link <%= url.equals("/manageNews.jsp")?"active":""%>" href="NewsController">Manage News</a>
                 </li>
                     <%
                         }
@@ -132,7 +132,7 @@
                     <a class="nav-link <%= url.equals("/advancedSearch.jsp")?"active":""%>" href="LoadAdvancedSearchController">Advanced Search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/borrow.jsp")?"active":""%>" href="ViewborrowController">Borrow List</a>
+                    <a class="nav-link <%= url.equals("/borrow.jsp")?"active":""%>" href="ViewborrowController">Borrow History</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">Following</a>

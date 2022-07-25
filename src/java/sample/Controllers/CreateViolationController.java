@@ -42,7 +42,7 @@ public class CreateViolationController extends HttpServlet {
                 TicketDAO dao = new TicketDAO();
                 dao.createViolationTicket(ticket);
 
-                request.setAttribute("MESSAGE", "Create successfully");
+                request.setAttribute("message", "Create violation");
             } else {
                 url = "login.jsp";
             }

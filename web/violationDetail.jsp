@@ -124,7 +124,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-10 contents">
                 <div class="new">
-                    <h6 class="text-center">New Books</h6>
+                    <h6 class="text-center">New Arrival</h6>
 
                     <div class="new2 row" >
                         <div class="col-md-1"></div>

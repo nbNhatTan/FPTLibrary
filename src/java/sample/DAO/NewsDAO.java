@@ -21,15 +21,15 @@ public class NewsDAO {
     private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
     private static final String GETNEWS = "SELECT TOP 1 * FROM tblNews ORDER BY newsID DESC";
     private static final String GET_LIST_NEWS = "SELECT newsID, title, uploadDate FROM tblNews";
-    private static final String GET_LIST_NEWS_WITHPAGE = "SELECT newsID, title, uploadDate FROM tblNews ORDER BY newsID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
+    private static final String GET_LIST_NEWS_WITHPAGE = "SELECT newsID, writerName, title, uploadDate, staffID FROM tblNews ORDER BY newsID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
     private static final String GET_NEWS_INFORMATION = "SELECT newsID, writerName, title, head, body, staffID, uploadDate FROM tblNews WHERE newsID= ? ";
     private static final String GET_COUNT_NEWS = "SELECT COUNT(*) 'count' FROM tblNews ";
-    private static final String ADDNEWS = "";
+
     private static final String UPDATE_NEWS = "UPDATE tblNews SET writerName=?, title=?, head=?, body=?, staffID=?, uploadDate=? WHERE newsID=? ";
-    private static final String DELETE_NEWS = "UPDATE tblNews SET status='false' WHERE newsID=? ";
+    private static final String DELETE_NEWS = "DETELE tblNews WHERE newsID=? ";
     private static final String ADD_NEWS = "INSERT INTO tblNews( writerName , title, head, body, staffID , uploadDate) VALUES (?,?,?,?,?,?)";
     private static final String VIEW_NEWS = "SELECT newsID, writerName , title, head, body, uploadDate FROM tblNews WHERE newsID = ?";
-    private static final String CHECK_DUPLICATE_NEWSID = "SELECT writerName  from tblNews WHERE newsID = ?";
+    private static final String CHECK_DUPLICATE_NEWSID = "SELECT writerName from tblNews WHERE newsID = ?";
 
     public boolean addNews(NewsDTO news) throws SQLException {
         boolean check = false;
@@ -215,13 +215,15 @@ public class NewsDAO {
                 ptm = conn.prepareStatement(GET_LIST_NEWS_WITHPAGE);
                 ptm.setInt(1, currentNews);
                 ptm.setInt(2, limit);
-
+                
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int newsID = rs.getInt("newsID");
+                    String writerName = rs.getString("writerName");
                     String title = rs.getString("title");
                     Date uploadDate = rs.getDate("uploadDate");
-                    NewsDTO news = new NewsDTO(newsID, "", title, "", "", "", uploadDate);
+                    String staffID = rs.getString("staffID");
+                    NewsDTO news = new NewsDTO(newsID, writerName, title, "", "", staffID, uploadDate);
                     news.setNewsID(newsID);
                     list.add(news);
                 }
@@ -282,7 +284,7 @@ public class NewsDAO {
         return null;
     }
 
-    public boolean deleteAccount(int newID) throws SQLException {
+    public boolean deleteNews(int newID) throws SQLException {
         boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -291,6 +293,7 @@ public class NewsDAO {
             if (conn != null) {
                 ptm = conn.prepareStatement(DELETE_NEWS);
                 ptm.setInt(1, newID);
+                
                 check = ptm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {

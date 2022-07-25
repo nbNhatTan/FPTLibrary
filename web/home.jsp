@@ -138,11 +138,9 @@
 
                             </tr>
                             <tr>
-                            <div>
-                                <ul>
-                                <a href="MainController?action=ListNews"><h6>All News...</h6></a>
+                                <ul class="list-unstyled">
+                                    <li><h6><a href="MainController?action=ListNews">&emsp;&emsp;All News...</a></h6></li>
                                 </ul>
-                            </div>
                             </tr>
                             </tbody>
                         </table>

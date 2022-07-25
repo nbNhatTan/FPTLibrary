@@ -12,7 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import sample.DAO.NewsDAO;
+import sample.DTO.AccountDTO;
 import sample.DTO.NewsDTO;
 import sample.DTO.Paging;
 
@@ -22,11 +24,14 @@ import sample.DTO.Paging;
  */
 @WebServlet(name = "NewsController", urlPatterns = {"/NewsController"})
 public class NewsController extends HttpServlet {
-
+    private static final String STAFF = "manageNews.jsp";
+    private static final String NORMAL = "newsList.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = NORMAL;
         try {
+            
             int currentNews = 1;
             int searchLimit = 20;
             int currentPage = 1;
@@ -45,17 +50,22 @@ public class NewsController extends HttpServlet {
             Paging page = new Paging(currentPage, totalPage);
 
             List<NewsDTO> listNews = dao.getListNews_withPage(currentNews, searchLimit);
-
+            
             if (!listNews.isEmpty()) {
                 request.setAttribute("listNews", listNews);
                 request.setAttribute("listNews_Page", page);
             } else {
                 request.setAttribute("message", "No result!");
             }
+            HttpSession session = request.getSession();
+            AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            if(acc.getRoleID()==2){
+                url=STAFF;
+            }
         } catch (Exception e) {
             log("Error at NewsController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("newsList.jsp").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
