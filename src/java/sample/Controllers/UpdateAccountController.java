@@ -44,7 +44,7 @@ public class UpdateAccountController extends HttpServlet {
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
 
-            boolean checkDuplicateMail = dao.checkDuplicateMail(email);
+            
             if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
                 checkValidation = false;
@@ -53,10 +53,7 @@ public class UpdateAccountController extends HttpServlet {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
             }
-             if (checkDuplicateMail) {
-                accountError.setEmailError("Duplicate Email!");
-                checkValidation = false;
-            }
+             
             if (!Pattern.matches("^[a-zA-Z][\\w-]+@fpt.edu.vn$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;

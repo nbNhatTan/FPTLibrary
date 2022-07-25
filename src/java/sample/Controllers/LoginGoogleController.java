@@ -50,9 +50,10 @@ public class LoginGoogleController extends HttpServlet {
             if (fullName.length()>20) {
                 fullName = fullName.substring(0, 19);
             }
+            
             String email = userGoogle.getEmail();
             AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
+            AccountDTO loginAccount = dao.checkLoginGG(email);
             if (loginAccount == null) {
                 AccountDTO account = new AccountDTO(accID, fullName, password, 3, email, "", "", true);
                 boolean checkCreate = dao.create(account);
