@@ -65,7 +65,7 @@
                                 <input name="action" value="UpdateAccount" type="hidden"/>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
-                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" value="<%= acc.getAccountID()%>" readonly="" >
+                                    <input name="accountID" type="text"   class="form-control" value="<%= acc.getAccountID()%>" readonly="" >
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Role ID:</label>
@@ -86,7 +86,7 @@
                                
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mail:</label>
-                                    <input name="email" type="text" placeholder="Enter Mail" value="<%= acc.getEmail()%>" class="form-control" required="" ><%= accountError.getEmailError()%>
+                                    <input name="email" type="text" placeholder="Enter Mail @fpt.edu.vn" value="<%= acc.getEmail()%>" class="form-control" required="" ><%= accountError.getEmailError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Address:</label>

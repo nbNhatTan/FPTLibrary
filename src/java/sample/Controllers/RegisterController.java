@@ -51,6 +51,7 @@ public class RegisterController extends HttpServlet {
             AccountDAO dao = new AccountDAO();
 
             boolean checkDuplicate = dao.checkDuplicate(accountID);
+            boolean checkDuplicateMail = dao.checkDuplicateMail(email);
             if (checkDuplicate) {
                 accountError.setAccountIDError("Duplicate UserID!");
                 checkValidation = false;
@@ -67,7 +68,11 @@ public class RegisterController extends HttpServlet {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
             }
-            if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+            if (checkDuplicateMail) {
+                accountError.setEmailError("Duplicate Email!");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("^[a-zA-Z][\\w-]+@fpt.edu.vn$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
             }

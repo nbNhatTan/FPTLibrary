@@ -70,7 +70,7 @@
                             <form action="MainController" method="POST">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
-                                    <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" required="" value="<%=accountID!=null?accountID:""%>"><%= accountError.getAccountIDError()%>
+                                    <input name="accountID" type="text" placeholder="Enter Student ID"  class="form-control" required="" value="<%=accountID!=null?accountID:""%>"><%= accountError.getAccountIDError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Full Name:</label>
@@ -87,7 +87,7 @@
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Mail:</label>
-                                    <input name="email" type="text" placeholder="Enter Mail"  class="form-control" required="" value="<%=email!=null?email:""%>"><%= accountError.getEmailError()%>
+                                    <input name="email" type="text" placeholder="Enter Mail @fpt.edu.vn"  class="form-control" required="" value="<%=email!=null?email:""%>"><%= accountError.getEmailError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Address:</label>

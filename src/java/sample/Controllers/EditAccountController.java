@@ -41,12 +41,17 @@ public class EditAccountController extends HttpServlet {
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
-
+            
+            boolean checkDuplicateMail = dao.checkDuplicateMail(email);
             if (fullName.length() < 5 || fullName.length() > 20) {
                 accountError.setFullNameError("FullName must be in [5, 20]");
                 checkValidation = false;
             }
-            if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+             if (checkDuplicateMail) {
+                accountError.setEmailError("Duplicate Email!");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("^[a-zA-Z][\\w-]+@fpt.edu.vn$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
             }

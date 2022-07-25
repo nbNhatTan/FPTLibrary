@@ -45,6 +45,7 @@ public class AddAccountController extends HttpServlet {
             AccountDAO dao = new AccountDAO();
             
             boolean checkDuplicate = dao.checkDuplicate(accountID);
+            boolean checkDuplicateMail = dao.checkDuplicateMail(email);
             if (checkDuplicate) {
                 accountError.setAccountIDError("Duplicate UserID!");
                 checkValidation = false;
@@ -57,10 +58,14 @@ public class AddAccountController extends HttpServlet {
             }if (!password.equals(confirm)) {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
-            }if (!Pattern.matches("[123]", roleID)) {
-                accountError.setRoleIDError("RoleID must be in [1,3]");
+            }if (!Pattern.matches("[23]", roleID)) {
+                accountError.setRoleIDError("RoleID must be in [2,3]");
                 checkValidation = false;
-            }if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+            } if (checkDuplicateMail) {
+                accountError.setEmailError("Duplicate Email!");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("^[a-zA-Z][\\w-]+@fpt.edu.vn$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
             }if (address.length() < 5 || address.length() > 40) {

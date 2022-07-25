@@ -16,7 +16,7 @@ public class DBUtils {
     public static Connection getConnection() throws ClassNotFoundException, SQLException{
         Connection conn=null;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=FPTLibrary","sa","1");
+        conn = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=FPTLibrary","sa","123");
         return conn;
     }
 }
