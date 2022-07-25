@@ -33,7 +33,6 @@ public class LoginGoogleController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
     private static final String SUCCESS = "HomeController";
-    private static final String UPDATE = "LoadAccountController?accountID=";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,24 +43,20 @@ public class LoginGoogleController extends HttpServlet {
             String accessToken = getToken(code);
             GoogleDTO userGoogle = getUserInfo(accessToken);
 
-            String[] words = userGoogle.getEmail().split("@");
-            String accID = words[0];
-            String password = userGoogle.getId();
-            String fullName = userGoogle.getName();
-            if (fullName.length()>20) {
-                fullName = fullName.substring(0, 19);
-            }
-            
+            String accID= userGoogle.getEmail();
+            String[] splits = accID.split("@");
+            String ID= splits[0];
+            String AccountID = ID.substring(Math.max(0, ID.length() - 8)).toUpperCase();
             String email = userGoogle.getEmail();
             AccountDAO dao = new AccountDAO();
             AccountDTO loginAccount = dao.checkLoginGG(email);
             if (loginAccount == null) {
-                AccountDTO account = new AccountDTO("", "", "", 3, email, "", "", true);
+                AccountDTO account = new AccountDTO(AccountID, "", "", 3, email, "", "", true);
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     HttpSession session = request.getSession();
                     session.setAttribute("LOGIN_ACCOUNT", account);
-                    url = UPDATE;
+                    url = "LoadAccountController?accountID="+ AccountID;
                 }
             } else {
                 boolean status = loginAccount.getStatus();

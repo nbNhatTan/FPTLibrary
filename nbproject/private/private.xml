@@ -3,23 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/LanguageDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/RoleDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/ViolationTicketDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/BookingTicketDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/BookTagDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/PublisherDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/StaffTicketDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/PackageDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/FeedBackDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/NewsDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/BookItemDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/CategoryDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/BookDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/AccountDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/GoogleDTO.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/DTO/Paging.java</file>
-            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/AdvanceSearchController.java</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/web/updateAccount.jsp</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/LoadAccountController.java</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/UpdateAccountController.java</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/RegisterController.java</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/web/header.jsp</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/web/editAccount.jsp</file>
+            <file>file:/D:/learn/CN5/SWP391/FPT/FPTLibrary/src/java/sample/Controllers/LoginGoogleController.java</file>
         </group>
     </open-files>
 </project-private>
