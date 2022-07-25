@@ -33,6 +33,7 @@ public class LoginGoogleController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
     private static final String SUCCESS = "HomeController";
+    private static final String UPDATE = "LoadAccountController?accountID=";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -55,12 +56,12 @@ public class LoginGoogleController extends HttpServlet {
             AccountDAO dao = new AccountDAO();
             AccountDTO loginAccount = dao.checkLoginGG(email);
             if (loginAccount == null) {
-                AccountDTO account = new AccountDTO(accID, fullName, password, 3, email, "", "", true);
+                AccountDTO account = new AccountDTO("", "", "", 3, email, "", "", true);
                 boolean checkCreate = dao.create(account);
                 if (checkCreate) {
                     HttpSession session = request.getSession();
                     session.setAttribute("LOGIN_ACCOUNT", account);
-                    url = SUCCESS;
+                    url = UPDATE;
                 }
             } else {
                 boolean status = loginAccount.getStatus();
