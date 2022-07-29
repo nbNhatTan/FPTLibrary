@@ -34,10 +34,10 @@ public class BookDetailController extends HttpServlet {
         try {
             String bookID = request.getParameter("bookID");
             BookDAO dao = new BookDAO();
-            BookDTO book = dao.getBookByID(Integer.parseInt(bookID));
+            BookDTO book = dao.getBookByID(bookID);
             if (book != null) {
                 request.setAttribute("DETAIL_BOOK", book);
-                List<CategoryDTO> listCategory = dao.getBookTag(Integer.parseInt(bookID));
+                List<CategoryDTO> listCategory = dao.getBookTag(bookID);
                 if (listCategory != null) {
                     request.setAttribute("LIST_CATEGORY", listCategory);
                 }
