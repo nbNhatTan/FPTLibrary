@@ -67,9 +67,9 @@
                                 String address = request.getParameter("address");
                                 String phone = request.getParameter("phone");
                             %>
-                            <form action="MainController" method="POST">
+                            <form action="MainController" >
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Account ID:</label>
+                                    <label for="exampleInputEmail1">Username:</label>
                                     <input name="accountID" type="text" placeholder="Enter Student ID"  class="form-control" required="" value="<%=accountID!=null?accountID:""%>"><%= accountError.getAccountIDError()%>
                                 </div>
                                 <div class="form-group">

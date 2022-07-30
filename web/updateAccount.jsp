@@ -61,7 +61,7 @@
                                 }
                                 AccountDTO acc =(AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
                             %>
-                            <form action="MainController" method="POST" onsubmit="return create(this);">
+                            <form action="MainController" onsubmit="return create(this);">
                                 <input name="action" value="UpdateAccount" type="hidden"/>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
@@ -130,7 +130,24 @@
             });
             return false;
         }
-    </script>         
+    </script> 
+    <%
+        String warning = (String) request.getAttribute("message");
+        if(warning != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Warning!',
+                        text: '<%=warning%>',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'warning'
+                    });
+        </script>
+    <%
+        }
+    %>
     </body>
 
 </html>

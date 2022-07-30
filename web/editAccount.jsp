@@ -61,7 +61,7 @@
                                 }
                                 AccountDTO acc = (AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
                             %>
-                            <form action="MainController" method="POST" onsubmit="return create(this);">
+                            <form action="MainController" onsubmit="return create(this);">
                                 <input name="action" value="EditAccount" type="hidden"/>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>

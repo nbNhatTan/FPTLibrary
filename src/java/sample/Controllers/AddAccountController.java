@@ -31,7 +31,7 @@ public class AddAccountController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID");
+            String accountID = request.getParameter("accountID").toLowerCase();
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
@@ -39,7 +39,14 @@ public class AddAccountController extends HttpServlet {
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
-            
+            request.setAttribute("accountID", accountID);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("password", password);
+            request.setAttribute("confirm", confirm);
+            request.setAttribute("roleID", roleID);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("phone", phone);
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
@@ -76,7 +83,15 @@ public class AddAccountController extends HttpServlet {
                 checkValidation = false;
             }
             
-            
+            if(roleID.equals("3")){
+                String[] splits = email.split("@");
+            String checkemail = splits[0];
+            String AccountID = checkemail.substring(Math.max(0, checkemail.length() - 8));
+            if (!accountID.equals(AccountID)) {
+                accountError.setAccountIDError("Student ID and email do not match");
+                checkValidation = false;
+            }
+            }
             if (checkValidation) {
                 AccountDTO account = new  AccountDTO(accountID, fullName, password, Integer.parseInt(roleID), email, address, phone, true);
                 boolean checkCreate = dao.create(account);

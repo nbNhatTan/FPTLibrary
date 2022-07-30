@@ -118,6 +118,23 @@
         }
     %>
     <%
+        String error = (String) request.getAttribute("messageerror");
+        if(error != null){
+    %>
+        <script>
+            Swal.fire({
+                        title: 'Warning!',
+                        text: '<%=error%>',
+                        confirmButtonColor: '#F5D98F',
+                        timer: 2000,
+                        timerProgressBar: true,
+                        icon: 'warning'
+                    });
+        </script>
+    <%
+        }
+    %>
+    <%
         String warning = (String) request.getAttribute("warning");
         if(warning != null){
     %>

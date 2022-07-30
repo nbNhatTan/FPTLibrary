@@ -42,31 +42,38 @@ public class LoginGoogleController extends HttpServlet {
             String code = request.getParameter("code");
             String accessToken = getToken(code);
             GoogleDTO userGoogle = getUserInfo(accessToken);
-
-            String accID= userGoogle.getEmail();
+            String accID = userGoogle.getEmail();
             String[] splits = accID.split("@");
-            String ID= splits[0];
-            String AccountID = ID.substring(Math.max(0, ID.length() - 8)).toUpperCase();
-            String email = userGoogle.getEmail();
-            AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLoginGG(email);
-            if (loginAccount == null) {
-                AccountDTO account = new AccountDTO(AccountID, "", "", 3, email, "", "", true);
-                boolean checkCreate = dao.create(account);
-                if (checkCreate) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", account);
-                    url = "LoadAccountController?accountID="+ AccountID;
-                }
-            } else {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    url = SUCCESS;
+            String checkemail = splits[1];
+
+            if (checkemail.equals("fpt.edu.vn")) {
+
+                String ID = splits[0];
+                String AccountID = ID.substring(Math.max(0, ID.length() - 8));
+                String email = userGoogle.getEmail();
+                AccountDAO dao = new AccountDAO();
+                AccountDTO loginAccount = dao.checkLoginGG(email);
+                if (loginAccount == null) {
+                    AccountDTO account = new AccountDTO(AccountID, "", "", 3, email, "", "", true);
+                    boolean checkCreate = dao.create(account);
+                    if (checkCreate) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("LOGIN_ACCOUNT", account);
+                        url = "LoadAccountController?accountID=" + AccountID;
+                        request.setAttribute("message", "Please complete all information!");
+                    }
                 } else {
-                    request.setAttribute("ERROR", "Account have been deleted!!!");
+                    boolean status = loginAccount.getStatus();
+                    if (status) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("LOGIN_ACCOUNT", loginAccount);
+                        url = SUCCESS;
+                    } else {
+                        request.setAttribute("ERROR", "Account have been deleted!!!");
+                    }
                 }
+            } else{
+                request.setAttribute("messageerror", "You must be use email @fpt.edu.vn");
             }
 
         } catch (Exception e) {
