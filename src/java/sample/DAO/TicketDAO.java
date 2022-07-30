@@ -15,6 +15,7 @@ import sample.DTO.AccountDTO;
 import sample.DTO.BookingTicketDTO;
 import sample.DTO.BorrowDTO;
 import sample.DTO.ViolationTicketDTO;
+import sample.DTO.WishListDTO;
 import sample.Utils.DBUtils;
 
 /**
@@ -59,6 +60,7 @@ public class TicketDAO {
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
     private static final String GETBOOKINGTICKETID_VIOLATIONID = "SELECT bookingTicketID FROM tblViolationTicket WHERE violationTicketID=?";
+    private static final String CREATEWISHLIST = "INSERT INTO tblWishList(bookID, userID) VALUES (?,?)";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -692,5 +694,31 @@ public class TicketDAO {
             }
         }
         return null;
+    }
+
+    public int createWishList(WishListDTO wish) throws SQLException {
+        int check = 0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CREATEWISHLIST);
+                ptm.setInt(1, wish.getBookID());
+                ptm.setString(2, wish.getUserID());
+                check = ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
     }
 }

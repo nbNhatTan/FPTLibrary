@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/bookDetail.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/BookDetailController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DTO/BookDTO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/editNews.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DAO/FeedbackDAO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/addBook.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/addAccount.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Utils/DBUtils.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/HomeController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/BookDetailController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/CSS/style1.css</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/bookDetail.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -98,37 +98,52 @@
                                     <dd>&emsp;&emsp;<%= book.getBookshelf()%></dd>
                                 </dl>
                                 <dl>
+                                    <dt><strong>&emsp;&emsp;Quantity </strong></dt>
+                                    <dd>&emsp;&emsp;<%= book.getQuantity()%></dd>
+                                </dl>
+                                <dl>
                                     <dt><strong>&emsp;&emsp;Book Tag </strong></dt>
                                     <dd class="list-unstyled">
-                                    <li>
-                                        <%
-                                            List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                            if (listCategory != null) {
-                                                for (CategoryDTO c : listCategory) {
-                                        %>
-                                        &emsp;&emsp;<a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
-                                                       display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
-                                        <%
+                                        <li>
+                                            <%
+                                                List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
+                                                if (listCategory != null) {
+                                                    for (CategoryDTO c : listCategory) {
+                                            %>
+                                            &emsp;&emsp;<a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
+                                                           display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                            <%
+                                                    }
                                                 }
-                                            }
-                                        %>
-                                    </li>
+                                            %>
+                                        </li>
                                     </dd>
                                 </dl>
                             </table>
                         </div>
-                        <dl style="margin-left: 50px;margin-right: 50px;">
+                        <dl style="padding-left: 50px;padding-right: 50px;">
                             <dt><strong>Description </strong></dt>
                             <dd><%= book.getDescription()%></dd>
                         </dl>
-                        <%
-                            }
-                        %>
+                        
                         <div style="text-align: center;">
+                            <%
+                                if(book.getQuantity()<1){
+                            %>
+                            <button type="button" style="background-color: deeppink;color: #ffffff;font-size: 20px;"onclick="book()" class="bookingButton btn btn-light btn-sm">Add to wish list</button>
+                            <%
+                                }else{
+                            %>
                             <button type="button" style="background-color: deeppink;color: #ffffff;font-size: 20px;"onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
+                            <%
+                                }
+                            %>
                             <button onclick="history.back()" style="font-size: 20px;"type="button" class="btn btn-dark btn-sm">Back</button>
                         </div>
                     </div>
+                    <%
+                        }
+                    %>
                     <div >
                         <form action="MainController">
                             <input type ="hidden" name="userID" value="<%=userID%>"/>
@@ -136,7 +151,7 @@
                             <div> <br></div>
                             <div class="comment_heading" style="background: #FFFFFF; color: #000">
                                 <label class="col-md-12 text-center">- - - - - - - Your Comment - - - - - - -</label>
-                                <textarea class="form-control box_comment" type="text" name="comment" required="" placeholder="What do you think about this book?"/></textarea>
+                                <textarea class="form-control" type="text" name="comment" required="" placeholder="What do you think about this book?"/></textarea>
                                 <div class="stars">
                                     <input class="star star-5" id="star-5" type="radio" name="star" value="5" required=""/>
                                     <label class="star star-5" for="star-5"></label>
@@ -261,22 +276,40 @@
             <script>
                                 function book() {
                                     if (<%=check%>) {
-                                        Swal.fire({
-                                            title: 'Are you sure?',
-                                            text: "You want to borrow this book",
-                                            icon: 'question',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#F5D98F',
-                                            cancelButtonColor: '#F7E5D7',
-                                            confirmButtonText: 'Yes, borrow it!'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
-                                            }
-                                        })
+                                        if(<%=book.getQuantity()>0%>)
+                                        {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You want to borrow this book",
+                                                icon: 'question',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#F5D98F',
+                                                cancelButtonColor: '#F7E5D7',
+                                                confirmButtonText: 'Yes, I want.'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
+                                                }
+                                            });
+                                        } else {
+                                            Swal.fire({
+                                                title: 'Are you sure?',
+                                                text: "You want to add this bookto your wish list.",
+                                                icon: 'question',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#F5D98F',
+                                                cancelButtonColor: '#F7E5D7',
+                                                confirmButtonText: 'Yes, I want.'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    location.href = "WishListController?bookID=<%= book.getBookID()%>";
+                                                }
+                                            });
+                                        }
                                     } else {
                                         location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
                                     }
+                                    
                                 }
         </script>
 

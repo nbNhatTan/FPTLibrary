@@ -54,7 +54,7 @@ public class AddBookController extends HttpServlet {
 //                accountError.setAccountIDError("Duplicate UserID!");
 //                checkValidation = false;
 //            }
-            if (bookID.length() < 2 || bookID.length() > 100) {
+            if (bookID.length() < 2 || bookID.length() > 10) {
                 bookError.setBookID("Automatic Created!");
                 
             }

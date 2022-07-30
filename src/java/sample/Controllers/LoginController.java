@@ -23,7 +23,8 @@ public class LoginController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
     private static final String ADMIN_PAGE = "ViewAccountController";
-    private static final String PAGE = "HomeController";
+    private static final String STAFF_PAGE = "ViewborrowStaffController";
+    private static final String USER_PAGE = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,8 +44,11 @@ public class LoginController extends HttpServlet {
                     if (roleID == 1) {
                         url = ADMIN_PAGE;
                     request.setAttribute("message", "Login");
-                    } else if (roleID == 2 || roleID == 3) {
-                        url = PAGE;
+                    } else if (roleID == 2) {
+                        url = STAFF_PAGE;
+                    request.setAttribute("message", "Login");
+                    }else if (roleID == 3) {
+                        url = USER_PAGE;
                     request.setAttribute("message", "Login");
                     } else {
                         request.setAttribute("ERROR", "Your role is not support!");

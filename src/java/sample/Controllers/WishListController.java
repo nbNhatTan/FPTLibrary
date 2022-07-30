@@ -5,50 +5,40 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.BookDAO;
+import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
-import sample.DTO.BookDTO;
-import sample.DTO.CategoryDTO;
+import sample.DTO.WishListDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "BookDetailController", urlPatterns = {"/BookDetailController"})
-public class BookDetailController extends HttpServlet {
-
-    private static final String ERROR = "searchList.jsp";
-    private static final String SUCCESS = "bookDetail.jsp";
+@WebServlet(name = "WishListController", urlPatterns = {"/WishListController"})
+public class WishListController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = "HomeController";
         try {
             String bookID = request.getParameter("bookID");
-            BookDAO dao = new BookDAO();
-            BookDTO book = dao.getBookByID(bookID);
-            if (book != null) {
-                int quantity = dao.countQuantity(bookID);
-                if (quantity != -1) {
-                    book.setQuantity(quantity);
-                    request.setAttribute("DETAIL_BOOK", book);
-                    List<CategoryDTO> listCategory = dao.getBookTag(bookID);
-                    if (listCategory != null) {
-                        request.setAttribute("LIST_CATEGORY", listCategory);
-                    }
-                    url = SUCCESS;
-                }
-            }
+            TicketDAO dao = new TicketDAO();
+            HttpSession session = request.getSession();
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            WishListDTO wish = new WishListDTO(Integer.parseInt(bookID), loginAccount.getAccountID());
+            dao.createWishList(wish);
+
+            url = "BookDetailController?bookID=" + bookID;
+            request.setAttribute("message", "Add book to your wish list");
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at WishListController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
