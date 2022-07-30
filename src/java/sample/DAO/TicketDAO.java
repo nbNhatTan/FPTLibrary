@@ -61,6 +61,11 @@ public class TicketDAO {
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
     private static final String GETBOOKINGTICKETID_VIOLATIONID = "SELECT bookingTicketID FROM tblViolationTicket WHERE violationTicketID=?";
     private static final String CREATEWISHLIST = "INSERT INTO tblWishList(bookID, userID) VALUES (?,?)";
+    private static final String WISHLIST = "DELETE FROM tblWishList WHERE EXISTS \n"
+            + "(SELECT * FROM tblWishList w \n"
+            + "JOIN tblBookItem i ON w.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON i.bookItemID = t.bookItemID \n"
+            + "WHERE t.bookingTicketID = '1015') ";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -720,6 +725,37 @@ public class TicketDAO {
             }
         }
         return check;
+    }
+
+    public List<String> getWishList(String bookingTicketID) throws SQLException {
+        List<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    list.add(rs.getString("email"));
+                }
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 
     public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {
