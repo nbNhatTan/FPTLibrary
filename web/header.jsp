@@ -92,7 +92,7 @@
             <ul class="navbar-nav ml-auto">
                 <%
                     String url= request.getServletPath();
-                    if (acc == null ||  acc.getRoleID() != 1) {
+                    if (acc == null ||  acc.getRoleID() == 3) {
                 %>
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/home.jsp")?"active":""%>" href="HomeController">Home</a>
@@ -116,13 +116,13 @@
                     <a class="nav-link <%= url.equals("/manageBook.jsp")?"active":""%>" href="LoadListBookController">Book Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/borrowStaff.jsp")?"active":""%>" href="ViewborrowStaffController">Staff Borrow List</a>
+                    <a class="nav-link <%= url.equals("/borrowStaff.jsp")?"active":""%>" href="ViewborrowStaffController">Borrow Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation List</a>
+                    <a class="nav-link <%= url.equals("/violation.jsp")?"active":""%>" href="ViewViolationController">Violation Management</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/manageNews.jsp")?"active":""%>" href="NewsController">Manage News</a>
+                    <a class="nav-link <%= url.equals("/manageNews.jsp")?"active":""%>" href="NewsController">News Management</a>
                 </li>
                     <%
                         }

@@ -93,8 +93,8 @@
                                                     <tr>
                                                         <td>Name:</td>
                                                         <td>
-                                                            <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>">
-                                                                <%= book.getBookName()%>
+                                                            <a href="MainController?action=Detail&bookID=<%=book.getBookID()%>" style="color: #000">
+                                                                <strong><%= book.getBookName()%></strong>
                                                             </a>
                                                         </td>
                                                     </tr>
@@ -117,6 +117,20 @@
                                                     <tr>
                                                         <td>Language:</td>
                                                         <td><%= book.getLanguage()%></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Status:</td>
+                                                        <%
+                                                            if (book.getQuantity()<1) {
+                                                        %>
+                                                        <td><h4><span style="color: #f00">[Out of stock]</span></h4></td>
+                                                        <%
+                                                            } else {
+                                                        %>
+                                                        <td><h4><span style="color: #00b050">[In stock]</span></h4></td>
+                                                        <%
+                                                            }
+                                                        %>
                                                     </tr>
                                                 </table>
                                             </div>

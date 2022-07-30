@@ -5,63 +5,40 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import sample.DAO.AccountDAO;
+import sample.DAO.TicketDAO;
 import sample.DTO.AccountDTO;
+import sample.DTO.WishListDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
-
-    private static final String ERROR = "login.jsp";
-    private static final String ADMIN_PAGE = "ViewAccountController";
-    private static final String STAFF_PAGE = "ViewborrowStaffController";
-    private static final String USER_PAGE = "HomeController";
+@WebServlet(name = "WishListController", urlPatterns = {"/WishListController"})
+public class WishListController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = "HomeController";
         try {
-            String accID = request.getParameter("accountID");
-            String password = request.getParameter("password");
-            AccountDAO dao = new AccountDAO();
-            AccountDTO loginAccount = dao.checkLogin(accID, password);
-            if (loginAccount != null) {
-                boolean status = loginAccount.getStatus();
-                if (status) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("LOGIN_ACCOUNT", loginAccount);
-                    int roleID = loginAccount.getRoleID();
-                    if (roleID == 1) {
-                        url = ADMIN_PAGE;
-                    request.setAttribute("message", "Login");
-                    } else if (roleID == 2) {
-                        url = STAFF_PAGE;
-                    request.setAttribute("message", "Login");
-                    }else if (roleID == 3) {
-                        url = USER_PAGE;
-                    request.setAttribute("message", "Login");
-                    } else {
-                        request.setAttribute("ERROR", "Your role is not support!");
-                    }
-                } else {
-                    request.setAttribute("ERROR", "Account have been deleted!");
-                }
-            } else {
-                request.setAttribute("ERROR", "Incorrect userID or password!");
-            }
+            String bookID = request.getParameter("bookID");
+            TicketDAO dao = new TicketDAO();
+            HttpSession session = request.getSession();
+            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
+            WishListDTO wish = new WishListDTO(bookID, loginAccount.getAccountID());
+            dao.createWishList(wish);
 
+            url = "BookDetailController?bookID=" + bookID;
+            request.setAttribute("message", "Add book to your wish list");
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at WishListController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
