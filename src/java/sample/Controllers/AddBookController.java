@@ -31,6 +31,7 @@ public class AddBookController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
+            String bookID = request.getParameter("bookID"); if(bookID==null){ bookID="" ;}
             String bookName = request.getParameter("bookName");
             String quantity = request.getParameter("quantity");
             String bookshelf = request.getParameter("bookshelf");
@@ -53,6 +54,10 @@ public class AddBookController extends HttpServlet {
 //                accountError.setAccountIDError("Duplicate UserID!");
 //                checkValidation = false;
 //            }
+            if (bookID.length() < 2 || bookID.length() > 100) {
+                bookError.setBookID("Automatic Created!");
+                
+            }
             if (bookName.length() < 2 || bookName.length() > 100) {
                 bookError.setBookNameError("Book Name must be in [2, 100]");
                 checkValidation = false;
@@ -99,19 +104,27 @@ public class AddBookController extends HttpServlet {
             }
             long millis = System.currentTimeMillis();
             java.sql.Date importDate = new java.sql.Date(millis);
-            BookDTO book = new BookDTO(bookName, Integer.parseInt(quantity), bookshelf, description, DDC, language, author, publisher, publishYear, image);
+            BookDTO book = new BookDTO(bookID, bookName, Integer.parseInt(quantity), bookshelf,  description, DDC,language,  author, publisher, publishYear, image);
             PackageDTO Package = new PackageDTO(packageName, Integer.parseInt(price), importDate);
             if (checkValidation) {
-                int packageID = dao.createPackage(Package);
-                if (packageID != 0) {
-                    int bookID = dao.createBook(book);
-                    if (bookID != 0) {
-                        int check = dao.insertBookItem(bookID, packageID);
-                        if (check == Integer.parseInt(quantity)) {
-                            url = SUCCESS;
-                            request.setAttribute("message", "Add new book");
-                            return;
+                if (bookID.equals("")) {
+                    bookID = dao.createBookID(bookName, author, publishYear, DDC, publisher);
+                    book.setBookID(bookID);
+                    request.setAttribute("message", "BookID will be: '" + bookID + "'. Add again to confirm.");
+                } else {
+                    int packageID = dao.createPackage(Package);
+                    if (packageID != 0) {
+
+                        bookID = dao.createBook(book);
+                        if (!"".equals(bookID)) {
+                            int check = dao.insertBookItem(bookID, packageID);
+                            if (check == Integer.parseInt(quantity)) {
+                                url = SUCCESS;
+                                request.setAttribute("message", "Add new book");
+                                return;
+                            }
                         }
+
                     }
                 }
             }

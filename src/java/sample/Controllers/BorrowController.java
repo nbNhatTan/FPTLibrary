@@ -34,7 +34,7 @@ public class BorrowController extends HttpServlet {
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
             if (loginAccount != null) {
                 TicketDAO dao = new TicketDAO();
-                String bookItemID = dao.GetBookItemID(Integer.parseInt(bookID));
+                String bookItemID = dao.GetBookItemID(bookID);
 
                 long millis = System.currentTimeMillis();
                 java.sql.Date borrowDate = new java.sql.Date(millis);

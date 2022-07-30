@@ -5,46 +5,40 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import sample.DAO.BookDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BookDTO;
-import sample.DTO.CategoryDTO;
+import sample.DAO.TicketDAO;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "BookDetailController", urlPatterns = {"/BookDetailController"})
-public class BookDetailController extends HttpServlet {
-
-    private static final String ERROR = "advancedSearch.jsp";
-    private static final String SUCCESS = "bookDetail.jsp";
-
+@WebServlet(name = "ConfirmUserRecivedBookController", urlPatterns = {"/ConfirmUserRecivedBookController"})
+public class ConfirmUserRecivedBookController extends HttpServlet {
+    private static final String SUCCESS = "checkOnlineBooking.jsp";
+    private static final String ERROR = "checkOnlineBooking.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;
+        String url = ERROR;       
         try {
-            String bookID = request.getParameter("bookID");
-            BookDAO dao = new BookDAO();
-            BookDTO book = dao.getBookByID(bookID);
-            if (book != null) {
-                request.setAttribute("DETAIL_BOOK", book);
-                List<CategoryDTO> listCategory = dao.getBookTag(bookID);
-                if (listCategory != null) {
-                    request.setAttribute("LIST_CATEGORY", listCategory);
-                }
-                url = SUCCESS;
+            TicketDAO dao = new TicketDAO();
+            String bookingTicketID = request.getParameter("bookingTicketID");   
+            String status = request.getParameter("bookingTicketStatus");
+            boolean check = dao.confirmUserRecivedBook(bookingTicketID, status);
+            if (check){
+                
+            }else {
+                
             }
+            // + 1 hàm xử lí lấy đữ liệu bookingTicketID để chỉnh sửa dữ liệu status theo BookingTicketID.
         } catch (Exception e) {
-            log("Error at BookDetailController: " + e.toString());
+            log("Error at ConfirmUserRecivedBookController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -31,7 +31,7 @@ public class LoadBookController extends HttpServlet {
         try {
             String bookID = request.getParameter("bookID");
             BookDAO dao = new BookDAO();
-            BookDTO book = dao.getBookByID(Integer.parseInt(bookID));
+            BookDTO book = dao.getBookByID(bookID);
             if (book != null) {
                 request.setAttribute("BOOK_DETAIL", book);
                 url = SUCCESS;

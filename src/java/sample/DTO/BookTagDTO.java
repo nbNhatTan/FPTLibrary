@@ -11,9 +11,9 @@ package sample.DTO;
 public class BookTagDTO {
 
     private int categoryID;
-    private int bookID;
+    private String bookID;
 
-    public BookTagDTO(int categoryID, int bookID) {
+    public BookTagDTO(int categoryID, String bookID) {
         this.categoryID = categoryID;
         this.bookID = bookID;
     }
@@ -26,13 +26,15 @@ public class BookTagDTO {
         this.categoryID = categoryID;
     }
 
-    public int getBookID() {
+    public String getBookID() {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
+    public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
+    
 
     @Override
     public String toString() {

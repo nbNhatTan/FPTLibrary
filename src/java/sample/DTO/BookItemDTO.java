@@ -11,11 +11,11 @@ package sample.DTO;
 public class BookItemDTO {
 
     private String bookItemID;
-    private int bookID;
+    private String bookID;
     private String bookStatus;
     private int packageID;
 
-    public BookItemDTO(String bookItemID, int bookID, String bookStatus, int packageID) {
+    public BookItemDTO(String bookItemID, String bookID, String bookStatus, int packageID) {
         this.bookItemID = bookItemID;
         this.bookID = bookID;
         this.bookStatus = bookStatus;
@@ -30,13 +30,15 @@ public class BookItemDTO {
         this.bookItemID = bookItemID;
     }
 
-    public int getBookID() {
+    public String getBookID() {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
+    public void setBookID(String bookID) {
         this.bookID = bookID;
     }
+
+    
 
     public String getBookStatus() {
         return bookStatus;

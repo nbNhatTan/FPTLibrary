@@ -39,7 +39,7 @@ public class CreateFeedBackController extends HttpServlet {
             if (loginAccount != null) {
                 FeedbackDAO dao = new FeedbackDAO();
                 String userID = request.getParameter("userID");
-                int bookID = Integer.parseInt(request.getParameter("bookID"));
+                String bookID = request.getParameter("bookID");
                 String comment = request.getParameter("comment");
                 int star = Integer.parseInt(request.getParameter("star"));
 

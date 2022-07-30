@@ -61,10 +61,14 @@
                                 }
                             %>
                             <form action="MainController" method="POST">
-                                <input name="bookID" type="hidden" value="<%=book.getBookID()%>">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Book ID:</label>
+                                    <input name="bookID" type="text" placeholder="Enter book name"  class="form-control" required="" value="<%=book.getBookID()%>"><%= bookError.getBookID()%>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Book Name:</label>
-                                    <input name="bookName" type="text" readonly placeholder="Enter book name"  class="form-control" required="" value="<%=book.getBookName()!=null?book.getBookName():""%>"><%= bookError.getBookNameError()%>
+                                    <input name="bookName" type="text"  placeholder="Enter book name"  class="form-control" required="" value="<%=book.getBookName()!=null?book.getBookName():""%>"><%= bookError.getBookNameError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Quantity:</label>
@@ -76,16 +80,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Language:</label>
-                                    <input name="language" type="text" readonly placeholder="Enter language" class="form-control" required="" value="<%=book.getLanguage()!=null?book.getLanguage():""%>"><%= bookError.getLanguageError()%>
+                                    <input name="language" type="text"  placeholder="Enter language" class="form-control" required="" value="<%=book.getLanguage()!=null?book.getLanguage():""%>"><%= bookError.getLanguageError()%>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Author:</label>
-                                    <input name="author" type="text" readonly placeholder="Enter author"  class="form-control" required="" value="<%=book.getAuthor()!=null?book.getAuthor():""%>"><%= bookError.getAuthorError()%>
+                                    <input name="author" type="text"  placeholder="Enter author"  class="form-control" required="" value="<%=book.getAuthor()!=null?book.getAuthor():""%>"><%= bookError.getAuthorError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Publisher:</label>
-                                    <input name="publisher"type="text" readonly placeholder="Enter publisher"   class="form-control" required="" value="<%=book.getPublisher()!=null?book.getPublisher():""%>"><%= bookError.getPublisherError()%>
+                                    <input name="publisher"type="text"  placeholder="Enter publisher"   class="form-control" required="" value="<%=book.getPublisher()!=null?book.getPublisher():""%>"><%= bookError.getPublisherError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Description:</label>
@@ -93,11 +96,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">DDC:</label>
-                                    <input  name="DDC" type="text" readonly placeholder="Enter DDC"  class="form-control" required="" value="<%=book.getDDC()!=null?book.getDDC():""%>"><%= bookError.getDDCError()%>
+                                    <input  name="DDC" type="text"  placeholder="Enter DDC"  class="form-control" required="" value="<%=book.getDDC()!=null?book.getDDC():""%>"><%= bookError.getDDCError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Publish Year:</label>
-                                    <input  name="publishYear" type="text" readonly placeholder="Enter publishYear"  class="form-control" required="" value="<%=book.getPublishYear()!=null?book.getPublishYear():""%>"><%= bookError.getPublishYearError()%>
+                                    <input  name="publishYear" type="text"  placeholder="Enter publishYear"  class="form-control" required="" value="<%=book.getPublishYear()!=null?book.getPublishYear():""%>"><%= bookError.getPublishYearError()%>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Image:</label>

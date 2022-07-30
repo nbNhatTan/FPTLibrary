@@ -30,7 +30,7 @@ public class EditBookController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            int bookID = Integer.parseInt(request.getParameter("bookID"));
+            String bookID = request.getParameter("bookID");
             String bookName = request.getParameter("bookName");
             String quantity = request.getParameter("quantity");
             String bookshelf = request.getParameter("bookshelf");
