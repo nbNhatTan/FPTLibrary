@@ -10,7 +10,7 @@ package sample.DTO;
  * @author Admin
  */
 public class GoogleDTO {
-    private String id;
+  private String id;
   private String email;
   private boolean verified_email;
   private String name;

@@ -25,8 +25,8 @@ import sample.Utils.DBUtils;
  */
 public class BookDAO {
 
-    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image], status) VALUES (?,?,?,?,?,?,?,?,?,?,1)";
-    private static final String EDIT_BOOK = "UPDATE tblBook SET quantity = ?, bookshelf = ?,[description] = ?, [image] = ? WHERE bookID = ?";
+    private static final String CREATE_BOOK = "INSERT INTO tblBook(bookID,bookName, quantity, bookshelf, languageID, [description], DDC, authorID, publisherID, publishYear, [image], status) VALUES (?,?,?,?,?,?,?,?,?,?,?,1)";
+    private static final String EDIT_BOOK = "UPDATE tblBook SET bookID = ? quantity = ?, bookshelf = ?,[description] = ?, [image] = ? WHERE bookID = ?";
     private static final String DELETE = "UPDATE tblBook SET status='false' WHERE bookID=?";
     private static final String CREATE_PACKAGE = "INSERT INTO tblPackage(PackageName, price, importDate) VALUES (?,?,?)";
     private static final String CREATE_BOOKITEM = "INSERT INTO tblBookItem(bookItemID, bookID, bookStatus, packageID) VALUES (?,?,?,?)";
@@ -69,31 +69,40 @@ public class BookDAO {
             + "JOIN tblPublishers p ON b.publisherID = p.publisherID "
             + "JOIN tblBookTag t ON b.bookID = t.bookID "
             + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? AND b.status = 1";
-
-    public int createBook(BookDTO book) throws SQLException {
-        int id = 0;
+    
+    public String createBookID(String bookName, String author,String publishYear, String DDC, String publisher){
+        author = author.toUpperCase();
+        bookName = bookName.toUpperCase();
+        publisher = publisher.toUpperCase();
+        String bookID = DDC + author.charAt(0) + bookName.charAt(0) + publisher.charAt(0) + publishYear;
+        return bookID;
+        
+    }
+    // createBook -> Almost done!
+    public String createBook(BookDTO book) throws SQLException { 
+        String bookID = "";
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
+            bookID = createBookID(book.getBookName(),book.getAuthor(),book.getPublishYear(), book.getDDC(), book.getPublisher()); 
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_BOOK, Statement.RETURN_GENERATED_KEYS);
-                ptm.setString(1, book.getBookName());
-                ptm.setInt(2, book.getQuantity());
-                ptm.setString(3, book.getBookshelf());
-                ptm.setInt(4, findInformationID(book.getLanguage(), "Language"));
-                ptm.setString(5, book.getDescription());
-                ptm.setString(6, book.getDDC());
-                ptm.setInt(7, findInformationID(book.getAuthor(), "Author"));
-                ptm.setInt(8, findInformationID(book.getPublisher(), "Publisher"));
-                ptm.setString(9, book.getPublishYear());
-                ptm.setString(10, book.getImage());
+                ptm = conn.prepareStatement(CREATE_BOOK/*, Statement.RETURN_GENERATED_KEYS*/);
+                ptm.setString(1, bookID);
+                ptm.setString(2, book.getBookName());
+                ptm.setInt(3, book.getQuantity());
+                ptm.setString(4, book.getBookshelf());
+                ptm.setInt(5, findInformationID(book.getLanguage(), "Language"));
+                ptm.setString(6, book.getDescription());
+                ptm.setString(7, book.getDDC());
+                ptm.setInt(8, findInformationID(book.getAuthor(), "Author"));
+                ptm.setInt(9, findInformationID(book.getPublisher(), "Publisher"));
+                ptm.setString(10, book.getPublishYear());
+                ptm.setString(11, book.getImage());
                 ptm.executeUpdate();
-                rs = ptm.getGeneratedKeys();
-                while (rs.next()) {
-                    id = rs.getInt(1);
-                }
+                rs = ptm.executeQuery();
+                
             }
         } catch (Exception e) {
             e.toString();
@@ -105,9 +114,9 @@ public class BookDAO {
                 conn.close();
             }
         }
-        return id;
+        return bookID;
     }
-
+    
     public boolean editBook(BookDTO book) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -117,11 +126,12 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(EDIT_BOOK);
-                ptm.setInt(1, book.getQuantity());
-                ptm.setString(2, book.getBookshelf());
-                ptm.setString(3, book.getDescription());
-                ptm.setString(4, book.getImage());
-                ptm.setInt(5, book.getBookID());
+                ptm.setString(1, book.getBookID());
+                ptm.setInt(2, book.getQuantity());
+                ptm.setString(3, book.getBookshelf());
+                ptm.setString(4, book.getDescription());
+                ptm.setString(5, book.getImage());
+                ptm.setString(6, book.getBookID());
                 check = ptm.executeUpdate() > 0 ? true : false;
             }
         } catch (Exception e) {
@@ -192,7 +202,7 @@ public class BookDAO {
         return id;
     }
 
-    public int insertBookItem(int bookID, int packageID) throws SQLException {
+    public int insertBookItem(String bookID, int packageID) throws SQLException {
         int total = 0;
         int count = 0;
         Connection conn = null;
@@ -202,7 +212,7 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(COUNT);
-                ptm.setInt(1, bookID);
+                ptm.setString(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     count = rs.getInt(1);
@@ -213,7 +223,7 @@ public class BookDAO {
                     String bookItemID = bookID + "-" + count;
                     ptm = conn.prepareStatement(CREATE_BOOKITEM);
                     ptm.setString(1, bookItemID);
-                    ptm.setInt(2, bookID);
+                    ptm.setString(2, bookID);
                     ptm.setString(3, "On bookshelf");
                     ptm.setInt(4, packageID);
                     ptm.executeUpdate();
@@ -244,7 +254,7 @@ public class BookDAO {
                 ptm = conn.prepareStatement(GETLIST);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    int bookID = rs.getInt("bookID");
+                    String bookID = rs.getString("bookID");
                     String bookName = rs.getString("bookName");
                     int quantity = rs.getInt("quantity");
                     String bookshelf = rs.getString("bookshelf");
@@ -255,7 +265,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, quantity, bookshelf,  description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -321,7 +331,7 @@ public class BookDAO {
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String bookItemID = rs.getString("bookItemID");
-                    int bookID = rs.getInt("bookID");
+                    String bookID = rs.getString("bookID");
                     String bookStatus = rs.getString("bookStatus");
                     int packageID = rs.getInt("packageID");
                     list.add(new BookItemDTO(bookItemID, bookID, bookStatus, packageID));
@@ -368,7 +378,7 @@ public class BookDAO {
         return check;
     }
 
-    public BookDTO getBookByID(int bookID) throws SQLException {
+    public BookDTO getBookByID(String bookID) throws SQLException {
         BookDTO book;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -377,7 +387,7 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(GETBOOKBYID);
-                ptm.setInt(1, bookID);
+                ptm.setString(1, bookID );
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String bookName = rs.getString("bookName");
@@ -390,7 +400,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    book = new BookDTO(bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    book = new BookDTO(bookID, bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     return book;
                 }
@@ -469,7 +479,7 @@ public class BookDAO {
                 ptm = conn.prepareStatement(GETTOP5BOOK);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    int bookID = rs.getInt("bookID");
+                    String bookID = rs.getString("bookID");
                     String bookName = rs.getString("bookName");
                     String image = rs.getString("image");
                     BookDTO book = new BookDTO(bookName, 0, "", "", "", "", "", "", "", image);
@@ -595,7 +605,7 @@ public class BookDAO {
                 }
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    int bookID = rs.getInt("bookID");
+                    String bookID = rs.getString("bookID");
                     String bookName = rs.getString("bookName");
                     String bookshelf = rs.getString("bookshelf");
                     String image = rs.getString("image");
@@ -639,7 +649,7 @@ public class BookDAO {
                 ptm.setInt(1, categoryId);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
-                    int bookID = rs.getInt("bookID");
+                    String bookID = rs.getString("bookID");
                     String bookName = rs.getString("bookName");
                     String bookshelf = rs.getString("bookshelf");
                     String image = rs.getString("image");
@@ -649,7 +659,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, 0, bookshelf,description, DDC, language,  author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -671,7 +681,7 @@ public class BookDAO {
         return list;
     }
 
-    public List<CategoryDTO> getBookTag(int bookID) throws SQLException {
+    public List<CategoryDTO> getBookTag(String bookID) throws SQLException {
         List<CategoryDTO> list = new ArrayList<>();
         CategoryDTO category;
         Connection conn = null;
@@ -681,7 +691,7 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(GETBOOKTAG);
-                ptm.setInt(1, bookID);
+                ptm.setString(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int categoryID = Integer.parseInt(rs.getString("categoryID"));
