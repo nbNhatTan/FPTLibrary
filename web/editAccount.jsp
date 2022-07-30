@@ -61,23 +61,24 @@
                                 }
                                 AccountDTO acc = (AccountDTO) request.getAttribute("ACCOUNT_DETAIL");
                             %>
-                            <form action="MainController" method="POST" onsubmit="return create(this);">
+                            <form action="MainController" onsubmit="return create(this);">
                                 <input name="action" value="EditAccount" type="hidden"/>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Account ID:</label>
                                     <input name="accountID" type="text" placeholder="Enter accountID"  class="form-control" value="<%= acc.getAccountID()%>" readonly="" >
                                 </div>
                                 <div class="form-group">
+                                        <label for="exampleInputEmail1">Mail:</label>
+                                        <input name="email" type="text" placeholder="Enter Mail @fpt.edu.vn" value="<%= acc.getEmail()%>" class="form-control" readonly="" ><%= accountError.getEmailError()%>
+                                    </div>
+                                <div class="form-group">
                                     <label for="exampleInputEmail1">Role ID:</label>
-                                    <input  name="roleID"type="text" placeholder="[1-admin, 2-staff, 3-user]"  class="form-control" value="<%= acc.getRoleID()%>" ><%= accountError.getRoleIDError()%>
+                                    <input  name="roleID"type="text" placeholder="[2-staff, 3-user]"  class="form-control" value="<%= acc.getRoleID()%>" ><%= accountError.getRoleIDError()%>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Full Name:</label>
                                         <input name="fullName" type="text" placeholder="Enter Full Name" value="<%= acc.getFullName()%>" class="form-control" required="" ><%= accountError.getFullNameError()%>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Mail:</label>
-                                        <input name="email" type="text" placeholder="Enter Mail" value="<%= acc.getEmail()%>" class="form-control" required="" ><%= accountError.getEmailError()%>
-                                    </div>
+                                    
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Address:</label>
                                         <input name="address"type="text" placeholder="Enter Address" value="<%= acc.getAddress()%>"  class="form-control" required="" ><%= accountError.getAddressError()%>
