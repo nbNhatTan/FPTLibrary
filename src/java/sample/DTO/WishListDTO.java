@@ -9,19 +9,19 @@ package sample.DTO;
  * @author NhatTan
  */
 public class WishListDTO {
-    private int bookID;
+    private String bookID;
     private String userID;
 
-    public WishListDTO(int bookID, String userID) {
+    public WishListDTO(String bookID, String userID) {
         this.bookID = bookID;
         this.userID = userID;
     }
 
-    public int getBookID() {
+    public String getBookID() {
         return bookID;
     }
 
-    public void setBookID(int bookID) {
+    public void setBookID(String bookID) {
         this.bookID = bookID;
     }
 

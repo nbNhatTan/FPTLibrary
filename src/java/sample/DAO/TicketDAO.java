@@ -473,7 +473,7 @@ public class TicketDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
-                ptm.setString(1, "Borrowing");
+                ptm.setString(1, "Approved");
                 ptm.setInt(2, bookingTicketID);
                 check1 = ptm.executeUpdate() > 0;
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
@@ -705,7 +705,7 @@ public class TicketDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(CREATEWISHLIST);
-                ptm.setInt(1, wish.getBookID());
+                ptm.setString(1, wish.getBookID());
                 ptm.setString(2, wish.getUserID());
                 check = ptm.executeUpdate();
             }
@@ -722,18 +722,26 @@ public class TicketDAO {
         return check;
     }
 
-    private static final String CONFRIMRECIVED = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
-
     public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {
         boolean check = false;
+        boolean check1 = false;
+        boolean check2 = false;
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
-            ptm = conn.prepareStatement(CONFRIMRECIVED);
-            ptm.setString(1, status);
-            ptm.setString(2, bookingTicketID);
-            check = ptm.executeUpdate() > 0;
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
+                ptm.setString(1, status);
+                ptm.setString(2, bookingTicketID);
+                check1 = ptm.executeUpdate() > 0;
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
+                ptm.setString(1, status);
+                ptm.setString(2, bookingTicketID);
+                check2 = ptm.executeUpdate() > 0;
+            }
+            check = check1 && check2;
         } catch (Exception e) {
             e.toString();
         } finally {

@@ -64,7 +64,7 @@ public class FeedbackDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(VIEW_FEEDBACK);
-                ptm.setString(1,"%"+ bookID + "%");
+                ptm.setString(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     int feedbackID = rs.getInt("feedbackID");

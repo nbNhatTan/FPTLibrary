@@ -32,7 +32,7 @@ public class WishListController extends HttpServlet {
             TicketDAO dao = new TicketDAO();
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            WishListDTO wish = new WishListDTO(Integer.parseInt(bookID), loginAccount.getAccountID());
+            WishListDTO wish = new WishListDTO(bookID, loginAccount.getAccountID());
             dao.createWishList(wish);
 
             url = "BookDetailController?bookID=" + bookID;

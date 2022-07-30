@@ -99,24 +99,35 @@
                                 </dl>
                                 <dl>
                                     <dt><strong>&emsp;&emsp;Quantity </strong></dt>
-                                    <dd>&emsp;&emsp;<%= book.getQuantity()%></dd>
+                                    <%
+                                        if (book.getQuantity() < 1) {
+                                    %>
+                                    <dd  style="color: #f00">&emsp;&emsp;Out of stock</dd>
+                                    <%
+                                    } else {
+                                    %>
+                                    <dd style="color: #00b050">&emsp;&emsp;<%= book.getQuantity()%></dd>
+                                    <%
+                                        }
+                                    %>
+                                    
                                 </dl>
                                 <dl>
                                     <dt><strong>&emsp;&emsp;Book Tag </strong></dt>
                                     <dd class="list-unstyled">
-                                        <li>
-                                            <%
-                                                List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
-                                                if (listCategory != null) {
-                                                    for (CategoryDTO c : listCategory) {
-                                            %>
-                                            &emsp;&emsp;<a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
-                                                           display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
-                                            <%
-                                                    }
+                                    <li>
+                                        <%
+                                            List<CategoryDTO> listCategory = (List<CategoryDTO>) request.getAttribute("LIST_CATEGORY");
+                                            if (listCategory != null) {
+                                                for (CategoryDTO c : listCategory) {
+                                        %>
+                                        &emsp;&emsp;<a href="MainController?action=AdvanceSearch&categoryId=<%=c.getCategoryID()%>" style="font-size: 12px; background: #F3F3F3; border: 1px solid #E8E8E8;
+                                                       display: inline-block; color: #000; padding: 2px 5px; text-align: center;"><%=c.getCategoryName()%></a>
+                                        <%
                                                 }
-                                            %>
-                                        </li>
+                                            }
+                                        %>
+                                    </li>
                                     </dd>
                                 </dl>
                             </table>
@@ -125,14 +136,14 @@
                             <dt><strong>Description </strong></dt>
                             <dd><%= book.getDescription()%></dd>
                         </dl>
-                        
+
                         <div style="text-align: center;">
                             <%
-                                if(book.getQuantity()<1){
+                                if (book.getQuantity() < 1) {
                             %>
                             <button type="button" style="background-color: deeppink;color: #ffffff;font-size: 20px;"onclick="book()" class="bookingButton btn btn-light btn-sm">Add to wish list</button>
                             <%
-                                }else{
+                            } else {
                             %>
                             <button type="button" style="background-color: deeppink;color: #ffffff;font-size: 20px;"onclick="book()" class="bookingButton btn btn-light btn-sm">Book</button>
                             <%
@@ -276,7 +287,7 @@
             <script>
                                 function book() {
                                     if (<%=check%>) {
-                                        if(<%=book.getQuantity()>0%>)
+                                        if (<%=book.getQuantity() > 0%>)
                                         {
                                             Swal.fire({
                                                 title: 'Are you sure?',
@@ -309,7 +320,7 @@
                                     } else {
                                         location.href = "MainController?action=Borrow&bookID=<%= book.getBookID()%>";
                                     }
-                                    
+
                                 }
         </script>
 

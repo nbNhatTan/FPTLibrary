@@ -81,17 +81,16 @@ public class BookDAO {
     }
 
     // createBook -> Almost done!
-    public String createBook(BookDTO book) throws SQLException {
-        String bookID = "";
+    public boolean createBook(BookDTO book) throws SQLException { 
+        boolean check=false;
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
-            bookID = createBookID(book.getBookName(), book.getAuthor(), book.getPublishYear(), book.getDDC(), book.getPublisher());
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_BOOK/*, Statement.RETURN_GENERATED_KEYS*/);
-                ptm.setString(1, bookID);
+                ptm = conn.prepareStatement(CREATE_BOOK);
+                ptm.setString(1, book.getBookID());
                 ptm.setString(2, book.getBookName());
                 ptm.setInt(3, book.getQuantity());
                 ptm.setString(4, book.getBookshelf());
@@ -102,9 +101,7 @@ public class BookDAO {
                 ptm.setInt(9, findInformationID(book.getPublisher(), "Publisher"));
                 ptm.setString(10, book.getPublishYear());
                 ptm.setString(11, book.getImage());
-                ptm.executeUpdate();
-                rs = ptm.executeQuery();
-                
+                check = ptm.executeUpdate()>0;
             }
         } catch (Exception e) {
             e.toString();
@@ -116,7 +113,7 @@ public class BookDAO {
                 conn.close();
             }
         }
-        return bookID;
+        return check;
     }
     
     public boolean editBook(BookDTO book) throws SQLException {
@@ -435,7 +432,7 @@ public class BookDAO {
                 String table = "tbl" + infor + "s";
                 String labelName = infor.toLowerCase() + "Name";
                 String labelID = infor.toLowerCase() + "ID";
-                String sql = "SELECT " + labelID + " FROM " + table + " WHERE " + labelName + " LIKE '" + name + "'";
+                String sql = "SELECT " + labelID + " FROM " + table + " WHERE " + labelName + " LIKE N'" + name + "'";
                 ptm = conn.prepareStatement(sql);
 //                ptm.setString(1, labelID);
 //                ptm.setString(2, table);
@@ -445,7 +442,7 @@ public class BookDAO {
                 if (rs.next()) {
                     id = rs.getInt(1);
                 } else {
-                    sql = "INSERT INTO " + table + "(" + labelName + ") VALUES ('" + name + "')";
+                    sql = "INSERT INTO " + table + "(" + labelName + ") VALUES (N'" + name + "')";
                     ptm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 //                    ptm.setString(1, table);
 //                    ptm.setString(2, labelName);
