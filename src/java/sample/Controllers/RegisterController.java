@@ -32,27 +32,36 @@ public class RegisterController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String accountID = request.getParameter("accountID");
+            String accountID = request.getParameter("accountID").toLowerCase();
             String fullName = request.getParameter("fullName");
             String password = request.getParameter("password");
             String confirm = request.getParameter("confirm");
             String email = request.getParameter("email");
             String address = request.getParameter("address");
             String phone = request.getParameter("phone");
-            request.setAttribute("accountID", fullName);
+            request.setAttribute("accountID", accountID);
             request.setAttribute("fullName", fullName);
             request.setAttribute("password", password);
             request.setAttribute("confirm", confirm);
             request.setAttribute("email", email);
             request.setAttribute("address", address);
             request.setAttribute("phone", phone);
+            
+            String[] splits = email.split("@");
+            String checkemail = splits[0];
+            String AccountID = checkemail.substring(Math.max(0, checkemail.length() - 8));
             boolean checkValidation = true;
             AccountError accountError = new AccountError();
             AccountDAO dao = new AccountDAO();
 
             boolean checkDuplicate = dao.checkDuplicate(accountID);
+            boolean checkDuplicateMail = dao.checkDuplicateMail(email);
             if (checkDuplicate) {
                 accountError.setAccountIDError("Duplicate UserID!");
+                checkValidation = false;
+            }
+            if (!accountID.equals(AccountID)) {
+                accountError.setAccountIDError("Student ID and email do not match");
                 checkValidation = false;
             }
             if (accountID.length() < 2 || accountID.length() > 10) {
@@ -67,7 +76,11 @@ public class RegisterController extends HttpServlet {
                 accountError.setConfirmError("Password must equals!");
                 checkValidation = false;
             }
-            if (!Pattern.matches("^[a-zA-Z][\\w-]+@([\\w]+\\.[\\w]+|[\\w]+\\.[\\w]{2,}\\.[\\w]{2,})$", email)) {
+            if (checkDuplicateMail) {
+                accountError.setEmailError("Duplicate Email!");
+                checkValidation = false;
+            }
+            if (!Pattern.matches("^[a-zA-Z][\\w-]+@fpt.edu.vn$", email)) {
                 accountError.setEmailError("Email not correct!");
                 checkValidation = false;
             }

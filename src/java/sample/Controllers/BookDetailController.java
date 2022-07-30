@@ -24,7 +24,7 @@ import sample.DTO.CategoryDTO;
 @WebServlet(name = "BookDetailController", urlPatterns = {"/BookDetailController"})
 public class BookDetailController extends HttpServlet {
 
-    private static final String ERROR = "searchList.jsp";
+    private static final String ERROR = "advancedSearch.jsp";
     private static final String SUCCESS = "bookDetail.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

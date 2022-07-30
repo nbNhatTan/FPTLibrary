@@ -29,6 +29,7 @@ import sample.Utils.SecurityUtils;
 public class AccountDAO {
 
     private static final String LOGIN = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID=? AND password=?";
+    private static final String LOGINGG = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE email=?";
     private static final String SEARCH = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts WHERE fullName like ?";
     private static final String DELETE = "UPDATE tblAccounts SET status='false' WHERE accountID=?";
     private static final String DELETE1 = "DELETE tblAccounts WHERE accountID=?";
@@ -36,6 +37,7 @@ public class AccountDAO {
     private static final String UPDATE = "UPDATE tblAccounts SET fullName=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
     private static final String UPDATE_PASS = "UPDATE tblAccounts SET fullName=?, password=?, roleID=?, email=?, address=?, phone=? WHERE accountID=?";
     private static final String CHECK_DUPLICATE = "SELECT accountID FROM tblAccounts WHERE accountID=?";
+    private static final String CHECK_DUPLICATEMAIL = "SELECT email FROM tblAccounts WHERE email=?";
     private static final String CREATE = "INSERT INTO tblAccounts(accountID, fullName, password, roleID, email, address, phone, status) VALUES (?,?,?,?,?,?,?,?)";
     private static final String GET = "SELECT fullName, roleID, email, address, phone, status FROM tblAccounts WHERE accountID = ?";
     private static final String GETALL = "SELECT accountID, fullName, roleID, email, address, phone, status FROM tblAccounts";
@@ -59,6 +61,44 @@ public class AccountDAO {
                     String fullName = rs.getString("fullName");
                     int roleID = rs.getInt("roleID");
                     String email = rs.getString("email");
+                    String address = rs.getString("address");
+                    String phone = rs.getString("phone");
+                    Boolean status = rs.getBoolean("status");
+                    acc = new AccountDTO(accountID, fullName, "", roleID, email, address, phone, status);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return acc;
+    }
+
+    public AccountDTO checkLoginGG(String email) throws SQLException {
+        AccountDTO acc = null;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            
+            if (conn != null) {
+                ptm = conn.prepareStatement(LOGINGG);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    String accountID = rs.getString("accountID");
+                    String fullName = rs.getString("fullName");
+                    int roleID = rs.getInt("roleID");
                     String address = rs.getString("address");
                     String phone = rs.getString("phone");
                     Boolean status = rs.getBoolean("status");
@@ -290,6 +330,37 @@ public class AccountDAO {
         return check;
     }
 
+    public boolean checkDuplicateMail(String email) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CHECK_DUPLICATEMAIL);
+                ptm.setString(1, email);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
     public boolean create(AccountDTO acc) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -385,6 +456,7 @@ public class AccountDAO {
         }
         return null;
     }
+
     public static void SendMail(String to, String sub,
             String msg, final String user, final String pass) {
         Properties props = new Properties();

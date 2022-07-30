@@ -477,7 +477,7 @@ public class TicketDAO {
                 ptm.setInt(2, bookingTicketID);
                 check1 = ptm.executeUpdate() > 0;
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
-                ptm.setString(1, "Borrowing");
+                ptm.setString(1, "Approved");
                 ptm.setInt(2, bookingTicketID);
                 check2 = ptm.executeUpdate() > 0;
             }
@@ -520,7 +520,7 @@ public class TicketDAO {
         return check;
     }
 
-    public String GetBookItemID(int bookID) throws SQLException {
+    public String GetBookItemID(String bookID) throws SQLException {
         String bookItemID = null;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -529,7 +529,7 @@ public class TicketDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(GETBOOKITEMID);
-                ptm.setInt(1, bookID);
+                ptm.setString(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     bookItemID = rs.getString("bookItemID");
@@ -720,5 +720,82 @@ public class TicketDAO {
             }
         }
         return check;
+    }
+
+    private static final String CONFRIMRECIVED = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
+
+    public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            ptm = conn.prepareStatement(CONFRIMRECIVED);
+            ptm.setString(1, status);
+            ptm.setString(2, bookingTicketID);
+            check = ptm.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
+    private static final String GETLISTBOOKTICKET_APPROVED = "SELECT b.[image], b.bookName, t.bookingTicketID, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
+            + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID \n"
+            + "WHERE t.borrowStatus like 'Approved' ";
+
+    public List<BorrowDTO> GetListTicket_Approved(String AccountID) throws SQLException {
+        List<BorrowDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                if (AccountID.equals("")) {
+                    ptm = conn.prepareStatement(GETLISTBOOKTICKET_APPROVED);
+                } else {
+                    String Connect = GETLISTBOOKTICKET_APPROVED + "AND t.userID like = ? ";
+                    ptm = conn.prepareStatement(Connect);
+                    ptm.setString(1, AccountID);
+                }
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String image = rs.getString("image");
+                    String bookName = rs.getString("bookName");
+                    int bookingTicketID = rs.getInt("bookingTicketID");
+                    AccountDAO accDAO = new AccountDAO();
+                    AccountDTO user = accDAO.getAccountByID(rs.getString("userID"));
+                    String bookItemID = rs.getString("bookItemID");
+                    Date borrowDate = rs.getDate("borrowDate");
+                    Date expiredDate = rs.getDate("expiredDate");
+                    Date returnDate = rs.getDate("returnDate");
+                    String status = rs.getString("borrowStatus");
+                    list.add(new BorrowDTO(image, bookName, bookingTicketID, user, bookItemID, borrowDate, expiredDate, returnDate, status));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 }

@@ -62,6 +62,7 @@
                                 if (list.size() > 0) {
                                     for (AccountDTO p : list) {
                                         if (p.getStatus()) {
+                                            if(p.getRoleID()!=1){
                         %>
                         <tr>
                             <td><%= p.getAccountID()%></td>
@@ -76,6 +77,7 @@
                             </td>
                         </tr>
                         <%
+                                            }
                                         }
                                     }
                                 }

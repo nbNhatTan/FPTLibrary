@@ -69,7 +69,10 @@ public class MainController extends HttpServlet {
     private static final String VIEWORCREATE_CONTROLLER = "ViewOrCreateVLTController";
     private static final String UPDATENEWS = "UpdateNews";
     private static final String UPDATENEWS_CONTROLLER ="UpdateNewsController";
-
+    private static final String CONFIRMRECIVED_CONTROLLER = "ConfirmUserRecivedBookController";
+    private static final String CONFIRMRECIVED = "ConfirmRecived";
+    private static final String LISTPREORDER_CONTROLLER = "LoadListPreOrderController";
+    private static final String LISTPREORDER = "LoadListPreOrder";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -128,7 +131,12 @@ public class MainController extends HttpServlet {
                 url = EDITBOOK_CONTROLLER;
             }else if (UPDATENEWS.equals(action)) {
                 url = UPDATENEWS_CONTROLLER;
+            }else if (CONFIRMRECIVED.equals(action)) {
+                url = CONFIRMRECIVED_CONTROLLER;
+            }else if (LISTPREORDER.equals(action)) {
+                url = LISTPREORDER_CONTROLLER;
             }
+            
         } catch (Exception e) {
             log("Error at MainController :" + e.toString());
         } finally {

@@ -5,61 +5,37 @@
 package sample.Controllers;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import sample.DAO.TicketDAO;
-import sample.DTO.AccountDTO;
-import sample.DTO.BookingTicketDTO;
+import sample.DTO.BorrowDTO;
 
 /**
  *
- * @author NhatTan
+ * @author admin
  */
-@WebServlet(name = "BorrowController", urlPatterns = {"/BorrowController"})
-public class BorrowController extends HttpServlet {
+@WebServlet(name = "LoadListPreOrderController", urlPatterns = {"/LoadListPreOrderController"})
+public class LoadListPreOrderController extends HttpServlet {
 
+    private static final String LINK = "checkOnlineBooking.jsp";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = "ViewborrowController";
-        try {
-            String bookID = request.getParameter("bookID");
-
-            HttpSession session = request.getSession();
-            AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            if (loginAccount != null) {
-                TicketDAO dao = new TicketDAO();
-                String bookItemID = dao.GetBookItemID(bookID);
-
-                long millis = System.currentTimeMillis();
-                java.sql.Date borrowDate = new java.sql.Date(millis);
-
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                df.setLenient(false);
-                java.util.Date dat = df.parse("2022-6-14");
-                java.util.Date dat1 = df.parse("2022-10-14");
-                long date = dat.getTime();
-                long date1 = dat1.getTime();
-                long fourMonth = date1 - date;
-
-                java.sql.Date expiredDate = new java.sql.Date(millis + fourMonth);
-                BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Pending");
-                dao.createBookingTicket(ticket);
-
-                request.setAttribute("message", "Request borrow book");
-            } else {
-                url = "login.jsp";
-                request.setAttribute("warning", "You need to login to use this funcion!");
-            }
-        } catch (Exception e) {
-            log("Error at BorrowController: " + e.toString());
+        try{
+            String accountID = request.getParameter("AccountID"); if(accountID==null){accountID="";}
+            TicketDAO dao = new TicketDAO();
+            List<BorrowDTO> list = dao.GetListTicket_Approved(accountID);
+            request.setAttribute("LIST_PREORDER", list);
+        }catch(Exception e){
+            log("Error at LoadListPreOrderController: " + e.toString());
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            request.getRequestDispatcher(LINK).forward(request, response);
         }
     }
 
