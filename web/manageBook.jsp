@@ -31,16 +31,35 @@
                 return;
             }
         %>
+        <%
+            String search = request.getParameter("bookID");
+            if (search == null) {
+                search = "";
+            }
+        %>
         <div class="main">
             <div class="row  contens ">
                 <div class="col-md-2"></div>
                 <div class="col-md-8 content">
                     <div class="content table-container">
                         <div>
+
                             <div class="table-title">
                                 <div class="row">
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-4">
                                         <h2>Manage <b>Book</b></h2>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <form action="LoadListBookController" class="search">
+                                            <div class="input-group w-100">
+                                                <input type="text" name="bookID" value="<%=search%>" class="form-control" placeholder="Search Book ID">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-warning" type="submit" name="bookID" value="<%=search%>">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                     <div class="col-sm-2">
                                         <a href="addBook.jsp"  class="btn btn-warning btn-sm" ><span>+ New Book</span></a>

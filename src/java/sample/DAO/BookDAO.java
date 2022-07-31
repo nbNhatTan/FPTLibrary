@@ -836,4 +836,54 @@ public class BookDAO {
         
         return count;
     }
+    private static final String GETLISTBOOK_BYBOOKID = "SELECT b.bookID, bookName, quantity, bookshelf, [image], [description], "
+            + "DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l "
+            + "ON b.languageID = l.languageID JOIN tblAuthors a "
+            + "ON b.authorID = a.authorID JOIN tblPublishers p "
+            + "ON b.publisherID = p.publisherID "
+            + "WHERE b.bookID like ? AND b.status = 1 ";
+           // + "ORDER BY bookID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+    public List<BookDTO> getListBook_bookID(String bookIdetity) throws SQLException {
+        List<BookDTO> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(GETLISTBOOK_BYBOOKID);
+                ptm.setString(1, "%" + bookIdetity + "%");
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String bookID = rs.getString("bookID");
+                    String bookName = rs.getString("bookName");
+                    int quantity = rs.getInt("quantity");
+                    String bookshelf = rs.getString("bookshelf");
+                    String image = rs.getString("image");
+                    String description = rs.getString("description");
+                    String DDC = rs.getString("DDC");
+                    String language = rs.getString("languageName");
+                    String author = rs.getString("authorName");
+                    String publisher = rs.getString("publisherName");
+                    String publishYear = rs.getString("publishYear");
+                    BookDTO book = new BookDTO(bookID, bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    
+                    list.add(book);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
 }

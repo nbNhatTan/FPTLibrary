@@ -30,10 +30,14 @@ public class LoadListBookController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-
+            String search = request.getParameter("bookID"); 
+            if(search == null){
+                search = "";
+            }
             BookDAO dao = new BookDAO();
-            List<BookDTO> list = dao.getListBook();
+            List<BookDTO> list = dao.getListBook_bookID(search);
             request.setAttribute("listBook", list);
+            request.setAttribute("bookID", search);
             url = SUCCESS;
         } catch (Exception e) {
             log("Error at LoadListBookController: " + e.toString());
