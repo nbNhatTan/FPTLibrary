@@ -36,12 +36,16 @@ public class BookDetailController extends HttpServlet {
             BookDAO dao = new BookDAO();
             BookDTO book = dao.getBookByID(bookID);
             if (book != null) {
-                request.setAttribute("DETAIL_BOOK", book);
-                List<CategoryDTO> listCategory = dao.getBookTag(bookID);
-                if (listCategory != null) {
-                    request.setAttribute("LIST_CATEGORY", listCategory);
+                int quantity = dao.countQuantity(bookID);
+                if (quantity != -1) {
+                    book.setQuantity(quantity);
+                    request.setAttribute("DETAIL_BOOK", book);
+                    List<CategoryDTO> listCategory = dao.getBookTag(bookID);
+                    if (listCategory != null) {
+                        request.setAttribute("LIST_CATEGORY", listCategory);
+                    }
+                    url = SUCCESS;
                 }
-                url = SUCCESS;
             }
         } catch (Exception e) {
             log("Error at BookDetailController: " + e.toString());

@@ -10,8 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import static javax.management.Query.value;
 import sample.DTO.BookDTO;
 import sample.DTO.BookItemDTO;
 import sample.DTO.CategoryDTO;
@@ -35,6 +38,7 @@ public class BookDAO {
     private static final String GETLIST_BOOKITEM = "SELECT bookItemID, bookID, bookStatus, packageID FROM tblBookItem";
     private static final String UPDATE_BOOKITEM = "UPDATE tblBookItem SET bookStatus=? WHERE bookItemID=? ";
     private static final String COUNT = "SELECT COUNT(bookItemID) FROM tblBookItem WHERE bookID = ?";
+    private static final String COUNTQUANTITY = "SELECT COUNT(bookItemID) FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf'";
     private static final String GETBOOKBYID = "SELECT bookName, quantity, bookshelf, [image], [description], DDC, l.languageName, a.authorName, p.publisherName, publishYear FROM tblBook b JOIN tblLanguages l ON b.languageID = l.languageID JOIN tblAuthors a ON b.authorID = a.authorID JOIN tblPublishers p ON b.publisherID = p.publisherID where bookID=?";
     private static final String GETTOP5BOOK = "SELECT TOP(5) bookID, bookName, [image] FROM tblBook WHERE status =1 ORDER BY bookID DESC";
     private static final String GETTOPNEWS = "SELECT TOP(10) newsID, title, uploadDate FROM tblNews ORDER BY newsID DESC";
@@ -69,27 +73,38 @@ public class BookDAO {
             + "JOIN tblPublishers p ON b.publisherID = p.publisherID "
             + "JOIN tblBookTag t ON b.bookID = t.bookID "
             + "WHERE bookName like ? AND a.authorName like ? AND p.publisherName like ? AND l.languageName like ? AND b.status = 1";
-    
-    public String createBookID(String bookName, String author,String publishYear, String DDC, String publisher){
-        author = author.toUpperCase();
-        bookName = bookName.toUpperCase();
-        publisher = publisher.toUpperCase();
+
+    public String VNtoEN(String value) {
+        try {
+            String temp = Normalizer.normalize(value, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            return pattern.matcher(temp).replaceAll("");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    public String createBookID(String bookName, String author, String publishYear, String DDC, String publisher) {
+        author = VNtoEN(author.toUpperCase());
+        bookName = VNtoEN(bookName.toUpperCase());
+        publisher = VNtoEN(publisher.toUpperCase());
         String bookID = DDC + author.charAt(0) + bookName.charAt(0) + publisher.charAt(0) + publishYear;
         return bookID;
-        
+
     }
+
     // createBook -> Almost done!
-    public String createBook(BookDTO book) throws SQLException { 
-        String bookID = "";
+    public boolean createBook(BookDTO book) throws SQLException {
+        boolean check = false;
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
-            bookID = createBookID(book.getBookName(),book.getAuthor(),book.getPublishYear(), book.getDDC(), book.getPublisher()); 
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CREATE_BOOK/*, Statement.RETURN_GENERATED_KEYS*/);
-                ptm.setString(1, bookID);
+                ptm = conn.prepareStatement(CREATE_BOOK);
+                ptm.setString(1, book.getBookID());
                 ptm.setString(2, book.getBookName());
                 ptm.setInt(3, book.getQuantity());
                 ptm.setString(4, book.getBookshelf());
@@ -100,9 +115,7 @@ public class BookDAO {
                 ptm.setInt(9, findInformationID(book.getPublisher(), "Publisher"));
                 ptm.setString(10, book.getPublishYear());
                 ptm.setString(11, book.getImage());
-                ptm.executeUpdate();
-                rs = ptm.executeQuery();
-                
+                check = ptm.executeUpdate() > 0;
             }
         } catch (Exception e) {
             e.toString();
@@ -114,9 +127,9 @@ public class BookDAO {
                 conn.close();
             }
         }
-        return bookID;
+        return check;
     }
-    
+
     public boolean editBook(BookDTO book) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -265,7 +278,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, quantity, bookshelf,  description, DDC, language, author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, quantity, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -387,7 +400,7 @@ public class BookDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(GETBOOKBYID);
-                ptm.setString(1, bookID );
+                ptm.setString(1, bookID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     String bookName = rs.getString("bookName");
@@ -433,7 +446,7 @@ public class BookDAO {
                 String table = "tbl" + infor + "s";
                 String labelName = infor.toLowerCase() + "Name";
                 String labelID = infor.toLowerCase() + "ID";
-                String sql = "SELECT " + labelID + " FROM " + table + " WHERE " + labelName + " LIKE '" + name + "'";
+                String sql = "SELECT " + labelID + " FROM " + table + " WHERE " + labelName + " LIKE N'" + name + "'";
                 ptm = conn.prepareStatement(sql);
 //                ptm.setString(1, labelID);
 //                ptm.setString(2, table);
@@ -443,7 +456,7 @@ public class BookDAO {
                 if (rs.next()) {
                     id = rs.getInt(1);
                 } else {
-                    sql = "INSERT INTO " + table + "(" + labelName + ") VALUES ('" + name + "')";
+                    sql = "INSERT INTO " + table + "(" + labelName + ") VALUES (N'" + name + "')";
                     ptm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 //                    ptm.setString(1, table);
 //                    ptm.setString(2, labelName);
@@ -616,6 +629,8 @@ public class BookDAO {
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
                     BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
+                    int quantity = countQuantity(bookID);
+                    book.setQuantity(quantity);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -659,7 +674,7 @@ public class BookDAO {
                     String author = rs.getString("authorName");
                     String publisher = rs.getString("publisherName");
                     String publishYear = rs.getString("publishYear");
-                    BookDTO book = new BookDTO(bookName, 0, bookshelf,description, DDC, language,  author, publisher, publishYear, image);
+                    BookDTO book = new BookDTO(bookName, 0, bookshelf, description, DDC, language, author, publisher, publishYear, image);
                     book.setBookID(bookID);
                     list.add(book);
                 }
@@ -801,5 +816,38 @@ public class BookDAO {
         }
 
         return totalPage;
+    }
+
+    public int countQuantity(String bookID) throws SQLException {
+        int count = -1;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(COUNTQUANTITY);
+                ptm.setString(1, bookID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return count;
     }
 }

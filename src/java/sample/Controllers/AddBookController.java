@@ -54,7 +54,7 @@ public class AddBookController extends HttpServlet {
 //                accountError.setAccountIDError("Duplicate UserID!");
 //                checkValidation = false;
 //            }
-            if (bookID.length() < 2 || bookID.length() > 100) {
+            if (bookID.length() < 2 || bookID.length() > 10) {
                 bookError.setBookID("Automatic Created!");
                 
             }
@@ -115,8 +115,7 @@ public class AddBookController extends HttpServlet {
                     int packageID = dao.createPackage(Package);
                     if (packageID != 0) {
 
-                        bookID = dao.createBook(book);
-                        if (!"".equals(bookID)) {
+                        if (dao.createBook(book)) {
                             int check = dao.insertBookItem(bookID, packageID);
                             if (check == Integer.parseInt(quantity)) {
                                 url = SUCCESS;

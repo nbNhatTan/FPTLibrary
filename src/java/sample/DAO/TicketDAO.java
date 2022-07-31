@@ -15,6 +15,7 @@ import sample.DTO.AccountDTO;
 import sample.DTO.BookingTicketDTO;
 import sample.DTO.BorrowDTO;
 import sample.DTO.ViolationTicketDTO;
+import sample.DTO.WishListDTO;
 import sample.Utils.DBUtils;
 
 /**
@@ -59,6 +60,12 @@ public class TicketDAO {
     private static final String GETBOOKITEMID = "SELECT TOP 1 bookItemID FROM tblBookItem WHERE bookID = ? AND bookStatus = 'On bookshelf' ORDER BY bookItemID ASC";
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
     private static final String GETBOOKINGTICKETID_VIOLATIONID = "SELECT bookingTicketID FROM tblViolationTicket WHERE violationTicketID=?";
+    private static final String CREATEWISHLIST = "INSERT INTO tblWishList(bookID, userID) VALUES (?,?)";
+    private static final String WISHLIST = "DELETE FROM tblWishList WHERE EXISTS \n"
+            + "(SELECT * FROM tblWishList w \n"
+            + "JOIN tblBookItem i ON w.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON i.bookItemID = t.bookItemID \n"
+            + "WHERE t.bookingTicketID = '1015') ";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -99,7 +106,7 @@ public class TicketDAO {
 //        return list;
 //    }
     public List<BorrowDTO> GetListTicket_UserID(String userID) throws SQLException {
-        List<BorrowDTO> list =  new ArrayList<>();
+        List<BorrowDTO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
@@ -471,7 +478,7 @@ public class TicketDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
-                ptm.setString(1, "Borrowing");
+                ptm.setString(1, "Approved");
                 ptm.setInt(2, bookingTicketID);
                 check1 = ptm.executeUpdate() > 0;
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
@@ -693,21 +700,19 @@ public class TicketDAO {
         }
         return null;
     }
-    private static final String CONFRIMRECIVED = "UPDATE tblBookingTicket SET borrowStatus=? WHERE bookingTicketID=?";
-    public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {
-        boolean check = false;
+
+    public int createWishList(WishListDTO wish) throws SQLException {
+        int check = 0;
         Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(CONFRIMRECIVED);
-                ptm.setString(1, status);
-                ptm.setString(2, bookingTicketID);
-                
-                check = ptm.executeUpdate() > 0;
-               
+                ptm = conn.prepareStatement(CREATEWISHLIST);
+                ptm.setString(1, wish.getBookID());
+                ptm.setString(2, wish.getUserID());
+                check = ptm.executeUpdate();
             }
         } catch (Exception e) {
             e.toString();
@@ -719,13 +724,79 @@ public class TicketDAO {
                 conn.close();
             }
         }
-        
         return check;
     }
+
+    public List<String> getWishList(String bookingTicketID) throws SQLException {
+        List<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    list.add(rs.getString("email"));
+                }
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {
+        boolean check = false;
+        boolean check1 = false;
+        boolean check2 = false;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(UPDATEBOOKINGTICKET_STATUS);
+                ptm.setString(1, status);
+                ptm.setString(2, bookingTicketID);
+                check1 = ptm.executeUpdate() > 0;
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS_TICKETID);
+                ptm.setString(1, status);
+                ptm.setString(2, bookingTicketID);
+                check2 = ptm.executeUpdate() > 0;
+            }
+            check = check1 && check2;
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+
+        return check;
+    }
+
     private static final String GETLISTBOOKTICKET_APPROVED = "SELECT b.[image], b.bookName, t.bookingTicketID, t.userID, t.bookItemID, t.borrowDate, t.expiredDate, t.returnDate, t.borrowStatus \n"
             + "FROM tblBook b JOIN tblBookItem i ON b.bookID = i.bookID \n"
             + "JOIN tblBookingTicket t ON t.bookItemID = i.bookItemID \n"
             + "WHERE t.borrowStatus like 'Approved' ";
+
     public List<BorrowDTO> GetListTicket_Approved(String AccountID) throws SQLException {
         List<BorrowDTO> list = new ArrayList<>();
         Connection conn = null;

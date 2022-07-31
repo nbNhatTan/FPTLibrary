@@ -6,11 +6,13 @@ package sample.Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import sample.DAO.AccountDAO;
 import sample.DAO.TicketDAO;
 
 /**
@@ -37,7 +39,27 @@ public class ReturnController extends HttpServlet {
             TicketDAO dao = new TicketDAO();
             long millis = System.currentTimeMillis();
             java.sql.Date returnDate = new java.sql.Date(millis);
-            dao.returnBook(returnDate, Integer.parseInt(bookingTicketID));
+            if (dao.returnBook(returnDate, Integer.parseInt(bookingTicketID))) {
+                List<String> list = dao.getWishList(bookingTicketID);
+                AccountDAO accdao = new AccountDAO();
+                for (String email : list) {
+                    String subject = "Return confirmation";
+                    String message = "<!DOCTYPE html>\n"
+                            + "<html lang=\"en\">\n"
+                            + "\n"
+                            + "<head>\n"
+                            + "</head>\n"
+                            + "\n"
+                            + "<body>\n"
+                            + "    <div>You have successfully borrowed.</div>\n"
+                            + "    <div>Note: take good care of books and return them on time.</div>\n"
+                            + "\n"
+                            + "</body>\n"
+                            + "\n"
+                            + "</html>";
+                    accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
+                }
+            }
 
             request.setAttribute("message", "Returned");
         } catch (Exception e) {

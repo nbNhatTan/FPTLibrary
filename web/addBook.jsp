@@ -64,7 +64,7 @@
                                     pack = new PackageDTO();
                                 }
                             %>
-                            <form action="MainController" method="POST">
+                            <form action="MainController">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Book ID:</label>
                                     <input name="bookID" type="text" placeholder="Can be auto fill"  class="form-control" value="<%=book.getBookID()%>"><%= bookError.getBookID()%>
