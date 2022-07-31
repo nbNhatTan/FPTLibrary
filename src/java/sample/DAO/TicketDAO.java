@@ -61,6 +61,11 @@ public class TicketDAO {
     private static final String CREATESTAFFTICKET = "INSERT INTO tblStaffTicket(staffID, ticketID) VALUES (?,?)";
     private static final String GETBOOKINGTICKETID_VIOLATIONID = "SELECT bookingTicketID FROM tblViolationTicket WHERE violationTicketID=?";
     private static final String CREATEWISHLIST = "INSERT INTO tblWishList(bookID, userID) VALUES (?,?)";
+    private static final String WISHLIST = "DELETE FROM tblWishList WHERE EXISTS \n"
+            + "(SELECT * FROM tblWishList w \n"
+            + "JOIN tblBookItem i ON w.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON i.bookItemID = t.bookItemID \n"
+            + "WHERE t.bookingTicketID = '1015') ";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -377,6 +382,42 @@ public class TicketDAO {
 //                }
                 ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
                 ptm.setString(1, "Pending");
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.execute();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return id;
+    }
+    public int createBookingTicketStaff(BookingTicketDTO ticket) throws SQLException {
+        int id = 0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CREATE_BOOKINGTICKET);
+                ptm.setString(1, ticket.getUserID());
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.setDate(3, ticket.getBorrowDate());
+                ptm.setDate(4, ticket.getExpiredDate());
+                ptm.setString(5, ticket.getBorrowStatus());
+                ptm.execute();
+//                rs = ptm.getGeneratedKeys();
+//                while (rs.next()) {
+//                    id = rs.getInt(1);
+//                }
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm.setString(1, "Borrowing");
                 ptm.setString(2, ticket.getBookItemID());
                 ptm.execute();
             }
@@ -720,6 +761,37 @@ public class TicketDAO {
             }
         }
         return check;
+    }
+
+    public List<String> getWishList(String bookingTicketID) throws SQLException {
+        List<String> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    list.add(rs.getString("email"));
+                }
+                ptm = conn.prepareStatement(WISHLIST);
+                ptm.setString(1, bookingTicketID);
+                ptm.executeUpdate();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
     }
 
     public boolean confirmUserRecivedBook(String bookingTicketID, String status) throws SQLException {

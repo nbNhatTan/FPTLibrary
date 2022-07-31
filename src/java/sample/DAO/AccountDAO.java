@@ -425,7 +425,7 @@ public class AccountDAO {
         return null;
     }
 
-    public String GetMailBorrow(String ViolationTicketID) throws SQLException {
+    public String GetMailBorrow(String bookingTicketID) throws SQLException {
         String email;
         Connection conn = null;
         PreparedStatement ptm = null;
@@ -434,7 +434,7 @@ public class AccountDAO {
             conn = DBUtils.getConnection();
             if (conn != null) {
                 ptm = conn.prepareStatement(GETMAILBOROW);
-                ptm.setString(1, ViolationTicketID);
+                ptm.setString(1, bookingTicketID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {
                     email = rs.getString("email");

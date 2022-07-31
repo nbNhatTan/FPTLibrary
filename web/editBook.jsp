@@ -60,7 +60,7 @@
                                     book = new BookDTO();
                                 }
                             %>
-                            <form action="MainController" method="POST">
+                            <form action="MainController">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Book ID:</label>
                                     <input name="bookID" type="text" placeholder="Enter book name"  class="form-control" required="" value="<%=book.getBookID()%>"><%= bookError.getBookID()%>

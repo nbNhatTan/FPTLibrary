@@ -68,7 +68,7 @@
                                 <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Returned"><%= status.equals("Returned") ? "<strong>Borrowed Ticket</strong>" : "Borrowed Ticket"%></a>
                             </li>
                             <li class="nav-item " >
-                                <a class="nav-link" href="LoadListPreOrderController"><%= status.equals("Approved") ? "<strong>Borrowed Ticket</strong>" : "PreOrderList"%></a>
+                                <a class="nav-link" href="LoadListPreOrderController"><%= status.equals("Approved") ? "<strong>Approved list</strong>" : "Approved list"%></a>
                             </li>
                         </ol>
                     </h3>
@@ -117,7 +117,6 @@
                                 <a href="MainController?action=View&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
                                 <form action="MainController" method="POST" onsubmit="return confirm(this);">
                                     <input type="hidden" name="bookingTicketID" value="<%= p.getBookingTicketID()%>"/>
-                                    
                                     <%
                                         if(p.getBorrowStatus().equals("Pending")){
                                     %>
@@ -137,7 +136,13 @@
                                     <button class="btn btn-light btn-sm">Violation</button>
                                     <%
                                         }
-                                    %>    
+                                        if(p.getBorrowStatus().equals("Approved")){
+                                    %>
+                                    <input type="hidden" name="action" value="ConfirmRecived"/>
+                                    <button class="btn btn-light btn-sm">Received</button>
+                                    <%
+                                        }
+                                    %> 
                                 </form>  
                                 <%
                                     if(p.getBorrowStatus().equals("HandleViolation")){

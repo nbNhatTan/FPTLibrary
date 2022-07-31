@@ -19,22 +19,22 @@ import sample.DAO.TicketDAO;
  */
 @WebServlet(name = "ConfirmUserRecivedBookController", urlPatterns = {"/ConfirmUserRecivedBookController"})
 public class ConfirmUserRecivedBookController extends HttpServlet {
-    private static final String SUCCESS = "checkOnlineBooking.jsp";
+
+    private static final String SUCCESS = "LoadListPreOrderController";
     private static final String ERROR = "checkOnlineBooking.jsp";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR;       
+        String url = ERROR;
         try {
             TicketDAO dao = new TicketDAO();
-            String bookingTicketID = request.getParameter("bookingTicketID");   
+            String bookingTicketID = request.getParameter("bookingTicketID");
             String status = request.getParameter("bookingTicketStatus");
             boolean check = dao.confirmUserRecivedBook(bookingTicketID, status);
-            if (check){
-                
-            }else {
-                
+            if (check) {
+                url = SUCCESS;
+                request.setAttribute("message", "Book received");
             }
             // + 1 hàm xử lí lấy đữ liệu bookingTicketID để chỉnh sửa dữ liệu status theo BookingTicketID.
         } catch (Exception e) {

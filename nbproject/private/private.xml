@@ -3,44 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoadBookController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ConfirmController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/updateAccount.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/borrowStaff.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoadAccountController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/addBook.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/borrow.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoadAdvancedSearchController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Utils/DBUtils.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoadListPreOrderController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoginController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/BorrowController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoadListBookController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/AdvanceSearchController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/manageBook.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DAO/TicketDAO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ViewBorrowDetailController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/advancedSearch.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ConfirmUserRecivedBookController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/CreateViolationController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ViewViolationController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/manageNews.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/header.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ViewborrowController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/bookDetail.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/nbproject/build-impl.xml~</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/DTO/BorrowDTO.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/BookDetailController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/manageAccount.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/register.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/checkOnlineBooking.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/newsList.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/web/detailBorrow.jsp</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/ViewborrowStaffController.java</file>
-            <file>file:/C:/Users/admin/Documents/GitHub/FPTLibrary/src/java/sample/Controllers/LoginGoogleController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViewFeedBackController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/editBook.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/addBook.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/AccountDAO.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ReturnController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/HomeController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/BookDetailController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/TicketDAO.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/advancedSearch.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ConfirmController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/bookDetail.jsp</file>
         </group>
     </open-files>
 </project-private>

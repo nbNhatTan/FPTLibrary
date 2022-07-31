@@ -5,6 +5,7 @@
 package sample.Controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,59 +13,52 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import sample.DAO.AccountDAO;
-import sample.DAO.TicketDAO;
+import sample.DAO.BookDAO;
 import sample.DTO.AccountDTO;
+import sample.DTO.BookDTO;
 
 /**
  *
  * @author NhatTan
  */
-@WebServlet(name = "ConfirmController", urlPatterns = {"/ConfirmController"})
-public class ConfirmController extends HttpServlet {
+@WebServlet(name = "LoadBookingOffController", urlPatterns = {"/LoadBookingOffController"})
+public class LoadBookingOffController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String url = "bookingOffline.jsp";
         try {
-            String bookingTicketID = request.getParameter("bookingTicketID");
-            TicketDAO dao = new TicketDAO();
-            dao.confirmBookingTicket(Integer.parseInt(bookingTicketID));
-
             HttpSession session = request.getSession();
             AccountDTO loginAccount = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
-            dao.createStaffTicket(loginAccount.getAccountID(), Integer.parseInt(bookingTicketID));
-            
-            AccountDAO accdao = new AccountDAO();
-            String email = accdao.GetMailBorrow(bookingTicketID);
-            String subject = "Borrowed confirmation";
-            String message = "<!DOCTYPE html>\n"
-                + "<html lang=\"en\">\n"
-                + "\n"
-                + "<head>\n"
-                + "</head>\n"
-                + "\n"
-                + "<body>\n"
-                + "    <div>Your request borrow successfully.</div>\n"
-                + "    <div>Note: Go to FPT library and pick up the book you requested to borrow.</div>\n"
-                + "\n"
-                + "</body>\n"
-                + "\n"
-                + "</html>";
-            accdao.SendMail(email, subject, message, "ngquoctien03@gmail.com", "oxpzwepedoziixyg");
-            request.setAttribute("message", "Confirmed");
+            if (loginAccount != null) {
+                String userID = request.getParameter("userID");
+                String bookItemID = request.getParameter("bookID");
+                request.setAttribute("userID", userID);
+                request.setAttribute("bookID", bookItemID);
+
+                AccountDAO accDAO = new AccountDAO();
+                AccountDTO acc = accDAO.getAccountByID(userID);
+                if (acc != null) {
+                    request.setAttribute("student", acc);
+                } else {
+                    request.setAttribute("userIdError", "StudentID is not exist");
+                }
+                BookDAO bookDAO = new BookDAO();
+                BookDTO book = bookDAO.getBookByBookItemID(bookItemID);
+                if (book != null) {
+                    request.setAttribute("book", book);
+                } else {
+                    request.setAttribute("bookIdError", "This book is not already");
+                }
+            } else {
+                url = "login.jsp";
+                request.setAttribute("warning", "You need to login to use this funcion!");
+            }
         } catch (Exception e) {
-            log("Error at ConfirmController: " + e.toString());
+            log("Error at LoadBookingOffController: " + e.toString());
         } finally {
-            request.getRequestDispatcher("ViewborrowStaffController").forward(request, response);
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

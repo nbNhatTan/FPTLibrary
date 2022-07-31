@@ -23,7 +23,7 @@ public class LoginController extends HttpServlet {
 
     private static final String ERROR = "login.jsp";
     private static final String ADMIN_PAGE = "ViewAccountController";
-    private static final String STAFF_PAGE = "ViewborrowStaffController";
+    private static final String STAFF_PAGE = "bookingOffline.jsp";
     private static final String USER_PAGE = "HomeController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
