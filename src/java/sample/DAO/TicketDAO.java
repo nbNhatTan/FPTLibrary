@@ -397,6 +397,42 @@ public class TicketDAO {
         }
         return id;
     }
+    public int createBookingTicketStaff(BookingTicketDTO ticket) throws SQLException {
+        int id = 0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(CREATE_BOOKINGTICKET);
+                ptm.setString(1, ticket.getUserID());
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.setDate(3, ticket.getBorrowDate());
+                ptm.setDate(4, ticket.getExpiredDate());
+                ptm.setString(5, ticket.getBorrowStatus());
+                ptm.execute();
+//                rs = ptm.getGeneratedKeys();
+//                while (rs.next()) {
+//                    id = rs.getInt(1);
+//                }
+                ptm = conn.prepareStatement(UPDATEBOOKSTATUS);
+                ptm.setString(1, "Borrowing");
+                ptm.setString(2, ticket.getBookItemID());
+                ptm.execute();
+            }
+        } catch (Exception e) {
+            e.toString();
+        } finally {
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return id;
+    }
 
     public int createViolationTicket(ViolationTicketDTO ticket) throws SQLException {
         int id = 0;

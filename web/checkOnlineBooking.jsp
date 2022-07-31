@@ -54,9 +54,25 @@
                     <h3 class = "">
                     <%
                         String status = (String) request.getAttribute("Status");
-                        if(status==null) status="";
+                        if(status==null) status="Approved";
                     %>
-                        
+                        <ol class="breadcrumb">
+                            <li class="nac-item">
+                                <a class="nav-link" href="ViewborrowStaffController"><%= status.equals("") ? "<strong>All Ticket</strong>" : "All Ticket"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Pending"><%= status.equals("Pending") ? "<strong>Confirmation</strong>" : "Confirmation"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Expired"><%= status.equals("Expired") ? "<strong>Ticket Expired</strong>" : "Ticket Expired"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="ViewborrowStaffController?borrowStatus=Returned"><%= status.equals("Returned") ? "<strong>Borrowed Ticket</strong>" : "Borrowed Ticket"%></a>
+                            </li>
+                            <li class="nav-item " >
+                                <a class="nav-link" href="LoadListPreOrderController"><%= status.equals("Approved") ? "<strong>Approved list</strong>" : "Approved list"%></a>
+                            </li>
+                        </ol>
                     </h3>
                     <table class="borrow-table">
                         <thead>
@@ -103,13 +119,9 @@
                                 <a href="MainController?action=View&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
                                 <form action="MainController" method="POST" onsubmit="return confirm(this);">
                                     <input type="hidden" name="bookingTicketID" value="<%= p.getBookingTicketID()%>"/>
-                                    
-                                    <%
-                                        if(p.getBorrowStatus().equals("Approved")){
-                                    %>
+                                    <input type="hidden" name="action" value="ConfirmRecived"/>
                                     <input type="hidden" name="bookingTicketStatus" value="Borrowing"/>
-                                    
-                                    <button class="btn btn-light btn-sm" name="action" value="ConfirmRecived">Confirm</button>
+                                    <button class="btn btn-light btn-sm" >Received</button>
                                    
                                     <!-- -->
                                 </form>  
@@ -171,5 +183,6 @@
                 });
                 return false;
             }
+        </script>
     </body>
 </html>
