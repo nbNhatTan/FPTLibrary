@@ -65,7 +65,12 @@ public class TicketDAO {
             + "(SELECT * FROM tblWishList w \n"
             + "JOIN tblBookItem i ON w.bookID = i.bookID \n"
             + "JOIN tblBookingTicket t ON i.bookItemID = t.bookItemID \n"
-            + "WHERE t.bookingTicketID = '1015') ";
+            + "WHERE t.bookingTicketID = ?) ";
+    private static final String GETEMAIL_WISHLIST = "SELECT email  FROM tblAccounts a \n"
+            + "JOIN tblWishList w ON a.AccountID = w.userID \n"
+            + "JOIN tblBookItem i ON w.bookID = i.bookID \n"
+            + "JOIN tblBookingTicket t ON i.bookItemID = t.bookItemID \n"
+            + "WHERE t.bookingTicketID = ? ";
 
 //    public List<BookingTicketDTO> GetListTicket_UserID(String userID) throws SQLException {
 //        List<BookingTicketDTO> list = new ArrayList<>();
@@ -397,6 +402,7 @@ public class TicketDAO {
         }
         return id;
     }
+
     public int createBookingTicketStaff(BookingTicketDTO ticket) throws SQLException {
         int id = 0;
         Connection conn = null;
@@ -771,7 +777,7 @@ public class TicketDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                ptm = conn.prepareStatement(WISHLIST);
+                ptm = conn.prepareStatement(GETEMAIL_WISHLIST);
                 ptm.setString(1, bookingTicketID);
                 rs = ptm.executeQuery();
                 while (rs.next()) {

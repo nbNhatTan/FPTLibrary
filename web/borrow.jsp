@@ -91,7 +91,7 @@
                             <td>
                                 <a href="MainController?action=View&bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
                                 <%
-                                    if (p.getBorrowStatus().equals("Expired") || p.getBorrowStatus().equals("HandleViolation")) {
+                                    if (p.getBorrowStatus().equals("HandleViolation")) {
                                 %>
                                 <a href="ViewOrCreateVLTController?bookingTicketID=<%= p.getBookingTicketID()%>"><button class="btn btn-light btn-sm">Violation</button></a>
                                 <%

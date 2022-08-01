@@ -43,7 +43,7 @@ public class ReturnController extends HttpServlet {
                 List<String> list = dao.getWishList(bookingTicketID);
                 AccountDAO accdao = new AccountDAO();
                 for (String email : list) {
-                    String subject = "Return confirmation";
+                    String subject = "Wish list";
                     String message = "<!DOCTYPE html>\n"
                             + "<html lang=\"en\">\n"
                             + "\n"
@@ -51,8 +51,7 @@ public class ReturnController extends HttpServlet {
                             + "</head>\n"
                             + "\n"
                             + "<body>\n"
-                            + "    <div>You have successfully borrowed.</div>\n"
-                            + "    <div>Note: take good care of books and return them on time.</div>\n"
+                            + "    <div>Your book is waiting to be available.</div>\n"
                             + "\n"
                             + "</body>\n"
                             + "\n"

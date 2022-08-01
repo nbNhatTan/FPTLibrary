@@ -138,6 +138,7 @@
                                         }
                                         if(p.getBorrowStatus().equals("Approved")){
                                     %>
+                                    <input type="hidden" name="bookingTicketStatus" value="Borrowing"/>
                                     <input type="hidden" name="action" value="ConfirmRecived"/>
                                     <button class="btn btn-light btn-sm">Received</button>
                                     <%
