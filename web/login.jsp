@@ -30,7 +30,7 @@
     <%
         AccountDTO acc = (AccountDTO) session.getAttribute("LOGIN_ACCOUNT");
         if (acc != null) {
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("HomeController");
             return;
         }
     %>

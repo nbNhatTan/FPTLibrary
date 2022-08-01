@@ -129,7 +129,7 @@ public class TicketDAO {
                     String borrowStatus = rs.getString("borrowStatus");
                     long now = System.currentTimeMillis();
                     long expire = expiredDate.getTime();
-                    if (now > expire) {
+                    if (now > expire && !borrowStatus.equals("HandleViolation")) {
                         borrowStatus = "Expired";
                     }
                     list.add(new BorrowDTO(image, bookName, bookingTicketID, user, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus));
@@ -175,7 +175,7 @@ public class TicketDAO {
                     String borrowStatus = rs.getString("borrowStatus");
                     long now = System.currentTimeMillis();
                     long expire = expiredDate.getTime();
-                    if (now > expire) {
+                    if (now > expire && !borrowStatus.equals("HandleViolation")) {
                         borrowStatus = "Expired";
                     }
                     list.add(new BorrowDTO(image, bookName, bookingTicketID, user, bookItemID, borrowDate, expiredDate, returnDate, borrowStatus));

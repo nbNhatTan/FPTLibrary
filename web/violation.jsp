@@ -110,6 +110,7 @@ and open the template in the editor.
                                 %>
                                 <td><span class="Expired">[Unpaid]</span> </td>
                                 <td>
+                                    <a href="ViolationDetailController?bookingTicketID=<%= v.getBookingTicketID()%>"><button class="btn btn-light btn-sm">View</button></a>
                                     <a href="SendMailController?ViolationTicketID=<%= v.getViolationTicketID() %>"><button class="btn btn-light btn-sm">Send Mail</button></a>
                                 </td>
                                 <%

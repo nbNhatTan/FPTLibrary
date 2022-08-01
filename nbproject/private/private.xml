@@ -3,20 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViewFeedBackController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/editBook.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/addBook.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/AccountDAO.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/MainController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ReturnController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/BookDAO.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/HomeController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/BookDetailController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViewOrCreateVLTController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/borrow.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/home.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/violation.jsp</file>
             <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/DAO/TicketDAO.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/advancedSearch.jsp</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/AddBookController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ConfirmController.java</file>
-            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/web/bookDetail.jsp</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/ViolationDetailController.java</file>
+            <file>file:/C:/Users/NhatTan/Desktop/Tan/FPTLibrary/src/java/sample/Controllers/CreateViolationController.java</file>
         </group>
     </open-files>
 </project-private>

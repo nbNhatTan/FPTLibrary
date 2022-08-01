@@ -149,7 +149,7 @@
                             <%
                                 }
                             %>
-                            <button onclick="history.back()" style="font-size: 20px;"type="button" class="btn btn-dark btn-sm">Back</button>
+                            <button style="font-size: 20px;"type="button" class="btn btn-dark btn-sm"><a style="color: #FFFFFF" href="HomeController">Back</a></button>
                         </div>
                     </div>
                     <%
@@ -305,7 +305,7 @@
                                         } else {
                                             Swal.fire({
                                                 title: 'Are you sure?',
-                                                text: "You want to add this bookto your wish list.",
+                                                text: "You want to add this book to your wish list.",
                                                 icon: 'question',
                                                 showCancelButton: true,
                                                 confirmButtonColor: '#F5D98F',

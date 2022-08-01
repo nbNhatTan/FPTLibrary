@@ -50,7 +50,7 @@ public class BookingOfflineController extends HttpServlet {
                 long fourMonth = date1 - date;
 
                 java.sql.Date expiredDate = new java.sql.Date(millis + fourMonth);
-                BookingTicketDTO ticket = new BookingTicketDTO(loginAccount.getAccountID(), bookItemID, borrowDate, expiredDate, null, "Borrowing");
+                BookingTicketDTO ticket = new BookingTicketDTO(userID, bookItemID, borrowDate, expiredDate, null, "Borrowing");
                 TicketDAO dao = new TicketDAO();
                 int bookingTicketID = dao.createBookingTicketStaff(ticket);
                 if (bookingTicketID != 0) {

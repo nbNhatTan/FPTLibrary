@@ -137,9 +137,6 @@
                 <li class="nav-item">
                     <a class="nav-link <%= url.equals("/borrow.jsp")?"active":""%>" href="ViewborrowController">Borrow History</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= url.equals("/about.jsp")?"active":""%>" href="#">Following</a>
-                </li>
                 <%
                         }
                     }

@@ -122,11 +122,6 @@
                                 <div class="col-md-12 text-center mb-3">
                                     <button class=" btn btn-block mybtn btn-warning tx-tfm" type="submit" name="action" value="AddBook" >Add</button>
                                 </div>
-                                <div class="col-md-12 ">
-                                    <div class="form-group">
-                                        <a href="HomeController"><i class="fas fa-angle-left"></i> Home</a>
-                                    </div>
-                                </div>
                             </form>
                         </div>
                     </div>
