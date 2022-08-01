@@ -113,6 +113,9 @@
                         if (acc.getRoleID() == 2) {
                     %>
                 <li class="nav-item">
+                    <a class="nav-link <%= url.equals("/bookingOffline.jsp")?"active":""%>" href="bookingOffline.jsp">Home</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link <%= url.equals("/manageBook.jsp")?"active":""%>" href="LoadListBookController">Book Management</a>
                 </li>
                 <li class="nav-item">
